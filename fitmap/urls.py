@@ -1,5 +1,5 @@
 """
-URL configuration for fitmap project.
+URL configuration for fit_map_backend project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -14,10 +14,32 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+# from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+    SpectacularRedocView,
+)
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-]
+        path('admin/', admin.site.urls),
+        path("api/establishments/", include("fitness_establishments.urls", namespace="establishments")),
+        path("api/user/", include("user.urls", namespace="user")),
+        path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+        path(
+        "api/doc/swagger/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+        path(
+        "api/doc/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
+        path("__debug__/", include("debug_toolbar.urls")),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
