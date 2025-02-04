@@ -6,11 +6,15 @@ class FitnessEstablishment(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     address = models.CharField(max_length=255)
     working_hours = models.DateTimeField()
-    working_days = models.DateField
+    working_days = models.DateField()
     telephone_number = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
-    sport_activities = models.ManyToManyField('SportActivity', blank=True, related_name='activities')
-    additional_services = models.ManyToManyField('AdditionalService', blank=True, related_name='services')
+    sport_activities = models.ManyToManyField(
+        "SportActivity", blank=True, related_name="activities"
+    )
+    additional_services = models.ManyToManyField(
+        "AdditionalService", blank=True, related_name="services"
+    )
     latitude = models.FloatField()
     longitude = models.FloatField()
 
