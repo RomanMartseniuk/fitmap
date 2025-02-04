@@ -2,9 +2,8 @@ from django.contrib.auth.models import (
     AbstractUser,
     BaseUserManager,
 )
-from django.contrib.gis.db import models
-from django.db import models
 from django.utils.translation import gettext as _
+from django.contrib.gis.db import models
 
 
 class UserManager(BaseUserManager):
