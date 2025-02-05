@@ -23,7 +23,7 @@ class FitnessEstablishmentSerializer(serializers.Serializer):
 class FitnessEstablishmentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = FitnessEstablishment
-        fields = '__all__'
+        fields = "__all__"
 
 
 class SportActivitySerializer(serializers.Serializer):

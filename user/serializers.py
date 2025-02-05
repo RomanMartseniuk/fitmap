@@ -1,9 +1,8 @@
 from django.contrib.auth import get_user_model
-# from rest_framework import serializers
-from rest_framework_gis.serializers import GeoFeatureModelSerializer
+from rest_framework import serializers
 
 
-class UserSerializer(GeoFeatureModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         # geo_field = "location"

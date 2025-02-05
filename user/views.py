@@ -1,4 +1,3 @@
-from django.contrib.gis.geos import Point
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -27,11 +26,13 @@ class UserLocationView(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         user = self.request.user
-        latitude = request.data.get('latitude')
-        longitude = request.data.get('longitude')
+        latitude = request.data.get("latitude")
+        longitude = request.data.get("longitude")
 
-        if latitude and longitude:
-            user.location = Point(longitude, latitude, srid=4326)  # SRID 4326 для WGS 84
-            user.save()
+        # if latitude and longitude:
+        #     user.location = Point(
+        #         longitude, latitude, srid=4326
+        #     )  # SRID 4326 для WGS 84
+        user.save()
 
         return super().update(request, *args, **kwargs)

@@ -2,8 +2,8 @@ from django.contrib.auth.models import (
     AbstractUser,
     BaseUserManager,
 )
+from django.db import models
 from django.utils.translation import gettext as _
-from django.contrib.gis.db import models
 
 
 class UserManager(BaseUserManager):
@@ -44,8 +44,9 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(_("email address"), unique=True)
     age = models.CharField(max_length=50)
-    gender = models.CharField(max_length=65, null=True, choices=(("M", "Male"), ("F", "Female")))
-    # location = models.PointField(null=True, blank=True)
+    gender = models.CharField(
+        max_length=65, null=True, choices=(("M", "Male"), ("F", "Female"))
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
