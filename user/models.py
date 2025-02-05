@@ -45,7 +45,7 @@ class User(AbstractUser):
     email = models.EmailField(_("email address"), unique=True)
     age = models.CharField(max_length=50)
     gender = models.CharField(max_length=65, null=True, choices=(("M", "Male"), ("F", "Female")))
-    location = models.PointField(null=True, blank=True)
+    # location = models.PointField(null=True, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
