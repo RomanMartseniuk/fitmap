@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './Search.module.scss';
+import './Search.scss';
 import search_icon from '../../assets/search-icon.svg';
 import classNames from 'classnames';
 

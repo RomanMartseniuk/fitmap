@@ -1,4 +1,4 @@
-import './HomePage.module.scss';
+import './HomePage.scss';
 import { Search } from '../../components/Search/Search';
 
 export const HomePage = () => {
