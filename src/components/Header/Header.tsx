@@ -1,22 +1,22 @@
 import { NavLink } from 'react-router-dom';
-import styles from './Header.module.scss';
+import './Header.module.scss';
 import logo from '../../assets/user-icon.svg';
 import classNames from 'classnames';
 import { useState } from 'react';
 
 export const Header = () => {
    const [showMenu, setShowMenu] = useState(false);
-   const [logedIn, setLogedIn] = useState(true);
+   const [logedIn] = useState(false);
 
    return (
-      <header className={styles.header}>
-         <div className={styles.header__container}>
-            <div className={styles.logo}>Logo/Name</div>
-            <nav className={styles.header__nav}>
+      <header className="header">
+         <div className="header__container">
+            <div className="header__logo">Logo/Name</div>
+            <nav className="header__nav">
                <NavLink
                   className={({ isActive }) => {
-                     return classNames(styles.header__link, {
-                        [styles.header__link_active]: isActive,
+                     return classNames('header__link', {
+                        active: isActive,
                      });
                   }}
                   to={'/'}
@@ -25,8 +25,8 @@ export const Header = () => {
                </NavLink>
                <NavLink
                   className={({ isActive }) => {
-                     return classNames(styles.header__link, {
-                        [styles.header__link_active]: isActive,
+                     return classNames('header__link', {
+                        active: isActive,
                      });
                   }}
                   to={'/map'}
@@ -35,7 +35,7 @@ export const Header = () => {
                </NavLink>
             </nav>
             <div
-               className={styles.account__link}
+               className="header__acc-link"
                tabIndex={0}
                onFocus={() => setShowMenu(true)}
                onBlur={() => setTimeout(() => setShowMenu(false), 200)}
@@ -49,18 +49,18 @@ export const Header = () => {
                <img src={logo} alt="Account" />
             </div>
             <div
-               className={classNames(styles.popup_menu, {
-                  [styles.popup_menu_hidden]: !showMenu,
+               className={classNames('header__popup-menu', {
+                  hidden: !showMenu,
                })}
             >
                {!logedIn ? (
-                  <div className={styles.non_loged_menu}>
+                  <div className="header__popup-menu--not-loged-in">
                      <NavLink to="/log-in">Log in</NavLink>
                      <NavLink to="/sign-up">Sign up</NavLink>
                      <NavLink to="/help">Help Centre</NavLink>
                   </div>
                ) : (
-                  <div className={styles.loged_menu}>
+                  <div className="header__popup-menu--loged-in">
                      <NavLink to="/acc">Account</NavLink>
                      <NavLink to="/notif">Notifications</NavLink>
                      <NavLink to="/saved">Saved places</NavLink>
