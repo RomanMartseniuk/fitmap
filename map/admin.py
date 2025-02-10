@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from map.models import FitnessEstablishment, SportActivity, AdditionalService
+from map.models import SportEstablishment
 
 
-admin.site.register(FitnessEstablishment)
-admin.site.register(SportActivity)
-admin.site.register(AdditionalService)
+admin.site.register(SportEstablishment)
