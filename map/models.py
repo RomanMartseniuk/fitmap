@@ -1,4 +1,5 @@
-from django.db import models
+from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point
 
 
 class SportEstablishment(models.Model):
@@ -6,8 +7,7 @@ class SportEstablishment(models.Model):
     here_id = models.CharField(max_length=255)
     city = models.ForeignKey("City", on_delete=models.CASCADE)
     address_label = models.CharField(max_length=255)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    coordinates = models.PointField(geography=True, srid=4326, default=Point(0.0, 0.0)) # attr srid has using system WGS 84
     categories = models.ManyToManyField("Category")
     working_hours = models.DateTimeField(blank=True, null=True)
     working_days = models.DateField(blank=True, null=True)
