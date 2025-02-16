@@ -1,4 +1,5 @@
 from django.contrib.gis.geos import Point
+from django.db.models import Q
 
 from rest_framework import viewsets, views, status
 from rest_framework.response import Response
@@ -7,7 +8,7 @@ from fitmap import settings
 from map.helpers import get_categories, get_contacts
 import requests
 from map.models import SportEstablishment, Category, City
-from map.serializers import FitnessEstablishmentSerializer
+from map.serializers import FitnessEstablishmentSerializer, GymsByCityRetrieveSerializer
 from permissions import IsAdminOrIfAuthenticatedReadOnly
 
 HERE_API_KEY = settings.HERE_API_KEY
@@ -29,7 +30,7 @@ def process_sport_places(data: dict):
             category_obj, answer = Category.objects.get_or_create(name=category_.name, here_id=category_.here_id)
             category_list.append(category_obj)
 
-        city,created = City.objects.get_or_create(
+        city, created = City.objects.get_or_create(
             county=address_data.get("county"),
             city=address_data.get("city"),
             district=address_data.get("district"),
@@ -54,6 +55,19 @@ def process_sport_places(data: dict):
 
 class FitnessEstablishmentViewSet(viewsets.ModelViewSet):
     queryset = SportEstablishment.objects.all()
+
+
+class GymsByCityView(views.APIView):
+    def get(self, request):
+        city = request.query_params.get("city")
+        matching_city = City.objects.filter(Q(city__iexact=city)
+                                            | Q(district__iexact=city))
+        if not matching_city:
+            return Response({"details": "City not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        gyms_in_city = SportEstablishment.objects.filter(city__in=matching_city)
+        serializer = GymsByCityRetrieveSerializer(gyms_in_city, many=True)
+        return Response(serializer.data)
 
 
 class GymsNearbyUser(views.APIView):
