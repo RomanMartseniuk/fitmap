@@ -5,7 +5,7 @@ from rest_framework import viewsets, views, status
 from rest_framework.response import Response
 
 from fitmap import settings
-from map.helpers import get_categories, get_contacts
+from map.helpers import get_categories, get_contacts, get_opening_time
 import requests
 from map.models import SportEstablishment, Category, City
 from map.serializers import FitnessEstablishmentSerializer, GymsByCityRetrieveSerializer
@@ -26,6 +26,7 @@ def process_sport_places(data: dict):
 
         categories = get_categories(item.get("categories", []))
         category_list = []
+
         for category_ in categories:
             category_obj, answer = Category.objects.get_or_create(name=category_.name, here_id=category_.here_id)
             category_list.append(category_obj)
@@ -42,6 +43,7 @@ def process_sport_places(data: dict):
             city=city,
             address_label=address_data.get("label"),
             coordinates=coords,
+            weekly_schedule=get_opening_time(item.get("openingHours")),
             telephone_number=", ".join(phones),
             site=", ".join(sites),
             street=address_data.get("street"),
