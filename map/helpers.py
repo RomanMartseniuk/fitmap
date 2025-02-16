@@ -29,3 +29,12 @@ def get_contacts(contacts: list | None) -> tuple | None:
             list_sites = [site_url.get("value") for site_url in site_contact]
 
     return list_phones, list_sites
+
+def get_opening_time(opening_hours: list[dict] | None):
+    if opening_hours is None:
+        return []
+    work_hours = ""
+    for data in opening_hours:
+        work_data_list = data.get("text")
+        work_hours += " ".join(work_data_list)
+    return work_hours
