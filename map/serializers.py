@@ -13,3 +13,8 @@ class FitnessEstablishmentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = SportEstablishment
         fields = "__all__"
+
+class GymsByCityRetrieveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SportEstablishment
+        fields = "__all__"
