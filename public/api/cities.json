@@ -1,0 +1,87 @@
+[
+   {
+      "id": 0,
+      "title": "Kyiv",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 1,
+      "title": "Lviv",
+      "img_url": "/images/cities/lviv.png"
+   }, 
+   {
+      "id": 2,
+      "title": "Odessa",
+      "img_url": "/images/cities/odessa.png"
+   },
+   {
+      "id": 3,
+      "title": "Dnipro",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 4,
+      "title": "Kharkiv",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 5,
+      "title": "Zaporizhia",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 6,
+      "title": "Chernihiv",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 7,
+      "title": "Ivano-Frankivsk",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 8,
+      "title": "Ternopil",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 9,
+      "title": "Rivne",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 10,
+      "title": "Zhytomyr",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 11,
+      "title": "Chernivtsi",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 12,
+      "title": "Mykolaiv",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 13,
+      "title": "Kherson",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 14,
+      "title": "Sumy",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 15,
+      "title": "Kryvyi Rih",
+      "img_url": "/images/cities/kyiv.png"
+   },
+   {
+      "id": 16,
+      "title": "Uman",
+      "img_url": "/images/cities/kyiv.png"
+   }
+]
