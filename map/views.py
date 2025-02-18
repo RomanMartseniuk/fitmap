@@ -75,9 +75,27 @@ class GymsByCityView(views.APIView):
 class GymsNearbyUser(views.APIView):
     """Get nearby gyms with at=la,lo and r=radius searching"""
 
-    def get(self, request, format=None):
-        at = request.query_params.get('at')
-        r = request.query_params.get('r')
+    def get(self, request):
+        at: str = request.query_params.get('at')
+        r: int = request.query_params.get('r', 3500)
+
+
+        if not at or not r:
+            return Response(
+                {"error": "Missing parameters", "details": "Please provide 'at' (latitude,longitude) and 'r' (radius)"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not isinstance(r, int):
+            return Response({"error":"Invalid parameter r","detail": "radius of finding places must be type int"}, status=status.HTTP_400_BAD_REQUEST)
+
+        latitude, longitude = map(float, at.split(','))
+        if not (-90 <= latitude <= 90) or not (-180 <= longitude <= 180):
+            return Response(
+                {"error": "Invalid coordinates",
+                 "details": "Latitude must be between -90 and 90, longitude between -180 and 180"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         params = {
             "at": at,
             "categories": "800-8600",
