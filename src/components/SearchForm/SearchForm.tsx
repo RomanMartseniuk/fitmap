@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
 import './SearchForm.scss';
 import search_icon from '../../assets/search-icon.svg';
 import plus_icon from '../../assets/plus-icon.svg';
 
 import getCities from '../../api/citiesApi';
 import getCategories from '../../api/categoriesApi';
+import classNames from 'classnames';
 
 type City = {
    id: number;
@@ -17,6 +20,13 @@ type Category = {
    title: string;
    img_url: string;
 };
+
+enum Who {
+   adult = 'Adults',
+   children = 'Children',
+   teen = 'Teenagers',
+   all = '',
+}
 
 // const categories = [
 //    // Fitness & Gym Activities
@@ -120,13 +130,17 @@ type Category = {
 // ];
 
 export const SearchForm = () => {
-   const [wherePopupSelected, setWherePopupSelected] = useState(false);
-   const [whatPopupSelected, setWhatPopupSelected] = useState(false);
-   const [whenPopupSelected, setWhenPopupSelected] = useState(false);
+   const [searchParams, setSearchParams] = useSearchParams();
 
    const [selectedWhere, setSelectedWhere] = useState('');
    const [selectedWhat, setSelectedWhat] = useState('');
-   const [selectedWhen, setSelectedWhen] = useState('');
+   const [selectedWho, setSelectedWho] = useState<Who>(Who.all);
+
+   const [selectedBlock, setSelectedBlock] = useState(-1);
+   const [selectedInput, setSelectedInput] = useState(-1);
+
+   const [whereInp, setWhereInp] = useState('');
+   const [whatInp, setWhatInp] = useState('');
 
    const [cities, setCities] = useState<City[]>([]);
    console.log(cities);
@@ -145,19 +159,93 @@ export const SearchForm = () => {
          .then((data) => setCategories(data as Category[]))
          .catch()
          .finally();
+
+      const handleOnClick = (event: MouseEvent) => {
+         const target = event.target as HTMLElement;
+         const block = target.closest('.searchForm__block') as HTMLElement | null;
+
+         if (!block) {
+            setSelectedBlock(-1);
+            return;
+         }
+
+         console.log(block.id);
+         setSelectedBlock(Number(block.id)); // Convert ID to number
+      };
+
+      document.addEventListener('click', handleOnClick);
+
+      return () => {
+         document.removeEventListener('click', handleOnClick);
+      };
    }, []);
+
+   useEffect(() => {
+      let city = searchParams.get('city') || '';
+      let category = searchParams.get('category') || '';
+      let who = searchParams.get('who') as Who || Who.all;
+
+      if (cities.some(c => c.title.toLowerCase().includes(city))) {
+         setSelectedWhere(city);
+      } else {
+         updateURL('city', null);
+      }
+
+      if (categories.some(c => c.title.toLowerCase().includes(category))) {
+         setSelectedWhat(category);
+      } else {
+         updateURL('category', '');
+      }
+
+      if (Object.values(Who).includes(who)) {
+         setSelectedWho(who);
+      } else {
+         updateURL('who', '');
+      }
+
+   }, [selectedWhat, setSelectedWhere, selectedWho]);
+
+   const updateURL = useCallback((key: string, val: string) => {
+      setSearchParams((prevParams) => {
+         const newParams = new URLSearchParams(prevParams);
+         if (newParams.has(key)) {
+            newParams.delete(key);
+         }
+         newParams.append(key, val);
+
+         if (newParams.get(key) === '') {
+            newParams.delete(key);
+         }
+         return newParams;
+      });
+   }, [searchParams]);
 
    return (
       <div className="searchForm">
          <div className="searchForm__content">
-            <div className="searchForm__block">
-               <div className="searchForm__title">
-                  <h3>Where</h3>
-                  <p>Search destinations</p>
-               </div>
-               <div className="searchForm__popup popup_searchForm">
+            <div className="searchForm__block" id="0">
+               {selectedWhere === '' ? (
+                  <div className="searchForm__title">
+                     <h3>Where</h3>
+                     <p>Search destinations</p>
+                  </div>
+               ) : (
+                  <div className="searchForm__title">
+                     <h3>{selectedWhere}</h3>
+                  </div>
+               )}
+
+               <div
+                  className={classNames('searchForm__popup popup_searchForm', {
+                     active: selectedBlock === 0,
+                  })}
+               >
                   <div className="popup_searchForm__content">
-                     <label className="popup_searchForm__label">
+                     <label
+                        className={classNames('popup_searchForm__label', {
+                           active: selectedInput === 0,
+                        })}
+                     >
                         <span>
                            <img src={search_icon} alt="Search" />
                         </span>
@@ -166,27 +254,61 @@ export const SearchForm = () => {
                            name="city"
                            placeholder="Start writing the city"
                            autoComplete="off"
+                           onChange={(e) => setWhereInp(e.target.value)}
+                           onFocus={() => setSelectedInput(0)}
+                           onBlur={() => {
+                              setSelectedInput(-1);
+                           }}
+                           value={whereInp}
+                           id="0"
                         />
                      </label>
                      <ul className="popup_searchForm__list">
-                        {cities.map((city) => (
-                           <li className="popup_searchForm__item" key={city.id}>
-                              <img src={city.img_url} alt={city.title} />
-                              <h3>{city.title}</h3>
-                           </li>
-                        ))}
+                        {cities
+                           .filter((city) =>
+                              city.title.toLowerCase().includes(whereInp.toLowerCase()),
+                           )
+                           .map((city) => (
+                              <li
+                                 className="popup_searchForm__item"
+                                 onClick={() => {
+                                    setSelectedWhere(city.title);
+                                    setWhereInp('');
+                                    setTimeout(() => setSelectedBlock(-1), 1);
+                                    updateURL('city', city.title);
+                                 }}
+                                 key={city.id}
+                              >
+                                 <img src={city.img_url} alt={city.title} />
+                                 <h3>{city.title}</h3>
+                              </li>
+                           ))}
                      </ul>
                   </div>
                </div>
             </div>
-            <div className="searchForm__block">
-               <div className="searchForm__title">
-                  <h3>What</h3>
-                  <p>Choose activity</p>
-               </div>
-               <div className="searchForm__popup popup_searchForm">
+            <div className="searchForm__block" id="1">
+               {selectedWhat === '' ? (
+                  <div className="searchForm__title">
+                     <h3>Where</h3>
+                     <p>Search destinations</p>
+                  </div>
+               ) : (
+                  <div className="searchForm__title">
+                     <h3>{selectedWhat}</h3>
+                  </div>
+               )}
+               <div
+                  className={classNames('searchForm__popup popup_searchForm', {
+                     active: selectedBlock === 1,
+                  })}
+               >
                   <div className="popup_searchForm__content">
-                     <label className="popup_searchForm__label">
+                     <label
+                        className={classNames('popup_searchForm__label', {
+                           active: selectedInput === 1,
+                        })}
+                     >
                         <span>
                            <img src={search_icon} alt="Search" />
                         </span>
@@ -195,53 +317,117 @@ export const SearchForm = () => {
                            name="city"
                            placeholder="Start writing the city"
                            autoComplete="off"
+                           onChange={(e) => setWhatInp(e.target.value)}
+                           onFocus={() => setSelectedInput(1)}
+                           onBlur={() => setSelectedInput(-1)}
+                           value={whatInp}
                         />
                      </label>
                      <ul className="popup_searchForm__list">
-                        {categories.map((cat) => (
-                           <li
-                              className="popup_searchForm__item popup_searchForm__item-cat"
-                              key={cat.id}
-                           >
-                              <img src={cat.img_url} alt={cat.title} />
-                              <h3>{cat.title}</h3>
-                           </li>
-                        ))}
+                        {categories
+                           .filter((cat) => cat.title.toLowerCase().includes(whatInp.toLowerCase()))
+                           .map((cat) => (
+                              <li
+                                 className="popup_searchForm__item popup_searchForm__item-cat"
+                                 onClick={() => {
+                                    setSelectedWhat(cat.title);
+                                    setWhatInp('');
+                                    setTimeout(() => setSelectedBlock(-1), 1);
+                                    updateURL('category', cat.title);
+                                 }}
+                                 key={cat.id}
+                              >
+                                 <img src={cat.img_url} alt={cat.title} />
+                                 <h3>{cat.title}</h3>
+                              </li>
+                           ))}
                      </ul>
                   </div>
                </div>
             </div>
-            <div className="searchForm__block">
-               <div className="searchForm__title">
-                  <h3>Who</h3>
-                  <p>Choose</p>
-               </div>
-               <div className="searchForm__popup popup_searchForm active">
+            <div className="searchForm__block" id="2">
+               {selectedWho === Who.all ? (
+                  <div className="searchForm__title">
+                     <h3>Who</h3>
+                     <p>Select your age</p>
+                  </div>
+               ) : (
+                  <div className="searchForm__title">
+                     <h3>{selectedWho}</h3>
+                  </div>
+               )}
+               <div
+                  className={classNames('searchForm__popup popup_searchForm', {
+                     active: selectedBlock === 2,
+                  })}
+               >
                   <div className="popup_searchForm__content">
-                     <div className="popup_searchForm__option">
+                     <div
+                        className={classNames('popup_searchForm__option', {
+                           popup_searchForm__option_chosen: selectedWho === Who.adult,
+                        })}
+                     >
                         <div className="">
                            <h3>Adults</h3>
                            <p>Ages 18 or above</p>
                         </div>
-                        <span>
-                           <img src={plus_icon} alt="Choose" />
+                        <span
+                           onClick={() => {
+                              if (selectedWho !== Who.adult) {
+                                 updateURL('who', Who.adult);
+                                 setSelectedWho(Who.adult);
+                              } else {
+                                 updateURL('who', Who.all);
+                                 setSelectedWho(Who.all);
+                              }
+                           }}
+                        >
+                           <img src={plus_icon} alt="Add/Remove" />
                         </span>
                      </div>
-                     <div className="popup_searchForm__option">
+                     <div
+                        className={classNames('popup_searchForm__option', {
+                           popup_searchForm__option_chosen: selectedWho === Who.teen,
+                        })}
+                     >
                         <div className="">
                            <h3>Teenagers</h3>
                            <p>Ages 12 - 17</p>
                         </div>
-                        <span>
+                        <span
+                           onClick={() => {
+                              if (selectedWho !== Who.teen) {
+                                 updateURL('who', Who.teen);
+                                 setSelectedWho(Who.teen);
+                              } else {
+                                 updateURL('who', Who.all);
+                                 setSelectedWho(Who.all);
+                              }
+                           }}
+                        >
                            <img src={plus_icon} alt="Choose" />
                         </span>
                      </div>
-                     <div className="popup_searchForm__option">
+                     <div
+                        className={classNames('popup_searchForm__option', {
+                           popup_searchForm__option_chosen: selectedWho === Who.children,
+                        })}
+                     >
                         <div className="">
                            <h3>Chiildren</h3>
                            <p>Ages 2 - 12</p>
                         </div>
-                        <span>
+                        <span
+                           onClick={() => {
+                              if (selectedWho !== Who.children) {
+                                 updateURL('who', Who.children);
+                                 setSelectedWho(Who.children);
+                              } else {
+                                 updateURL('who', Who.all);
+                                 setSelectedWho(Who.all);
+                              }
+                           }}
+                        >
                            <img src={plus_icon} alt="Choose" />
                         </span>
                      </div>
