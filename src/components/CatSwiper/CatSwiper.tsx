@@ -8,7 +8,7 @@ import '@splidejs/react-splide/css/core';
 
 export const CatSwiper = () => {
    return (
-      <Splide aria-label="My Favorite Images" >
+      <Splide aria-label="My Favorite Images" options={{perPage: 3}} >
          <SplideSlide>
             Slide1
          </SplideSlide>
