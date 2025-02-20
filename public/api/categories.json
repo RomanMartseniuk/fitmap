@@ -2,186 +2,180 @@
    {
       "id": 0,
       "title": "Fitness",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/fitness.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 1,
       "title": "CrossFit",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/elliptical_training.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 2,
       "title": "Weightlifting",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/barbells_02.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 3,
       "title": "Bodybuilding",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/barbells_01.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 4,
       "title": "Yoga",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/meditation.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 5,
       "title": "Pilates",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/stretch_05.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 6,
       "title": "Aerobics",
-      "img_url": "/images/categories/gym.png"
-   },
-   {
-      "id": 7,
-      "title": "Zumba",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/stretch_01.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 8,
       "title": "Stretching",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/stretch_04.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 9,
       "title": "HIIT (High-Intensity Interval Training)",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/triangle_pose.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 10,
       "title": "Functional Training",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/exercise_dumbbells.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 11,
       "title": "Football",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/soccer.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 12,
       "title": "Basketball",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/basketball.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 13,
       "title": "Volleyball",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/volleyball.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 14,
       "title": "Rugby",
-      "img_url": "/images/categories/gym.png"
-   },
-   {
-      "id": 15,
-      "title": "Cricket",
-      "img_url": "/images/categories/gym.png"
-   },
-   {
-      "id": 16,
-      "title": "Handball",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/rugby.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 17,
       "title": "Hockey",
-      "img_url": "/images/categories/gym.png"
-   },
-   {
-      "id": 18,
-      "title": "Ice Hockey",
-      "img_url": "/images/categories/gym.png"
-   },
-   {
-      "id": 19,
-      "title": "Softball",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/ice_hockey.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 20,
       "title": "Baseball",
-      "img_url": "/images/categories/gym.png"
-   },
-   {
-      "id": 21,
-      "title": "Lacrosse",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/baseball_bat.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 22,
       "title": "Boxing",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/boxing_glove.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 23,
       "title": "Kickboxing",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/backbend.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 24,
       "title": "Martial Arts",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/warrior_01.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 25,
       "title": "Tennis",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/tennis_02.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 26,
       "title": "Table Tennis",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/table_tennis.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 27,
       "title": "Badminton",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/badminton.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 28,
       "title": "Archery",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/bow_and_arrow.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 29,
       "title": "Fencing",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/fencing_sword.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 30,
       "title": "Golf",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/golf_ball.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 31,
       "title": "Skateboarding",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/skateboarding.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 32,
       "title": "Darts",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/dart.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 33,
       "title": "Billiards",
-      "img_url": "/images/categories/gym.png"
-   },
-   {
-      "id": 34,
-      "title": "Snooker",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/billiard_ball_01.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 35,
       "title": "Bowling",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/bowling_01.svg",
+      "img_url": "/images/categoty_images/gym.jpg"
    },
    {
       "id": 36,
       "title": "Swimming",
-      "img_url": "/images/categories/gym.png"
+      "icon_url": "/images/category_icons/swimming.svg"
    }
 ]

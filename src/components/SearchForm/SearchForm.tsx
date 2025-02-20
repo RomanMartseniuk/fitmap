@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import classNames from 'classnames';
+
+import { City } from '../../types/City';
+import { Category } from '../../types/Category';
+import { Who } from '../../types/Who';
 
 import './SearchForm.scss';
 import search_icon from '../../assets/search-icon.svg';
@@ -7,26 +12,6 @@ import plus_icon from '../../assets/plus-icon.svg';
 
 import getCities from '../../api/citiesApi';
 import getCategories from '../../api/categoriesApi';
-import classNames from 'classnames';
-
-type City = {
-   id: number;
-   title: string;
-   img_url: string;
-};
-
-type Category = {
-   id: number;
-   title: string;
-   img_url: string;
-};
-
-enum Who {
-   adult = 'Adults',
-   children = 'Children',
-   teen = 'Teenagers',
-   all = '',
-}
 
 // const categories = [
 //    // Fitness & Gym Activities
@@ -143,10 +128,10 @@ export const SearchForm = () => {
    const [whatInp, setWhatInp] = useState('');
 
    const [cities, setCities] = useState<City[]>([]);
-   console.log(cities);
 
    const [categories, setCategories] = useState<Category[]>([]);
 
+   // Geting Cities And Categories Lists AND add EventListener For Clicks
    useEffect(() => {
       getCities()
          .then((res) => res.json())
@@ -180,6 +165,7 @@ export const SearchForm = () => {
       };
    }, []);
 
+   // Getting Serch Params From URL
    useEffect(() => {
       let city = searchParams.get('city') || '';
       let category = searchParams.get('category') || '';
@@ -188,7 +174,7 @@ export const SearchForm = () => {
       if (cities.some(c => c.title.toLowerCase().includes(city))) {
          setSelectedWhere(city);
       } else {
-         updateURL('city', null);
+         updateURL('city', '');
       }
 
       if (categories.some(c => c.title.toLowerCase().includes(category))) {
@@ -203,8 +189,9 @@ export const SearchForm = () => {
          updateURL('who', '');
       }
 
-   }, [selectedWhat, setSelectedWhere, selectedWho]);
+   }, []);
 
+   // Updates URL Search Params
    const updateURL = useCallback((key: string, val: string) => {
       setSearchParams((prevParams) => {
          const newParams = new URLSearchParams(prevParams);
@@ -337,7 +324,7 @@ export const SearchForm = () => {
                                  }}
                                  key={cat.id}
                               >
-                                 <img src={cat.img_url} alt={cat.title} />
+                                 <img src={cat.icon_url} alt={cat.title} />
                                  <h3>{cat.title}</h3>
                               </li>
                            ))}
