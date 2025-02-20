@@ -25,3 +25,31 @@ class City(models.Model):
     county = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     district = models.CharField(max_length=100)
+
+class BlackListedArea(models.Model):
+    coordinates = models.PointField(geography=True, srid=4326)
+    radius = models.IntegerField(default=10000)
+    annotation = models.TextField(help_text="Reason to add coordinates in model")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def as_circle(self):
+        """
+        Возвращает круг (Polygon) вокруг точки.
+        """
+        return self.coordinates.buffer(self.radius / 111320)
+
+    @staticmethod
+    def is_area_blacklisted(coordinates, radius):
+        """
+        Проверяет, пересекается ли запрашиваемая область с черным списком.
+        """
+        from django.contrib.gis.geos import Point
+        la,lo = coordinates[1], coordinates[0]
+        query_circle = Point(la, lo).buffer(radius / 111320)
+
+        blacklisted_areas = BlackListedArea.objects.all()
+        for area in blacklisted_areas:
+            if query_circle.intersects(area.as_circle):
+                return True
+        return False
