@@ -76,26 +76,18 @@ class GymsNearbyUser(views.APIView):
     """Get nearby gyms with at=la,lo and r=radius searching"""
 
     def get(self, request):
-        at: str = request.query_params.get('at')
-        r: int = request.query_params.get('r', 3500)
+        serializer = GymsNearbySerializer(data=request.query_params)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        validated_data = serializer.validated_data
 
+        at = validated_data.get("at")
+        r = validated_data.get("r")
+        default_r = None
 
-        if not at or not r:
-            return Response(
-                {"error": "Missing parameters", "details": "Please provide 'at' (latitude,longitude) and 'r' (radius)"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        if isinstance(serializer.get_is_default_r(), tuple):
+            r, default_r = serializer.get_is_default_r()
 
-        if not isinstance(r, int):
-            return Response({"error":"Invalid parameter r","detail": "radius of finding places must be type int"}, status=status.HTTP_400_BAD_REQUEST)
-
-        latitude, longitude = map(float, at.split(','))
-        if not (-90 <= latitude <= 90) or not (-180 <= longitude <= 180):
-            return Response(
-                {"error": "Invalid coordinates",
-                 "details": "Latitude must be between -90 and 90, longitude between -180 and 180"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
         params = {
             "at": at,
             "categories": "800-8600",
@@ -103,6 +95,7 @@ class GymsNearbyUser(views.APIView):
             "apiKey": {HERE_API_KEY},
             "limit": "100",
         }
+
         try:
             response = requests.get(f"https://browse.search.hereapi.com/v1/browse", params=params)
             if response.status_code == 200:
