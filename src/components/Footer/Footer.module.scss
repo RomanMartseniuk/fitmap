@@ -1,0 +1,47 @@
+.footer {
+   display: block;
+   width: 100%;
+   background-color: #29292D;
+   
+   padding-top: 83px;
+}
+
+.container {
+   display: flex;
+   margin: 0px 24px;
+   padding: 10px 0px !important;
+   border-top: 1px solid #fff;
+   justify-content: space-between;
+   color: #fff;
+   align-items: center;
+}
+
+.nav {
+   display: flex;
+   gap: 44px;
+   align-items: center;
+
+   .link {
+      text-decoration: none;
+      color: #fff;
+      transition: color 0.3s ease;
+
+      &:hover {
+         color: #65aac3;
+      }
+   }
+}
+
+.other {
+   display: flex;
+   gap: 42px;
+   align-items: center;
+}
+
+.lang {
+   display: flex;
+   gap: 4px;
+   align-items: center;
+}
+
+.curr {}
