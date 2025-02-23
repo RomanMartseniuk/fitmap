@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import './Header.scss';
+import styles from './Header.module.scss';
 import logo from '../../assets/user-icon.svg';
 import classNames from 'classnames';
 import { useState } from 'react';
@@ -9,14 +9,14 @@ export const Header = () => {
    const [logedIn] = useState(false);
 
    return (
-      <header className="header">
-         <div className="header__container">
-            <div className="header__logo">Logo/Name</div>
-            <nav className="header__nav">
+      <header className={styles.header}>
+         <div className={styles.container}>
+            <div className={styles.logo}>Logo/Name</div>
+            <nav className={styles.nav}>
                <NavLink
                   className={({ isActive }) => {
-                     return classNames('header__link', {
-                        active: isActive,
+                     return classNames(styles.link, {
+                        [styles.link_active]: isActive,
                      });
                   }}
                   to={'/'}
@@ -25,8 +25,8 @@ export const Header = () => {
                </NavLink>
                <NavLink
                   className={({ isActive }) => {
-                     return classNames('header__link', {
-                        active: isActive,
+                     return classNames(styles.link, {
+                        [styles.link_active]: isActive,
                      });
                   }}
                   to={'/map'}
@@ -35,7 +35,7 @@ export const Header = () => {
                </NavLink>
             </nav>
             <div
-               className="header__acc-link"
+               className={styles.menuBtn}
                tabIndex={0}
                onFocus={() => setShowMenu(true)}
                onBlur={() => setTimeout(() => setShowMenu(false), 200)}
@@ -49,22 +49,22 @@ export const Header = () => {
                <img src={logo} alt="Account" />
             </div>
             <div
-               className={classNames('header__popup-menu', {
-                  hidden: !showMenu,
+               className={classNames(styles.menu, {
+                  [styles.menu_hidden]: !showMenu,
                })}
             >
                {!logedIn ? (
-                  <div className="header__popup-menu--not-loged-in">
+                  <div className={styles.menu_notLogedIn}>
                      <NavLink to="/log-in">Log in</NavLink>
                      <NavLink to="/sign-up">Sign up</NavLink>
                      <NavLink to="/help">Help Centre</NavLink>
                   </div>
                ) : (
-                  <div className="header__popup-menu--loged-in">
+                  <div className={styles.menu_logedIn}>
                      <NavLink to="/acc">Account</NavLink>
                      <NavLink to="/notif">Notifications</NavLink>
                      <NavLink to="/saved">Saved places</NavLink>
-                     <NavLink to="/hrlp">Help Centre </NavLink>
+                     <NavLink to="/help">Help Centre </NavLink>
                      <NavLink to="/log-out">Log out</NavLink>
                   </div>
                )}

@@ -1,3 +1,16 @@
+* {
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+   font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+
+
+[class*="container"] {
+padding: 0px 15px;
+}
+
 .main {
    background-image: url('./assets/bg/tennis_bg.jpg');
    background-size: cover;
