@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 // @ts-ignore
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 // @ts-ignore
