@@ -5,10 +5,11 @@ from rest_framework import viewsets, views, status
 from rest_framework.response import Response
 
 from fitmap import settings
+from fitmap.settings import DEFAULT_RADIUS, BLACKLIST_RADIUS_SEARCH
 from map.helpers import get_categories, get_contacts, get_opening_time
 import requests
-from map.models import SportEstablishment, Category, City
-from map.serializers import FitnessEstablishmentSerializer, GymsByCityRetrieveSerializer
+from map.models import SportEstablishment, Category, City, BlackListedArea
+from map.serializers import FitnessEstablishmentSerializer, GymsByCityRetrieveSerializer, GymsNearbySerializer
 from permissions import IsAdminOrIfAuthenticatedReadOnly
 
 HERE_API_KEY = settings.HERE_API_KEY
@@ -83,10 +84,6 @@ class GymsNearbyUser(views.APIView):
 
         at = validated_data.get("at")
         r = validated_data.get("r")
-        default_r = None
-
-        if isinstance(serializer.get_is_default_r(), tuple):
-            r, default_r = serializer.get_is_default_r()
 
         params = {
             "at": at,
@@ -97,15 +94,30 @@ class GymsNearbyUser(views.APIView):
         }
 
         try:
-            response = requests.get(f"https://browse.search.hereapi.com/v1/browse", params=params)
-            if response.status_code == 200:
-                process_sport_places(response.json())
-                return Response(response.json(), status=status.HTTP_200_OK)
-            else:
-                return Response(
-                    {"error": "External API request failed", "details": response.text},
-                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
-                )
+            latitude, longitude = map(float, at.split(','))
+
+            black_area = (BlackListedArea.is_area_blacklisted(
+                [longitude, latitude],
+                BLACKLIST_RADIUS_SEARCH
+            ))
+
+            if black_area:
+                response = requests.get(f"https://browse.search.hereapi.com/v1/browse", params=params)
+                response.raise_for_status()
+                """Filter answer by position sportplaces in received """
+                data = response.json()
+                if not data.get("items"):
+                    BlackListedArea.objects.get_or_create(
+                        coordinates=Point(latitude, longitude),
+                        annotation="Empty area"
+                    )
+
+                    return Response({"details": "No nearby gyms"}, status=status.HTTP_200_OK)
+                process_sport_places(data)
+                return Response(data, status=status.HTTP_200_OK)
+            elif black_area is False:
+                return Response({"details": "No nearby gyms"}, status=status.HTTP_200_OK)
+
         except requests.RequestException as e:
             return Response(
                 {"error": "Request failed", "details": str(e)},
