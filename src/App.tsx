@@ -8,6 +8,7 @@ export const App = () => {
       <main className='main'>
         <Outlet />
       </main>
+      
     </>
   );
 };
