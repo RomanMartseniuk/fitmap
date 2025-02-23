@@ -1,8 +1,8 @@
 .footer {
    display: block;
    width: 100%;
-   background-color: #29292D;
-   
+   background-color: #29292d;
+
    padding-top: 83px;
 }
 
@@ -24,6 +24,12 @@
    .link {
       text-decoration: none;
       color: #fff;
+      font-family: Public Sans;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 14.1px;
+      letter-spacing: 0%;
+
       transition: color 0.3s ease;
 
       &:hover {
@@ -43,5 +49,3 @@
    gap: 4px;
    align-items: center;
 }
-
-.curr {}
