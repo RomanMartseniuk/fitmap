@@ -1,5 +1,7 @@
 from django.contrib.gis.db import models
 
+from map.utils import distance_between_two_points
+
 
 class SportEstablishment(models.Model):
     title = models.CharField(max_length=255)
@@ -26,30 +28,29 @@ class City(models.Model):
     city = models.CharField(max_length=100)
     district = models.CharField(max_length=100)
 
+
 class BlackListedArea(models.Model):
     coordinates = models.PointField(geography=True, srid=4326)
     radius = models.IntegerField(default=10000)
     annotation = models.TextField(help_text="Reason to add coordinates in model")
     created_at = models.DateTimeField(auto_now_add=True)
 
-    @property
-    def as_circle(self):
-        """
-        Возвращает круг (Polygon) вокруг точки.
-        """
-        return self.coordinates.buffer(self.radius / 111320)
-
     @staticmethod
-    def is_area_blacklisted(coordinates, radius):
+    def is_area_blacklisted(coordinates: list[float] | tuple[float], radius: int) -> int | bool:
         """
         Проверяет, пересекается ли запрашиваемая область с черным списком.
         """
         from django.contrib.gis.geos import Point
-        la,lo = coordinates[1], coordinates[0]
-        query_circle = Point(la, lo).buffer(radius / 111320)
+
+        coords_point_obj = Point(coordinates[1], coordinates[0])  # latitude, longitude
+
+        min_distance = float('inf')
 
         blacklisted_areas = BlackListedArea.objects.all()
         for area in blacklisted_areas:
-            if query_circle.intersects(area.as_circle):
-                return True
+            distance = distance_between_two_points(area.coordinates, coords_point_obj)
+            min_distance = min(min_distance, distance)
+
+        if min_distance > radius:
+            return True
         return False
