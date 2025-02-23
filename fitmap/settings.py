@@ -158,6 +158,11 @@ REST_FRAMEWORK = {
     ),
 }
 
+DEFAULT_RADIUS = 10000
+
+"Distance between point in BlackListedArea and received coords for make new request"
+BLACKLIST_RADIUS_SEARCH = 7000
+
 SPECTACULAR_SETTINGS = {
     "TITLE": "FitMap API",
     "DESCRIPTION": "Search for and view fit data.",
