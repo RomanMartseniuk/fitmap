@@ -52,5 +52,5 @@ class BlackListedArea(models.Model):
             min_distance = min(min_distance, distance)
 
         if min_distance > radius:
-            return True
-        return False
+            return False
+        return True

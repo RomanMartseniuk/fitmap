@@ -94,7 +94,7 @@ class GymsNearbyUser(views.APIView):
                 [longitude, latitude], BLACKLIST_RADIUS_SEARCH
             )
 
-            if black_area:
+            if black_area is False:
                 gyms_data = self.get_nearby_gyms(at, r)
                 if not gyms_data:
                     BlackListedArea.objects.get_or_create(
@@ -110,7 +110,7 @@ class GymsNearbyUser(views.APIView):
 
                 return Response(gyms_data, status=status.HTTP_200_OK)
 
-            elif black_area is False:
+            elif black_area is True:
                 return Response(
                     {"details": "No nearby gyms"},
                     status=status.HTTP_200_OK
