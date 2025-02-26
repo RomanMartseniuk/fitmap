@@ -10,9 +10,6 @@ import './SearchForm.scss';
 import search_icon from '../../assets/search-icon.svg';
 import plus_icon from '../../assets/plus-icon.svg';
 
-import getCities from '../../api/citiesApi';
-import getCategories from '../../api/categoriesApi';
-
 // const categories = [
 //    // Fitness & Gym Activities
 //    'Fitness',
@@ -114,6 +111,10 @@ import getCategories from '../../api/categoriesApi';
 //    'Core Training',
 // ];
 
+
+const getCities = () => fetch('/api/gyms-in-city/');
+const getCategories = () => fetch('/api/categories/');
+
 export const SearchForm = () => {
    const [searchParams, setSearchParams] = useSearchParams();
 
@@ -171,13 +172,13 @@ export const SearchForm = () => {
       let category = searchParams.get('category') || '';
       let who = searchParams.get('who') as Who || Who.all;
 
-      if (cities.some(c => c.title.toLowerCase().includes(city))) {
+      if (cities.some(c => c.city.toLowerCase().includes(city))) {
          setSelectedWhere(city);
       } else {
          updateURL('city', '');
       }
 
-      if (categories.some(c => c.title.toLowerCase().includes(category))) {
+      if (categories.some(c => c.name.toLowerCase().includes(category))) {
          setSelectedWhat(category);
       } else {
          updateURL('category', '');
@@ -253,21 +254,21 @@ export const SearchForm = () => {
                      <ul className="popup_searchForm__list">
                         {cities
                            .filter((city) =>
-                              city.title.toLowerCase().includes(whereInp.toLowerCase()),
+                              city.city.toLowerCase().includes(whereInp.toLowerCase()),
                            )
                            .map((city) => (
                               <li
                                  className="popup_searchForm__item"
                                  onClick={() => {
-                                    setSelectedWhere(city.title);
+                                    setSelectedWhere(city.city);
                                     setWhereInp('');
                                     setTimeout(() => setSelectedBlock(-1), 1);
-                                    updateURL('city', city.title);
+                                    updateURL('city', city.city);
                                  }}
                                  key={city.id}
                               >
-                                 <img src={city.img_url} alt={city.title} />
-                                 <h3>{city.title}</h3>
+                                 <img alt={city.city} />
+                                 <h3>{city.city}</h3>
                               </li>
                            ))}
                      </ul>
@@ -312,20 +313,20 @@ export const SearchForm = () => {
                      </label>
                      <ul className="popup_searchForm__list">
                         {categories
-                           .filter((cat) => cat.title.toLowerCase().includes(whatInp.toLowerCase()))
+                           .filter((cat) => cat.name.toLowerCase().includes(whatInp.toLowerCase()))
                            .map((cat) => (
                               <li
                                  className="popup_searchForm__item popup_searchForm__item-cat"
                                  onClick={() => {
-                                    setSelectedWhat(cat.title);
+                                    setSelectedWhat(cat.name);
                                     setWhatInp('');
                                     setTimeout(() => setSelectedBlock(-1), 1);
-                                    updateURL('category', cat.title);
+                                    updateURL('category', cat.name);
                                  }}
                                  key={cat.id}
                               >
-                                 <img src={cat.icon_url} alt={cat.title} />
-                                 <h3>{cat.title}</h3>
+                                 <img alt={cat.name} />
+                                 <h3>{cat.name}</h3>
                               </li>
                            ))}
                      </ul>
