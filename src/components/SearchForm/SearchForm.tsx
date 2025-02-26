@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -12,6 +12,8 @@ import plus_icon from '../../assets/plus-icon.svg';
 
 import getCities from '../../api/citiesApi';
 import getCategories from '../../api/categoriesApi';
+import { CitiesContext } from '../../store/CitiesContext';
+import { CategoriesContext } from '../../store/CategoriesContext';
 
 // const categories = [
 //    // Fitness & Gym Activities
@@ -114,7 +116,11 @@ import getCategories from '../../api/categoriesApi';
 //    'Core Training',
 // ];
 
-export const SearchForm = () => {
+type Props = {
+   className?: string;
+};
+
+export const SearchForm: React.FC<Props> = ({className}) => {
    const [searchParams, setSearchParams] = useSearchParams();
 
    const [selectedWhere, setSelectedWhere] = useState('');
@@ -127,23 +133,11 @@ export const SearchForm = () => {
    const [whereInp, setWhereInp] = useState('');
    const [whatInp, setWhatInp] = useState('');
 
-   const [cities, setCities] = useState<City[]>([]);
-
-   const [categories, setCategories] = useState<Category[]>([]);
+   const {cities} = useContext(CitiesContext);
+   const {categories} = useContext(CategoriesContext);
 
    // Geting Cities And Categories Lists AND add EventListener For Clicks
    useEffect(() => {
-      getCities()
-         .then((res) => res.json())
-         .then((data) => setCities(data as City[]))
-         .catch()
-         .finally();
-
-      getCategories()
-         .then((res) => res.json())
-         .then((data) => setCategories(data as Category[]))
-         .catch()
-         .finally();
 
       const handleOnClick = (event: MouseEvent) => {
          const target = event.target as HTMLElement;
@@ -208,7 +202,7 @@ export const SearchForm = () => {
    }, [searchParams]);
 
    return (
-      <div className="searchForm">
+      <div className={classNames(className, `searchForm`)}>
          <div className="searchForm__content">
             <div className="searchForm__block" id="0">
                {selectedWhere === '' ? (

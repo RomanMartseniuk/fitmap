@@ -1,0 +1,33 @@
+.mapPage {
+   overflow: hidden;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+}
+
+.search {
+   margin: 0;
+   margin-top: 19px;
+   
+   margin-bottom: 30px;
+}
+
+.container {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   overflow: hidden;
+   background-color: #fff;
+   padding: 0px 24px;
+}
+
+
+
+:global {
+   .leaflet-container {
+      height: 600px;
+      width: 600px;
+      border-radius: 36px;
+   }
+}
