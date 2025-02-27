@@ -3,7 +3,6 @@ from django.db.models import Q
 
 from rest_framework import viewsets, views, status
 from rest_framework.response import Response
-from yaml import serialize
 
 from fitmap import settings
 from fitmap.settings import DEFAULT_RADIUS, BLACKLIST_RADIUS_SEARCH
