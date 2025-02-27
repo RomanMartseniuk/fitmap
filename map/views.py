@@ -30,18 +30,20 @@ class SportCategories(views.APIView):
 class GymsByCityView(views.APIView):
 
     def get(self, request):
-        # city = request.query_params.get("city")
-        # matching_city = City.objects.filter(Q(city__iexact=city)
-        #                                     | Q(district__iexact=city))
-        # if not matching_city:
-        #     return Response({"details": "City not found"}, status=status.HTTP_404_NOT_FOUND)
-        #
-        # gyms_in_city = SportEstablishment.objects.filter(city__in=matching_city)
-        # serializer = GymsByCityRetrieveSerializer(gyms_in_city, many=True)
-        # return Response(serializer.data)
         queryset = City.objects.all()
         serializer = CitySerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        city = request.query_params.get("city")
+        matching_city = City.objects.filter(Q(city__iexact=city)
+                                            | Q(district__iexact=city))
+        if not matching_city:
+            return Response({"details": "City not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        gyms_in_city = SportEstablishment.objects.filter(city__in=matching_city)
+        serializer = GymsByCityRetrieveSerializer(gyms_in_city, many=True)
+        return Response(serializer.data)
 
 
 class GymsNearbyUser(views.APIView):
