@@ -1,2 +1,2 @@
-const getCities = () => fetch('/api/cities.json');
+const getCities = () => fetch('/api/gyms-in-city/');
 export default getCities;

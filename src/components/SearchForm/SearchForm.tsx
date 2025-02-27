@@ -402,7 +402,7 @@ export const SearchForm = () => {
                         })}
                      >
                         <div className="">
-                           <h3>Chiildren</h3>
+                           <h3>Children</h3>
                            <p>Ages 2 - 12</p>
                         </div>
                         <span
