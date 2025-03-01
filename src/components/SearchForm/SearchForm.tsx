@@ -2,16 +2,13 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { City } from '../../types/City';
-import { Category } from '../../types/Category';
 import { Who } from '../../types/Who';
 
 import './SearchForm.scss';
+
 import search_icon from '../../assets/search-icon.svg';
 import plus_icon from '../../assets/plus-icon.svg';
 
-import getCities from '../../api/citiesApi';
-import getCategories from '../../api/categoriesApi';
 import { CitiesContext } from '../../store/CitiesContext';
 import { CategoriesContext } from '../../store/CategoriesContext';
 
