@@ -27,9 +27,11 @@ class FitnessEstablishmentDetailSerializer(serializers.ModelSerializer):
 
 
 class GymsByCityRetrieveSerializer(serializers.ModelSerializer):
+    city = CitySerializer(read_only=True)
+    categories = CategorySerializer(read_only=True, many=True)
     class Meta:
         model = SportEstablishment
-        fields = "__all__"
+        fields = ["title", "here_id", "city", "address_label", "coordinates", "categories"]
 
 
 class GymsNearbySerializer(serializers.Serializer):

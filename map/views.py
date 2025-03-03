@@ -35,13 +35,15 @@ class GymsByCityView(views.APIView):
 
     def post(self, request):
         city = request.query_params.get("city")
-        matching_city = City.objects.filter(Q(city__iexact=city)
-                                            | Q(district__iexact=city))
+        category = request.query_params.get("category")
+        object_ = SportEstablishment.objects.select_related("city")
+        matching_city = object_.filter(Q(city__city__iexact=city) | Q(city__district__iexact=city))
+        matching_sport_places = matching_city.filter(categories__name__iexact=category)
         if not matching_city:
             return Response({"details": "City not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        gyms_in_city = SportEstablishment.objects.filter(city__in=matching_city)
-        serializer = GymsByCityRetrieveSerializer(gyms_in_city, many=True)
+        #gyms_in_city = SportEstablishment.objects.filter(city__in=matching_city)
+        serializer = GymsByCityRetrieveSerializer(matching_sport_places, many=True)
         return Response(serializer.data)
 
 
