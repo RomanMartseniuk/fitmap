@@ -6,7 +6,7 @@ from map.utils import distance_between_two_points
 class SportEstablishment(models.Model):
     title = models.CharField(max_length=255)
     here_id = models.CharField(max_length=255)
-    city = models.ForeignKey("City", on_delete=models.CASCADE)
+    city = models.ForeignKey("City", on_delete=models.CASCADE, related_name="sportestablishments")
     address_label = models.CharField(max_length=255)
     coordinates = models.PointField(geography=True, srid=4326)  # attr srid has using system WGS 84
     categories = models.ManyToManyField("Category")
