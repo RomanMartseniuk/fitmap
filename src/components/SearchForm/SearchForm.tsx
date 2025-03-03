@@ -208,6 +208,34 @@ export const SearchForm = () => {
       });
    }, [searchParams]);
 
+   const handleSearchClick = async () => {
+    const queryParams = new URLSearchParams({
+        city: selectedWhere,
+        category: selectedWhat,
+        who: selectedWho,
+    }).toString();
+
+    try {
+        const response = await fetch(`/api/gyms-in-city/?${queryParams}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Ошибка: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Результаты поиска:', result);
+        //
+    } catch (error) {
+        console.error('Ошибка при отправке запроса:', error);
+    }
+};
+
+
    return (
       <div className="searchForm">
          <div className="searchForm__content">
@@ -422,7 +450,7 @@ export const SearchForm = () => {
                   </div>
                </div>
             </div>
-            <div className="searchForm__button">
+            <div className="searchForm__button" onClick={handleSearchClick}>
                <img src={search_icon} alt="Search" />
             </div>
          </div>
