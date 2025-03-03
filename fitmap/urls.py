@@ -26,6 +26,7 @@ from drf_spectacular.views import (
 )
 
 urlpatterns = [
+        path("__debug__/", include("debug_toolbar.urls")),
         path('admin/', admin.site.urls),
         path("api/", include("map.urls", namespace="establishments")),
         path("api/user/", include("user.urls", namespace="user")),
@@ -42,6 +43,3 @@ urlpatterns = [
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-
-if settings.DEBUG:
-    urlpatterns += debug_toolbar_urls()
