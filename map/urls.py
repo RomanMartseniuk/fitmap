@@ -6,8 +6,6 @@ from map.views import GymsNearbyUser, GymsByCityView, SportCategories
 
 app_name = "map"
 
-router = routers.DefaultRouter()
-router.register("establishments", FitnessEstablishmentViewSet)
 
 urlpatterns = [
     path("gyms-by-city/", GymsByCityView.as_view(), name="city-places"),
