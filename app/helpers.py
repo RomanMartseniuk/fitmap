@@ -1,6 +1,6 @@
 from django.contrib.gis.geos import Point
 
-from map.models import Category, SportEstablishment, City
+from app.models import Category, SportEstablishment, City
 
 
 def get_categories(categories: list) -> list[Category]:

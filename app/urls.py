@@ -2,9 +2,9 @@ from django.urls import path
 from rest_framework import routers
 
 
-from map.views import FitnessEstablishmentViewSet, GymsNearbyUser, GymsByCityView, SportCategories
+from app.views import FitnessEstablishmentViewSet, GymsNearbyUser, GymsByCityView, SportCategories
 
-app_name = "map"
+app_name = "app"
 
 router = routers.DefaultRouter()
 router.register("establishments", FitnessEstablishmentViewSet)

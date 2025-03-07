@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+from urllib.parse import urlparse
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -17,6 +19,7 @@ load_dotenv()
 from datetime import timedelta
 from pathlib import Path
 
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 HERE_API_KEY = os.getenv("HERE_API_KEY")
 
 if os.name == 'nt':
@@ -53,17 +56,17 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "corsheaders",
     "user",
-    "map",
+    "app",
 ]
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5174",
+    "http://localhost:5173",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -97,11 +100,11 @@ WSGI_APPLICATION = "fitmap.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": os.getenv("NAME_DB"),
-        "USER": os.getenv("USER_DB"),
-        "PASSWORD": os.getenv("PASSWORD_DB"),
-        "HOST": os.getenv("HOST_DB"),
-        "PORT": os.getenv("PORT"),
+        "NAME": tmpPostgres.path.replace("/", ""),
+        "USER": tmpPostgres.username,
+        "PASSWORD": tmpPostgres.password,
+        "HOST": tmpPostgres.hostname,
+        "PORT": 5432,
     }
 }
 
@@ -186,6 +189,3 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": False,
 }
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",
-# ]
