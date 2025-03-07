@@ -19,7 +19,6 @@ load_dotenv()
 from datetime import timedelta
 from pathlib import Path
 
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 HERE_API_KEY = os.getenv("HERE_API_KEY")
 
 if os.name == 'nt':
@@ -60,6 +59,8 @@ INSTALLED_APPS = [
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://127.0.0.1:8080"
+    
 ]
 
 MIDDLEWARE = [
@@ -100,11 +101,10 @@ WSGI_APPLICATION = "fitmap.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": tmpPostgres.path.replace("/", ""),
-        "USER": tmpPostgres.username,
-        "PASSWORD": tmpPostgres.password,
-        "HOST": tmpPostgres.hostname,
-        "PORT": 5432,
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": os.getenv("POSTGRES_HOST"),
     }
 }
 
