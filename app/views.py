@@ -6,10 +6,10 @@ from rest_framework.response import Response
 
 from fitmap import settings
 from fitmap.settings import DEFAULT_RADIUS, BLACKLIST_RADIUS_SEARCH
-from map.helpers import process_sport_places
+from app.helpers import process_sport_places
 import requests
-from map.models import SportEstablishment, City, BlackListedArea, Category
-from map.serializers import FitnessEstablishmentSerializer, GymsByCityRetrieveSerializer, GymsNearbySerializer, \
+from app.models import SportEstablishment, City, BlackListedArea, Category
+from app.serializers import FitnessEstablishmentSerializer, GymsByCityRetrieveSerializer, GymsNearbySerializer, \
     CitySerializer, CategorySerializer
 from permissions import IsAdminOrIfAuthenticatedReadOnly
 
@@ -17,6 +17,7 @@ HERE_API_KEY = settings.HERE_API_KEY
 
 
 class FitnessEstablishmentViewSet(viewsets.ModelViewSet):
+    serializer_class = FitnessEstablishmentSerializer
     queryset = SportEstablishment.objects.all()
 
 

@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 
-from map.utils import distance_between_two_points
+from app.utils import distance_between_two_points
 
 
 class SportEstablishment(models.Model):

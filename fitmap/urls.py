@@ -28,7 +28,7 @@ from drf_spectacular.views import (
 urlpatterns = [
         path("__debug__/", include("debug_toolbar.urls")),
         path('admin/', admin.site.urls),
-        path("api/", include("map.urls", namespace="establishments")),
+        path("api/", include("app.urls", namespace="establishments")),
         path("api/user/", include("user.urls", namespace="user")),
         path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
         path(

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from map.models import SportEstablishment, City, Category
+from app.models import SportEstablishment, City, Category
 
 
 class FitnessEstablishmentSerializer(serializers.Serializer):
