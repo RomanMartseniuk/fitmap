@@ -23,18 +23,21 @@ class FitnessEstablishmentViewSet(viewsets.ModelViewSet):
 
 class SportCategories(views.APIView):
     def get(self, request):
+        """Receiving all categories from db"""
         queryset = Category.objects.all()
         serializer = CategorySerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class GymsByCityView(views.APIView):
-
     def get(self, request):
+        """Receiving all cities from db"""
+
         queryset = City.objects.all()
         serializer = CitySerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
+        """Filter by city and category sports establishments"""
         city = request.query_params.get("city")
         category = request.query_params.get("category")
         object_ = SportEstablishment.objects.select_related("city")
@@ -43,7 +46,6 @@ class GymsByCityView(views.APIView):
         if not matching_city:
             return Response({"details": "City not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        #gyms_in_city = SportEstablishment.objects.filter(city__in=matching_city)
         serializer = GymsByCityRetrieveSerializer(matching_sport_places, many=True)
         return Response(serializer.data)
 
