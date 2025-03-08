@@ -112,7 +112,7 @@ import plus_icon from '../../assets/plus-icon.svg';
 // ];
 
 
-const getCities = () => fetch('/api/gyms-in-city/');
+const getCities = () => fetch('/api/gyms-by-city/');
 const getCategories = () => fetch('/api/categories/');
 
 export const SearchForm = () => {
@@ -216,7 +216,7 @@ export const SearchForm = () => {
     }).toString();
 
     try {
-        const response = await fetch(`/api/gyms-in-city/?${queryParams}`, {
+        const response = await fetch(`/api/gyms-by-city/?${queryParams}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
