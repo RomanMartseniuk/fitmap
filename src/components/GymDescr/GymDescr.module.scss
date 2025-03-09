@@ -1,0 +1,76 @@
+.gym {
+   flex: 1 1 auto;
+   padding-right: 24px;
+   .nav {
+      .back_btn {
+      }
+   }
+
+   .content {
+      position: relative;
+
+      .img {
+         position: relative;
+         width: 100%;
+         height: 323px;
+         overflow: hidden;
+         border-radius: 36px;
+
+         img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+         }
+      }
+
+      .main_info {
+         div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 70%;
+
+            span {
+               display: flex;
+               align-items: center;
+            }
+         }
+      }
+
+      .adress {
+      }
+
+      .scheldue {
+         display: flex;
+         flex-direction: column;
+         flex-wrap: wrap;
+         height: 200px;
+         align-content: flex-start;
+
+         .day {
+            display: inline-block;
+            width: 100px;
+            margin-bottom: 10px;
+            margin-right: 24px;
+         }
+      }
+
+      .contact_btn {
+      }
+
+      .filters {
+      }
+
+      .offers {
+      }
+
+      .contacts {
+      }
+
+      .reviews {
+      }
+   }
+}
