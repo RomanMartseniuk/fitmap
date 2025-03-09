@@ -1,6 +1,5 @@
 import { Gym } from '../../types/Gym';
 import { GymItem } from '../GymItem';
-import PlusIcon from '../PlusIcon/PlusIcon';
 import styles from './GymList.module.scss';
 
 
@@ -9,7 +8,7 @@ const item: Gym = {
    title: 'Gym Name',
    description: 'Gym Description',
    price: 50,
-   rate: 4,
+   rate: 4,git 
    category: 'Category',
    city: 'City',
    pos: [0, 0],
