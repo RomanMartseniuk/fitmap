@@ -8,7 +8,7 @@ const item: Gym = {
    title: 'Gym Name',
    description: 'Gym Description',
    price: 50,
-   rate: 4,git 
+   rate: 4,
    category: 'Category',
    city: 'City',
    pos: [0, 0],
