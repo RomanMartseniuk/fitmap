@@ -11,7 +11,7 @@ class SportEstablishment(models.Model):
     coordinates = models.PointField(geography=True, srid=4326)  # attr srid has using system WGS 84
     categories = models.ManyToManyField("Category")
     weekly_schedule = models.CharField(blank=True, null=True)
-    telephone_number = models.CharField(max_length=255)
+    telephone_number = models.CharField(max_length=255, null=True, blank=True)
     site = models.CharField(blank=True, null=True)
     email = models.EmailField(max_length=100, null=True, blank=True)
     street = models.CharField(max_length=100, blank=True, null=True)

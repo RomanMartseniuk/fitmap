@@ -18,6 +18,8 @@ services:
       - db
   db:
     image: postgis/postgis:16-3.4
+    volumes:
+      - ./data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     env_file:
