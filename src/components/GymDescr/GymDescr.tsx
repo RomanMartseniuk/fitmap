@@ -1,10 +1,14 @@
+import { Link } from 'react-router-dom';
 import styles from './GymDescr.module.scss';
 
 export const GymDescr = () => {
    return (
       <div className={styles.gym}>
          <nav className={styles.nav}>
-            <div className={styles.back_btn}></div>
+            <Link to='../' className={styles.back_btn}>
+               <img src="/images/other/icons/white-arr-left.svg" alt="Back" />
+               <p>Back</p>
+            </Link>
          </nav>
          <div className={styles.content}>
             <div className={styles.img}>
@@ -58,7 +62,7 @@ export const GymDescr = () => {
                <img src="/images/other/icons/black-plus-icon.svg" alt="plus icon" />
             </div>
             <div className={styles.filters}>
-               <h2>Filter Matches</h2>
+               <h2 className={styles.h2}>Filter Matches</h2>
                <ul>
                   <li>Group classes</li>
                   <li>Bath</li>
@@ -66,7 +70,7 @@ export const GymDescr = () => {
                </ul>
             </div>
             <div className={styles.offers}>
-               <h2>Offers</h2>
+               <h2 className={styles.h2}>Offers</h2>
                <ul>
                   <li>Gym</li>
                   <li>Pilates</li>
@@ -75,30 +79,27 @@ export const GymDescr = () => {
                </ul>
             </div>
             <div className={styles.contacts}>
-               <h2>Contact</h2>
+               <h2 className={styles.h2}>Contact</h2>
                <ul>
                   <li>
                      <a href="smartass.com">
-                        <img src="" alt="Web" />
+                        <img src="/images/other/icons/black-web-icon.svg" alt="Web" />
                         <p>smartass.com</p>
                      </a>
                   </li>
                   <li>
                      <a href="mailto:smartass.com">
-                        <img src="" alt="Email" />
+                        <img src="/images/other/icons/black-mail-icon.svg" alt="Email" />
                         <p>smartass@gmail.com</p>
                      </a>
                   </li>
                   <li>
                      <a href="tel:smartass.com">
-                        <img src="mailto:smartass.com" alt="Tel" />
+                        <img src="/images/other/icons/black-phone-icon.svg" alt="Tel" />
                         <p>smartass.com</p>
                      </a>
                   </li>
                </ul>
-            </div>
-            <div className={styles.reviews}>
-               <h2>Reviews</h2>
             </div>
          </div>
       </div>

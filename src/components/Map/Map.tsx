@@ -1,4 +1,5 @@
 import 'leaflet/dist/leaflet.css';
+import styles from './Map.module.scss';
 import L from 'leaflet';
 import React, { useEffect, useState } from 'react';
 import { MapContainer, Marker, TileLayer, useMap, ZoomControl } from 'react-leaflet';
@@ -44,7 +45,7 @@ export const Map: React.FC<Props> = ({ pos }) => {
    }, [pos]);
 
    return (
-      <MapContainer zoomControl={false}>
+      <MapContainer className={styles.map} zoomControl={false}>
          <ChangeView center={center} zoom={center !== defCenter ? 13 : 5} />
 
          <TileLayer
@@ -53,7 +54,7 @@ export const Map: React.FC<Props> = ({ pos }) => {
          />
 
          <ZoomControl position="topright" />
-         
+
          {allowedGeo && <Marker position={center} icon={userIcon} />}
       </MapContainer>
    );

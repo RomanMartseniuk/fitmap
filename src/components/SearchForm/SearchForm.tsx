@@ -122,7 +122,6 @@ export const SearchForm: React.FC<Props> = ({className}) => {
 
    const [selectedWhere, setSelectedWhere] = useState('');
    const [selectedWhat, setSelectedWhat] = useState('');
-   const [selectedWho, setSelectedWho] = useState<Who>(Who.all);
 
    const [selectedBlock, setSelectedBlock] = useState(-1);
    const [selectedInput, setSelectedInput] = useState(-1);
@@ -160,7 +159,6 @@ export const SearchForm: React.FC<Props> = ({className}) => {
    useEffect(() => {
       let city = searchParams.get('city') || '';
       let category = searchParams.get('category') || '';
-      let who = searchParams.get('who') as Who || Who.all;
 
       if (cities.some(c => c.title.toLowerCase().includes(city))) {
          setSelectedWhere(city);
@@ -172,12 +170,6 @@ export const SearchForm: React.FC<Props> = ({className}) => {
          setSelectedWhat(category);
       } else {
          updateURL('category', '');
-      }
-
-      if (Object.values(Who).includes(who)) {
-         setSelectedWho(who);
-      } else {
-         updateURL('who', '');
       }
 
    }, []);
@@ -320,95 +312,6 @@ export const SearchForm: React.FC<Props> = ({className}) => {
                               </li>
                            ))}
                      </ul>
-                  </div>
-               </div>
-            </div>
-            <div className="searchForm__block" id="2">
-               {selectedWho === Who.all ? (
-                  <div className="searchForm__title">
-                     <h3>Who</h3>
-                     <p>Select your age</p>
-                  </div>
-               ) : (
-                  <div className="searchForm__title">
-                     <h3>{selectedWho}</h3>
-                  </div>
-               )}
-               <div
-                  className={classNames('searchForm__popup popup_searchForm', {
-                     active: selectedBlock === 2,
-                  })}
-               >
-                  <div className="popup_searchForm__content">
-                     <div
-                        className={classNames('popup_searchForm__option', {
-                           popup_searchForm__option_chosen: selectedWho === Who.adult,
-                        })}
-                     >
-                        <div className="">
-                           <h3>Adults</h3>
-                           <p>Ages 18 or above</p>
-                        </div>
-                        <span
-                           onClick={() => {
-                              if (selectedWho !== Who.adult) {
-                                 updateURL('who', Who.adult);
-                                 setSelectedWho(Who.adult);
-                              } else {
-                                 updateURL('who', Who.all);
-                                 setSelectedWho(Who.all);
-                              }
-                           }}
-                        >
-                           <img src={plus_icon} alt="Add/Remove" />
-                        </span>
-                     </div>
-                     <div
-                        className={classNames('popup_searchForm__option', {
-                           popup_searchForm__option_chosen: selectedWho === Who.teen,
-                        })}
-                     >
-                        <div className="">
-                           <h3>Teenagers</h3>
-                           <p>Ages 12 - 17</p>
-                        </div>
-                        <span
-                           onClick={() => {
-                              if (selectedWho !== Who.teen) {
-                                 updateURL('who', Who.teen);
-                                 setSelectedWho(Who.teen);
-                              } else {
-                                 updateURL('who', Who.all);
-                                 setSelectedWho(Who.all);
-                              }
-                           }}
-                        >
-                           <img src={plus_icon} alt="Choose" />
-                        </span>
-                     </div>
-                     <div
-                        className={classNames('popup_searchForm__option', {
-                           popup_searchForm__option_chosen: selectedWho === Who.children,
-                        })}
-                     >
-                        <div className="">
-                           <h3>Chiildren</h3>
-                           <p>Ages 2 - 12</p>
-                        </div>
-                        <span
-                           onClick={() => {
-                              if (selectedWho !== Who.children) {
-                                 updateURL('who', Who.children);
-                                 setSelectedWho(Who.children);
-                              } else {
-                                 updateURL('who', Who.all);
-                                 setSelectedWho(Who.all);
-                              }
-                           }}
-                        >
-                           <img src={plus_icon} alt="Choose" />
-                        </span>
-                     </div>
                   </div>
                </div>
             </div>
