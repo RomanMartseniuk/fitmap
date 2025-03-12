@@ -6,10 +6,7 @@ import '@splidejs/react-splide/css/core';
 
 import styles from './CatSwiper.module.scss';
 
-import getCategories from '../../api/categoriesApi';
-
 import { CatSlide } from '../CatSlide';
-import { Category } from '../../types/Category';
 import classNames from 'classnames';
 import { CategoriesContext } from '../../store/CategoriesContext';
 

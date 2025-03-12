@@ -34,7 +34,10 @@ export const MapPage = () => {
          <SearchForm className={styles.search} />
          <div className={styles.container}>
             <Outlet />
-            <Map pos={city ? city.pos : coords ? [coords.latitude, coords.longitude] : [0, 0]} />
+            <Map
+               userPos={coords && [coords.latitude, coords.longitude]}
+               pos={city ? city.pos : coords ? [coords.latitude, coords.longitude] : [0, 0]}
+            />
          </div>
       </div>
    );
