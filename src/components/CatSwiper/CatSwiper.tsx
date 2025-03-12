@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 // @ts-ignore
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 // @ts-ignore
@@ -11,19 +11,11 @@ import getCategories from '../../api/categoriesApi';
 import { CatSlide } from '../CatSlide';
 import { Category } from '../../types/Category';
 import classNames from 'classnames';
+import { CategoriesContext } from '../../store/CategoriesContext';
 
 export const CatSwiper = () => {
    const splideRef = useRef<Splide>(null);
-   const [categories, setCategories] = useState<Category[]>([]);
-   console.log(categories);
-
-   useEffect(() => {
-      getCategories()
-         .then((res) => res.json())
-         .then((data) => setCategories(data))
-         .catch()
-         .finally();
-   }, []);
+   const { categories } = useContext(CategoriesContext);
 
    return (
       <div className={styles.catSwiper}>

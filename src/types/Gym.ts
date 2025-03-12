@@ -1,11 +1,22 @@
 export interface Gym {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  rate: number;
-  category: string;
-  city: string;
-  pos: [number, number];
-  img_url: string;
+   id: number;
+   title: string;
+   rate?: string;
+   adress: [
+      {
+         str: string;
+         city: string;
+      },
+   ];
+   categories: string[];
+   contacts: [
+      {
+         web?: string;
+         tel?: string;
+         mail?: string;
+      },
+   ];
+   price?: string;
+   pos: [number, number];
+   img_url?: string;
 }

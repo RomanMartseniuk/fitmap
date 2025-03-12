@@ -7,7 +7,8 @@ import { MapContainer, Marker, TileLayer, useMap, ZoomControl } from 'react-leaf
 type Coords = [number, number];
 
 type Props = {
-   pos: Coords;
+   pos?: Coords;
+   isUser?: boolean;
 };
 
 const userIcon = L.icon({
@@ -28,19 +29,16 @@ const ChangeView = ({ center, zoom = 5 }: { center: [number, number]; zoom?: num
    return null;
 };
 
-export const Map: React.FC<Props> = ({ pos }) => {
+export const Map: React.FC<Props> = ({ pos = [0, 0], isUser = false }) => {
    const defCenter: Coords = [49.014294193038175, 31.186705317899435];
-   const [allowedGeo, setAllowedGeo] = useState(false);
 
    const [center, setCenter] = useState<[number, number]>(defCenter);
-
+   console.log(pos);
    useEffect(() => {
-      if (pos[1] !== 0 && pos[0] !== 0) {
+      if (pos[0] !== 0 || pos[1] !== 0) {
          setCenter(pos);
-         setAllowedGeo(true);
       } else {
          setCenter(defCenter);
-         setAllowedGeo(false);
       }
    }, [pos]);
 
@@ -55,7 +53,7 @@ export const Map: React.FC<Props> = ({ pos }) => {
 
          <ZoomControl position="topright" />
 
-         {allowedGeo && <Marker position={center} icon={userIcon} />}
+         {isUser && <Marker position={center} icon={userIcon} />}
       </MapContainer>
    );
 };
