@@ -33,7 +33,6 @@ export const Map: React.FC<Props> = ({ pos = [0, 0], userPos }) => {
    const defCenter: Coords = [49.014294193038175, 31.186705317899435];
 
    const [center, setCenter] = useState<[number, number]>(defCenter);
-   console.log(pos);
    useEffect(() => {
       if (pos[0] !== 0 || pos[1] !== 0) {
          setCenter(pos);

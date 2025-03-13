@@ -20,8 +20,6 @@ export const MapPage = () => {
       setCity(cities.find((c) => c.title.toLowerCase() === city.toLowerCase()) as City | null);
    }, [cities, searchParams]);
 
-   console.log(city);
-
    const { coords } = useGeolocated({
       positionOptions: {
          enableHighAccuracy: true,

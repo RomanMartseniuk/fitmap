@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 
-import './SearchForm.scss';
+import styles from './SearchForm.module.scss';
 
 import { CitiesContext } from '../../store/CitiesContext';
 import { CategoriesContext } from '../../store/CategoriesContext';
@@ -134,8 +134,7 @@ export const SearchForm: React.FC<Props> = ({ className }) => {
    useEffect(() => {
       const handleOnClick = (event: MouseEvent) => {
          const target = event.target as HTMLElement;
-         const block = target.closest('.searchForm__block') as HTMLElement | null;
-
+         const block = target.closest('.sfb_popup') as HTMLElement | null;
          if (!block) {
             setSelectedBlock(-1);
             return;
@@ -185,8 +184,8 @@ export const SearchForm: React.FC<Props> = ({ className }) => {
    );
 
    return (
-      <div className={classNames(className, `searchForm`)}>
-         <div className="searchForm__content">
+      <div className={classNames(className, styles.searchForm)}>
+         <div className={styles.content}>
             <SearchFormBlock
                id={0}
                type="city"
@@ -221,7 +220,7 @@ export const SearchForm: React.FC<Props> = ({ className }) => {
             />
             <Link
                to={{ pathname: '../map/', search: searchParams.toString() }}
-               className="searchForm__button"
+               className={styles.button}
             >
                <img src="/images/other/icons/black-search-icon.svg" alt="Search" />
             </Link>

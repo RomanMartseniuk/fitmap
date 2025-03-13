@@ -44,27 +44,27 @@ export const SearchFormBlock: React.FC<Props2> = ({
    updateURL,
 }) => {
    return (
-      <div className="searchForm__block" id={`${id}`}>
+      <div className={classNames(styles.block, 'sfb_popup')} id={`${id}`}>
          {param === '' ? (
-            <div className="searchForm__title">
+            <div className={styles.title}>
                <h3>{title}</h3>
                <p>{subtitle}</p>
             </div>
          ) : (
-            <div className="searchForm__title">
+            <div className={styles.title}>
                <h3>{param}</h3>
             </div>
          )}
 
          <div
-            className={classNames('searchForm__popup popup_searchForm', {
-               active: selBlock === id,
+            className={classNames(styles.popup, {
+               [styles.popup_active]: selBlock === id,
             })}
          >
-            <div className="popup_searchForm__content">
+            <div className={styles.popup_content}>
                <label
-                  className={classNames('popup_searchForm__label', {
-                     active: selInp === id,
+                  className={classNames(styles.popup_label, {
+                     [styles.popup_label_active]: selInp === id,
                   })}
                >
                   <span>
@@ -84,15 +84,15 @@ export const SearchFormBlock: React.FC<Props2> = ({
                      id={`${id}`}
                   />
                </label>
-               <ul className="popup_searchForm__list">
+               <ul className={styles.popup_list}>
                   {array
                      .filter((item: City | Category) =>
                         item.title.toLowerCase().includes(input.toLowerCase()),
                      )
                      .map((item: City | Category) => (
                         <li
-                           className={classNames('popup_searchForm__item', {
-                              [`popup_searchForm__item-cat`]: type === 'category',
+                           className={classNames(styles.popup_item, {
+                              [styles.popup_item_cat]: type === 'category',
                            })}
                            onClick={() => {
                               setParam(item.title);
