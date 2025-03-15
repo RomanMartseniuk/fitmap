@@ -7,10 +7,11 @@ def get_categories(categories: list) -> list[Category]:
     categories_list = []
     for category in categories:
         here_id = category.get("id")
-        name = category.get("name")
 
-        if here_id and name:
-            categories_list.append(Category(here_id=here_id, name=name))
+        if here_id.startswith("800-8600"):
+            name = category.get("name")
+            if here_id and name:
+                categories_list.append(Category(here_id=here_id, name=name))
 
     return categories_list
 
@@ -60,10 +61,14 @@ def process_sport_places(data: dict):
             category_obj, answer = Category.objects.get_or_create(name=category_.name, here_id=category_.here_id)
             category_list.append(category_obj)
 
+        district = address_data.get("district")
+        if district is None:
+            district = address_data.get("city")
+
         city, created = City.objects.get_or_create(
             county=address_data.get("county"),
             city=address_data.get("city"),
-            district=address_data.get("district"),
+            district=district,
         )
 
         sport_place, created = SportEstablishment.objects.get_or_create(
