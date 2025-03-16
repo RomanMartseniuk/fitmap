@@ -2,109 +2,86 @@
    {
       "id": 0,
       "title": "Kyiv",
-      "pos": [50.4501, 30.5234],
-      "img_url": "/images/cities/kyiv.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 1,
       "title": "Lviv",
-      "pos": [49.8397, 24.0297],
-      "img_url": "/images/cities/lviv.jpg"
-   },
+      "img_url": "/images/cities/lviv.png"
+   }, 
    {
       "id": 2,
       "title": "Odessa",
-      "pos": [46.4825, 30.7233],
-      "img_url": "/images/cities/odessa.jpg"
+      "img_url": "/images/cities/odessa.png"
    },
    {
       "id": 3,
       "title": "Dnipro",
-      "pos": [48.4647, 35.0462],
-      "img_url": "/images/cities/dnipro.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 4,
       "title": "Kharkiv",
-      "pos": [49.9935, 36.2304],
-      "img_url": "/images/cities/kharkiv.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 5,
       "title": "Zaporizhia",
-      "pos": [47.8388, 35.1396],
-      "img_url": "/images/cities/zaporizhia.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 6,
       "title": "Chernihiv",
-      "pos": [51.4982, 31.2893],
-      "img_url": "/images/cities/chernihiv.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 7,
       "title": "Ivano-Frankivsk",
-      "pos": [48.9226, 24.7103],
-      "img_url": "/images/cities/ivano-frankivsk.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 8,
       "title": "Ternopil",
-      "pos": [49.5535, 25.5948],
-      "img_url": "/images/cities/ternopil.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 9,
       "title": "Rivne",
-      "pos": [50.6199, 26.2516],
-      "img_url": "/images/cities/rivne.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 10,
       "title": "Zhytomyr",
-      "pos": [50.2547, 28.6587],
-      "img_url": "/images/cities/zhytomyr.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 11,
       "title": "Chernivtsi",
-      "pos": [48.2915, 25.9403],
-      "img_url": "/images/cities/chernivtsi.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 12,
       "title": "Mykolaiv",
-      "pos": [46.975, 31.9946],
-      "img_url": "/images/cities/mykolaiv.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 13,
       "title": "Kherson",
-      "pos": [46.6354, 32.6169],
-      "img_url": "/images/cities/kherson.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 14,
       "title": "Sumy",
-      "pos": [50.9077, 34.7981],
-      "img_url": "/images/cities/sumy.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 15,
       "title": "Kryvyi Rih",
-      "pos": [47.9105, 33.3918],
-      "img_url": "/images/cities/kryvyi-rih.jpg"
+      "img_url": "/images/cities/kyiv.png"
    },
    {
       "id": 16,
       "title": "Uman",
-      "pos": [48.7484, 30.2219],
-      "img_url": "/images/cities/uman.jpg"
-   },
-   {
-      "id": 17,
-      "title": "Vinnytsia",
-      "pos": [49.2331, 28.4682],
-      "img_url": "/images/cities/vinnytsia.jpg"
+      "img_url": "/images/cities/kyiv.png"
    }
 ]

@@ -8,7 +8,7 @@ export const HomePage = () => {
          <section className="intro">
             <div className="intro__container">
                <h1 className="intro__title">Your personal Sports and Wellness Map</h1>
-               <SearchForm className="searchF" />
+               <SearchForm />
                <CatSwiper />
             </div>
          </section>
