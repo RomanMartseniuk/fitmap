@@ -116,6 +116,7 @@ type Props = {
 };
 
 export const SearchForm: React.FC<Props> = ({ className }) => {
+
    const [searchParams, setSearchParams] = useSearchParams();
 
    const [selectedWhere, setSelectedWhere] = useState('');
@@ -182,6 +183,34 @@ export const SearchForm: React.FC<Props> = ({ className }) => {
       },
       [searchParams],
    );
+
+   const handleSearchClick = async () => {
+    const queryParams = new URLSearchParams({
+        city: selectedWhere,
+        category: selectedWhat,
+        who: selectedWho,
+    }).toString();
+
+    try {
+        const response = await fetch(`/api/gyms-by-city/?${queryParams}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Ошибка: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Результаты поиска:', result);
+        //
+    } catch (error) {
+        console.error('Ошибка при отправке запроса:', error);
+    }
+};
+
 
    return (
       <div className={classNames(className, styles.searchForm)}>

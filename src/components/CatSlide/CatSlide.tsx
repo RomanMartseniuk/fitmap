@@ -14,8 +14,8 @@ export const CatSlide: React.FC<Props> = ({ cat }) => {
    return (
       <SplideSlide>
          <div className={styles.content}>
-            <h3 className={styles.title}>{cat.title}</h3>
-            <img className={styles.img} src={cat.img_url} alt={cat.title} />
+            <h3 className={styles.title}>{cat.name}</h3>
+            <img className={styles.img} alt={cat.name} />
             <div className={styles.buttons}>
                <Link className={styles.btnFirst} to="">
                   See where

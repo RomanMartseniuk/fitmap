@@ -3,4 +3,5 @@ export type City = {
    title: string;
    pos: [number, number];
    img_url: string;
+   city: string;
 };
