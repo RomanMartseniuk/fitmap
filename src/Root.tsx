@@ -9,6 +9,7 @@ import { GymDescr } from './components/GymDescr';
 
 import { CategoriesProvider } from './store/CategoriesContext';
 import { CitiesProvider } from './store/CitiesContext';
+import { AccPage } from './pages/AccPage/AccPage';
 
 export const Root = () => {
    return (
@@ -27,7 +28,7 @@ export const Root = () => {
                      <Route path="log-in" />
                      <Route path="notif" />
                      <Route path="help" />
-                     <Route path="acc" />
+                     <Route path="acc" element={<AccPage />}/>
                      <Route path="saved" />
                   </Route>
                   <Route path="*" element={<h1>404 - Page Not Found</h1>} />

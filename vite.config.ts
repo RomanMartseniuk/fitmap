@@ -6,9 +6,6 @@ export default defineConfig({
    plugins: [react()],
    css: {
       preprocessorOptions: {
-         scss: {
-            additionalData: `@use "/src/App.scss";`,
-         },
       },
    },
 });

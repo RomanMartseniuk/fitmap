@@ -1,9 +1,11 @@
-.mapPage {
+.page {
+   height: 100%;
    overflow: hidden;
    display: flex;
    align-items: center;
-   justify-content: center;
+   padding-top: 90px;
    flex-direction: column;
+   background-color: #55865F;
 }
 
 .search {
