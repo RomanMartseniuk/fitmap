@@ -1,9 +1,14 @@
+import { useLocation } from 'react-router-dom';
 import { CatSwiper } from '../../components/CatSwiper';
 import { SearchForm } from '../../components/SearchForm';
 
 import styles from './HomePage.module.scss';
+import { useEffect, useState } from 'react';
+import { Login } from '../../components/Login';
 
 export const HomePage = () => {
+   const location = useLocation();
+
    return (
       <div className={styles.page}>
          <section className={styles.intro}>
@@ -13,6 +18,8 @@ export const HomePage = () => {
                <CatSwiper />
             </div>
          </section>
+         {location.pathname === '/login' && <Login />}
+         
       </div>
    );
 };

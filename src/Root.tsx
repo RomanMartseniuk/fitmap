@@ -23,15 +23,14 @@ export const Root = () => {
                         <Route index element={<GymList />} />
                         <Route path=":gymId/" element={<GymDescr />}/>
                      </Route>
-                     <Route path="welcome/" />
                      <Route path="sign-up/" />
-                     <Route path="log-in" />
+                     <Route path="login" element={<HomePage />} />
                      <Route path="notif" />
                      <Route path="help" />
                      <Route path="acc" element={<AccPage />}/>
                      <Route path="saved" />
                   </Route>
-                  <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+                  {/* <Route path="*" element={<h1>404 - Page Not Found</h1>} /> */}
                </Routes>
             </Router>
          </CategoriesProvider>
