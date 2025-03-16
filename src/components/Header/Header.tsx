@@ -29,7 +29,7 @@ export const Header = () => {
                         [styles.link_active]: isActive,
                      });
                   }}
-                  to={'/app'}
+                  to={'/map'}
                >
                   Map
                </NavLink>
