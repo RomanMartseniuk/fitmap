@@ -3,7 +3,6 @@ import { CatSwiper } from '../../components/CatSwiper';
 import { SearchForm } from '../../components/SearchForm';
 
 import styles from './HomePage.module.scss';
-import { useEffect, useState } from 'react';
 import { Login } from '../../components/Login';
 
 export const HomePage = () => {

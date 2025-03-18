@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import { UserAPI } from '../../api/userApi';
+//import { UserAPI } from '../../api/userApi';
 import styles from './Login.module.scss';
 import { Loader } from '../Loader';
 import { useState } from 'react';
 
-const data = {
-   email: 'mmm@gmail.com',
-   password: 'mmm123',
-};
+// const data = {
+//    email: 'mmm@gmail.com',
+//    password: 'mmm123',
+// };
 
 enum ValidationError {
    none = '',
@@ -17,19 +17,20 @@ enum ValidationError {
 }
 
 export const Login = () => {
-   const [isLoading, setIsLoading] = useState(false);
+   //const [isLoading, setIsLoading] = useState(false);
+   const [isLoading] = useState(false);
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
 
    const [errorMessage, setErrorMessage] = useState<ValidationError>(ValidationError.none);
 
-   const getUser = () => {
-      UserAPI.login('mmm@gmail.com', 'mmm123')
-         .then((res) => res.json())
-         .then((data) => console.log(data))
-         .catch()
-         .finally();
-   };
+   // const getUser = () => {
+   //    UserAPI.login('mmm@gmail.com', 'mmm123')
+   //       .then((res) => res.json())
+   //       .then((data) => console.log(data))
+   //       .catch()
+   //       .finally();
+   // };
 
    const validateInputs = () => {
       if (email === '' && password === '') {
