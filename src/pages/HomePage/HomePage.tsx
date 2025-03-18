@@ -4,6 +4,7 @@ import { SearchForm } from '../../components/SearchForm';
 
 import styles from './HomePage.module.scss';
 import { Login } from '../../components/Login';
+import { SingUp } from '../../components/SignUp/SingUp';
 
 export const HomePage = () => {
    const location = useLocation();
@@ -18,6 +19,7 @@ export const HomePage = () => {
             </div>
          </section>
          {location.pathname === '/login' && <Login />}
+         {location.pathname === '/sign-up' && <SingUp />}
          
       </div>
    );

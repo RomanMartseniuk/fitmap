@@ -1,56 +1,63 @@
-import { Link } from 'react-router-dom';
-//import { UserAPI } from '../../api/userApi';
-import styles from './Login.module.scss';
-import { Loader } from '../Loader';
 import { useState } from 'react';
-import classNames from 'classnames';
+import styles from './SignUp.module.scss';
+import { Loader } from '../Loader';
+import { Link } from 'react-router-dom';
 import { ValidationError } from '../../types/ValidationError';
+import classNames from 'classnames';
 
-// const data = {
-//    email: 'mmm@gmail.com',
-//    password: 'mmm123',
-// };
-
-
-
-export const Login = () => {
-   //const [isLoading, setIsLoading] = useState(false);
+export const SingUp = () => {
    const [isLoading] = useState(false);
+
+   const [firstName, setFirstName] = useState('');
+   const [lastName, setLastName] = useState('');
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
 
+   const [fNErr, setFNErr] = useState(false);
+   const [lNErr, setLNErr] = useState(false);
    const [emailErr, setEmailErr] = useState(false);
    const [passwordErr, setPasswordErr] = useState(false);
 
    const [errorMessage, setErrorMessage] = useState<ValidationError>(ValidationError.none);
 
-   // const getUser = () => {
-   //    UserAPI.login('mmm@gmail.com', 'mmm123')
-   //       .then((res) => res.json())
-   //       .then((data) => console.log(data))
-   //       .catch()
-   //       .finally();
-   // };
-
    const validateInputs = () => {
-      if (email === '' && password === '') {
-         setErrorMessage(ValidationError.all);
-         setEmailErr(true);
-         setPasswordErr(true);
-      } else if (email === '') {
+      let n = 0;
+
+      if (email.length === 0) {
+         n++;
          setErrorMessage(ValidationError.email);
          setEmailErr(true);
-      } else if (password === '') {
-         setErrorMessage(ValidationError.password);
+      }
+
+      if (password.length === 0) {
+         n++;
+         setErrorMessage(ValidationError.email);
          setPasswordErr(true);
       }
+
+      if (firstName.length === 0) {
+         n++;
+         setErrorMessage(ValidationError.firstName);
+         setFNErr(true);
+      }
+
+      if (lastName.length === 0) {
+         n++;
+         setErrorMessage(ValidationError.lastName);
+         setLNErr(true);
+      }
+
+      if (n > 1) {
+         setErrorMessage(ValidationError.all);
+      }
+
       setTimeout(() => setErrorMessage(ValidationError.none), 2000);
 
       return;
    };
 
    return (
-      <div className={styles.login}>
+      <div className={styles.signup}>
          {errorMessage !== '' && (
             <div className={styles.error}>
                <p>{errorMessage}</p>
@@ -61,11 +68,43 @@ export const Login = () => {
          ) : (
             <form className={styles.form}>
                <div className={styles.title}>
-                  <h1>Log In</h1>
+                  <h1>Sign Up</h1>
                   <Link className={styles.close_btn} to="/">
                      <img src="/images/other/icons/white-close-icon.svg" alt="Close Form" />
                   </Link>
                </div>
+               <h2>First Name</h2>
+               <input
+                  type="text"
+                  placeholder="Enter your first name here..."
+                  value={firstName}
+                  onChange={(e) => {
+                     setFirstName(e.target.value);
+                     if (e.target.value.length > 0) {
+                        setFNErr(false);
+                     }
+                  }}
+                  name=""
+                  id="firstName"
+                  className={classNames({ [styles.empty]: fNErr })}
+                  autoComplete="off"
+               />
+               <h2>Last Name</h2>
+               <input
+                  type="text"
+                  placeholder="Enter your last name here..."
+                  value={lastName}
+                  onChange={(e) => {
+                     setLastName(e.target.value);
+                     if (e.target.value.length > 0) {
+                        setLNErr(false);
+                     }
+                  }}
+                  name=""
+                  id="lastName"
+                  className={classNames({ [styles.empty]: lNErr })}
+                  autoComplete="off"
+               />
                <h2>Email Adress</h2>
                <input
                   type="email"
@@ -109,8 +148,8 @@ export const Login = () => {
                <div className={styles.br}>
                   <p>or</p>
                </div>
-               <p className={styles.reg}>
-                  If you don't have an account, just <Link to="/sign-up">register here!</Link>
+               <p className={styles.log}>
+                  If you already have an account, just <Link to="/login">log in here!</Link>
                </p>
             </form>
          )}
