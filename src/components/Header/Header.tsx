@@ -55,7 +55,7 @@ export const Header = () => {
             >
                {!logedIn ? (
                   <div className={styles.menu_notLogedIn}>
-                     <NavLink to="/log-in">Log in</NavLink>
+                     <NavLink to="/login">Log in</NavLink>
                      <NavLink to="/sign-up">Sign up</NavLink>
                      <NavLink to="/help">Help Centre</NavLink>
                   </div>
