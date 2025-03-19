@@ -47,7 +47,7 @@ class User(AbstractUser):
     last_name = models.CharField(_("last name"), max_length=50)
     phone = models.CharField(_("phone number (optional)"), max_length=12, null=True, blank=True)
     address = models.CharField(_("your address (optional)"), null=True, blank=True)
-    age = models.IntegerField(null=True, blank=True)
+    age = models.PositiveIntegerField(_("age (optional)"), null=True, blank=True)
     gender = models.CharField(
         max_length=65, null=True, choices=(("M", "Male"), ("F", "Female"))
     )
