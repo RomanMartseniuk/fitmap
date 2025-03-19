@@ -26,7 +26,8 @@ class Category(models.Model):
 class City(models.Model):
     county = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
-    district = models.CharField(max_length=100)
+    district = models.CharField(max_length=100, null=True, blank=True)
+    central_point = models.PointField(geography=True, srid=4326, null=True, blank=True)
 
 
 class BlackListedArea(models.Model):
