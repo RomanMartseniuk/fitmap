@@ -43,12 +43,16 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     username = None
     email = models.EmailField(_("email address"), unique=True)
-    age = models.CharField(max_length=50)
+    first_name = models.CharField(_("first name"),max_length=50)
+    last_name = models.CharField(_("last name"), max_length=50)
+    phone = models.CharField(_("phone number (optional)"), max_length=12, null=True, blank=True)
+    address = models.CharField(_("your address (optional)"), null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True)
     gender = models.CharField(
         max_length=65, null=True, choices=(("M", "Male"), ("F", "Female"))
     )
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     objects = UserManager()
