@@ -99,8 +99,10 @@ def write_cities_to_db():
 
         existing_cities = set(City.objects.values_list('city', flat=True))
 
+        print(f"existing cities {existing_cities}")
         cities_to_add = [city for city in titles if city not in existing_cities]
 
+        print(f"cities to add {cities_to_add}")
         if not cities_to_add:
             print("All cities already exist in the database.")
             return
@@ -108,7 +110,9 @@ def write_cities_to_db():
         for city in cities_to_add:
             params = {
                 "q": city,
-                "apiKey": os.getenv("HERE_API_KEY")
+                "apiKey": os.getenv("HERE_API_KEY"),
+                "in": "countryCode:UKR",
+                "lang": "en"
             }
             request = requests.get("https://geocode.search.hereapi.com/v1/geocode", params=params)
             request.raise_for_status()
@@ -119,7 +123,12 @@ def write_cities_to_db():
                 address_data = data.get("address")
                 city = address_data.get("city")
                 county = address_data.get("county")
-
+                district = address_data.get("district", None)
+                if "raion" in city and district is not None:
+                    city = district
+                print(
+                    f"City: {city}, County: {county}"
+                )
                 point = data.get("position")
                 la = point.get("lat")
                 lo = point.get("lng")
@@ -128,3 +137,4 @@ def write_cities_to_db():
                     county=county,
                     central_point=Point(lo, la)
                 )
+            print("cities were added")
