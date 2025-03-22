@@ -1,3 +1,7 @@
+import json
+import os
+
+import requests
 from django.contrib.gis.geos import Point
 
 from app.models import Category, SportEstablishment, City
@@ -87,3 +91,50 @@ def process_sport_places(data: dict):
 
         if categories:
             sport_place.categories.set(category_list)
+
+def write_cities_to_db():
+    with open("public/api/cities.json", "r") as file:
+        data = json.loads(file.read())
+        titles = [i.get('title') for i in data]
+
+        existing_cities = set(City.objects.values_list('city', flat=True))
+
+        print(f"existing cities {existing_cities}")
+        cities_to_add = [city for city in titles if city not in existing_cities]
+
+        print(f"cities to add {cities_to_add}")
+        if not cities_to_add:
+            print("All cities already exist in the database.")
+            return
+
+        for city in cities_to_add:
+            params = {
+                "q": city,
+                "apiKey": os.getenv("HERE_API_KEY"),
+                "in": "countryCode:UKR",
+                "lang": "en"
+            }
+            request = requests.get("https://geocode.search.hereapi.com/v1/geocode", params=params)
+            request.raise_for_status()
+
+            data = request.json()
+            data_items = data.get("items")
+            for data in data_items:
+                address_data = data.get("address")
+                city = address_data.get("city")
+                county = address_data.get("county")
+                district = address_data.get("district", None)
+                if "raion" in city and district is not None:
+                    city = district
+                print(
+                    f"City: {city}, County: {county}"
+                )
+                point = data.get("position")
+                la = point.get("lat")
+                lo = point.get("lng")
+                City.objects.get_or_create(
+                    city=city,
+                    county=county,
+                    central_point=Point(lo, la)
+                )
+            print("cities were added")
