@@ -1,12 +1,20 @@
-import { useState } from 'react';
-import styles from './SignUp.module.scss';
-import { Loader } from '../Loader';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ValidationError } from '../../types/ValidationError';
 import classNames from 'classnames';
 
+import styles from './SignUp.module.scss';
+
+import { Loader } from '../Loader';
+
+import { ValidationError } from '../../types/Errors';
+
+import { register, user as userAPI } from '../../api/userApi';
+import { UserContext } from '../../store/UserContext';
+
 export const SingUp = () => {
-   const [isLoading] = useState(false);
+   const { setTokens } = useContext(UserContext);
+
+   const [isLoading, setIsLoading] = useState(false);
 
    const [firstName, setFirstName] = useState('');
    const [lastName, setLastName] = useState('');
@@ -18,42 +26,65 @@ export const SingUp = () => {
    const [emailErr, setEmailErr] = useState(false);
    const [passwordErr, setPasswordErr] = useState(false);
 
-   const [errorMessage, setErrorMessage] = useState<ValidationError>(ValidationError.none);
+   const [errorMessage, setErrorMessage] = useState<ValidationError | string>(ValidationError.none);
 
    const validateInputs = () => {
-      let n = 0;
+      const errors = {
+         email: false,
+         password: false,
+         firstName: false,
+         lastName: false,
+      };
+      let errorMessage = ValidationError.none;
 
-      if (email.length === 0) {
-         n++;
-         setErrorMessage(ValidationError.email);
-         setEmailErr(true);
+      if (!email) {
+         errors.email = true;
+         errorMessage = ValidationError.email;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+         errors.email = true;
+         errorMessage = ValidationError.email;
       }
 
-      if (password.length === 0) {
-         n++;
-         setErrorMessage(ValidationError.email);
-         setPasswordErr(true);
+      if (!password) {
+         errors.password = true;
+         errorMessage = ValidationError.password;
+      } else if (password.length < 5) {
+         errors.password = true;
+         errorMessage = ValidationError.passwordLength;
       }
 
-      if (firstName.length === 0) {
-         n++;
-         setErrorMessage(ValidationError.firstName);
-         setFNErr(true);
+      if (!firstName) {
+         errors.firstName = true;
+         errorMessage = ValidationError.firstName;
       }
 
-      if (lastName.length === 0) {
-         n++;
-         setErrorMessage(ValidationError.lastName);
-         setLNErr(true);
+      if (!lastName) {
+         errors.lastName = true;
+         errorMessage = ValidationError.lastName;
       }
 
-      if (n > 1) {
-         setErrorMessage(ValidationError.all);
+      const hasErrors = Object.values(errors).some(Boolean);
+      if (hasErrors) {
+         if (Object.values(errors).filter(Boolean).length > 1) {
+            errorMessage = ValidationError.all;
+         }
+
+         setErrorMessage(errorMessage);
+         setEmailErr(errors.email);
+         setPasswordErr(errors.password);
+         setFNErr(errors.firstName);
+         setLNErr(errors.lastName);
+
+         setTimeout(() => setErrorMessage(ValidationError.none), 2000);
+         return false;
       }
 
+      return true;
+   };
+
+   const handleError = (arg: string = '') => {
+      setErrorMessage(arg);
       setTimeout(() => setErrorMessage(ValidationError.none), 2000);
-
-      return;
    };
 
    return (
@@ -140,6 +171,16 @@ export const SingUp = () => {
                   onClick={(e) => {
                      e.preventDefault();
                      validateInputs();
+                     register(
+                        setIsLoading,
+                        validateInputs(),
+                        firstName,
+                        lastName,
+                        email,
+                        password,
+                        setTokens,
+                        handleError,
+                     );
                   }}
                   className={styles.send_btn}
                >

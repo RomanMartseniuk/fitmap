@@ -10,72 +10,87 @@ type User = {
    phone: string | null;
 };
 
-export const UserContext = createContext<User | null>(null);
+type UserContextType = {
+   user: User | null;
+   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+   setTokens: (access: string, refresh: string) => void;
+   logout: () => void;
+};
+
+export const UserContext = createContext<UserContextType>({
+   user: null,
+   setUser: () => {},
+   setTokens: () => {},
+   logout: () => {},
+});
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-   const [accessToken, setAccessToken] = useState<string | null>(null);
-   const [refreshToken, setRefreshToken] = useState<string | null>(null);
+   const [accessToken, setAccessToken] = useState<string | null>(
+      localStorage.getItem('accessToken'),
+   );
+   const [refreshToken, setRefreshToken] = useState<string | null>(
+      localStorage.getItem('refreshToken'),
+   );
+   const [user, setUser] = useState<User | null>(null);
 
-   //const [user, setUser] = useState<any>(null);
+   // 🔄 Оновлення токенів після логіну
+   const setTokens = (access: string, refresh: string) => {
+      setAccessToken(access);
+      setRefreshToken(refresh);
+      localStorage.setItem('accessToken', access);
+      localStorage.setItem('refreshToken', refresh);
+   };
 
-   const updateAccessToken = () => {
-      if (refreshToken) {
-         userAPI
-            .tokenRefresh(refreshToken)
-            .then((res) => res.json())
-            .then((data) => {
-               setAccessToken(data.access);
-               localStorage.setItem('accessToken', data.access);
-            })
-            .catch()
-            .finally();
+   // 🚪 Логаут
+   const logout = () => {
+      setAccessToken(null);
+      setRefreshToken(null);
+      setUser(null);
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+   };
+
+   // 🔄 Оновлення accessToken
+   const updateAccessToken = async () => {
+      if (!refreshToken) return logout();
+
+      try {
+         const res = await userAPI.tokenRefresh(refreshToken);
+         if (!res.ok) throw new Error('401');
+
+         const data = await res.json();
+         setAccessToken(data.access);
+         localStorage.setItem('accessToken', data.access);
+      } catch {
+         logout();
       }
    };
 
-   useEffect(() => {
-      const accessToken = localStorage.getItem('accessToken');
-      const refreshToken = localStorage.getItem('refreshToken');
-
-
-      if (refreshToken) {
-         setRefreshToken(refreshToken);
-         if (accessToken !== null) {
-            userAPI.tokenVerify(accessToken).then(res => {
-               if (res.status === 401) {
-                  updateAccessToken();
-                  throw new Error('401');
-               }
-
-               setAccessToken(accessToken);
-            });
-         } else {
-            updateAccessToken();
+   // 🏠 Зчитування юзера
+   const fetchUserData = async (token: string) => {
+      try {
+         const res = await userAPI.data(token);
+         if (res.status === 401) {
+            await updateAccessToken();
+            return;
          }
-
+         const data = await res.json();
+         setUser(data);
+      } catch {
+         logout();
       }
-   }, []);
+   };
 
+   // 🛠 Слухаємо зміну токенів та отримуємо юзера
    useEffect(() => {
-      if (accessToken !== null) {
-         userAPI
-            .data(accessToken)
-            .then((res) => {
-               if (res.status === 401) {
-                  throw new Error('401');
-               }
-
-               return res.json();
-            })
-            .then((data) => console.log(data))
-            .catch((err) => {
-               console.log(err);
-               if (err.message === '401') {
-                  updateAccessToken();
-               }
-            })
-            .finally();
+      if (accessToken) {
+         fetchUserData(accessToken);
       }
    }, [accessToken]);
 
-   return <UserContext.Provider value={null}>{children}</UserContext.Provider>;
+   return (
+      <UserContext.Provider value={{ user, setUser, setTokens, logout }}>
+         {children}
+      </UserContext.Provider>
+   );
 };

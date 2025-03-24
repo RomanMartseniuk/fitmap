@@ -1,26 +1,25 @@
 import { Link } from 'react-router-dom';
-//import { UserAPI } from '../../api/userApi';
-import styles from './Login.module.scss';
-import { Loader } from '../Loader';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import classNames from 'classnames';
-import { ValidationError } from '../../types/ValidationError';
-import { user } from '../../api/userApi';
+
+import styles from './Login.module.scss';
+
+import { Loader } from '../Loader';
+import { LoginError, ValidationError } from '../../types/Errors';
+
+import { login } from '../../api/userApi';
+import { UserContext } from '../../store/UserContext';
 
 // const data = {
 //    email: 'mmm@gmail.com',
 //    password: 'mmm123',
 // };
 
-enum LoginError {
-   none = '',
-   Err401 = 'Invalid email or password',
-   Err500 = 'Server error',
-}
-
 export const Login = () => {
+   const { setTokens } = useContext(UserContext);
+
    //const [isLoading, setIsLoading] = useState(false);
-   const [isLoading] = useState(false);
+   const [isLoading, setIsLoading] = useState(false);
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
 
@@ -30,15 +29,7 @@ export const Login = () => {
    const [errorMessage, setErrorMessage] = useState<ValidationError | LoginError>(
       ValidationError.none,
    );
-
-   // const getUser = () => {
-   //    UserAPI.login('mmm@gmail.com', 'mmm123')
-   //       .then((res) => res.json())
-   //       .then((data) => console.log(data))
-   //       .catch()
-   //       .finally();
-   // };
-
+   
    const validateInputs = () => {
       let err = 0;
       if (email === '' && password === '') {
@@ -57,33 +48,7 @@ export const Login = () => {
       }
       setTimeout(() => setErrorMessage(ValidationError.none), 2000);
 
-      return err===0;
-   };
-
-   const login = () => {
-      if (!validateInputs()) return;
-
-      user
-         .login(email, password)
-         .then((res) => {
-            if (res.status === 200) {
-               return res.json();
-            } else if (res.status === 401) {
-               throw new Error('401');
-            }
-         })
-         .then((data) => {
-            localStorage.setItem('accessToken', data.access);
-            localStorage.setItem('refreshToken', data.refresh);
-         })
-         .catch((err) => {
-            if (err.message === '401') {
-               setErrorMessage(LoginError.Err401);
-            } else if (err.message === '500') {
-               setErrorMessage(LoginError.Err500);
-            }
-         })
-         .finally();
+      return err === 0;
    };
 
    return (
@@ -138,7 +103,7 @@ export const Login = () => {
                   onClick={(e) => {
                      e.preventDefault();
                      validateInputs();
-                     login();
+                     login(setIsLoading, validateInputs(), email, password, setTokens);
                   }}
                   className={styles.send_btn}
                >
