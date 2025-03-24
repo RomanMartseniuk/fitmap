@@ -1,4 +1,3 @@
-import { ValidationError } from '../types/Errors';
 import { client } from '../utils/fetchClient';
 
 export const user = {

@@ -8,7 +8,7 @@ import { Loader } from '../Loader';
 
 import { ValidationError } from '../../types/Errors';
 
-import { register, user as userAPI } from '../../api/userApi';
+import { register } from '../../api/userApi';
 import { UserContext } from '../../store/UserContext';
 
 export const SingUp = () => {
