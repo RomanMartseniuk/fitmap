@@ -4,9 +4,10 @@ import { Map } from '../../components/Map';
 import { SearchForm } from '../../components/SearchForm';
 import { useGeolocated } from 'react-geolocated';
 import { Outlet, useSearchParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { CitiesContext } from '../../store/CitiesContext';
 import { City } from '../../types/City';
+import { gyms } from '../../api/gyms';
 
 export const MapPage = () => {
    const [searchParams] = useSearchParams();
@@ -15,10 +16,15 @@ export const MapPage = () => {
    const [city, setCity] = useState<City | null>(null);
 
    useEffect(() => {
-      const city = searchParams.get('city') || '';
+      const cityName = searchParams.get('city');
+      if (!cityName) {
+         setCity(null);
+         return;
+      }
 
-      setCity(cities.find((c) => c.title.toLowerCase() === city.toLowerCase()) as City | null);
-   }, [cities, searchParams]);
+      const foundCity = cities.find((c) => c.title.toLowerCase() === cityName.toLowerCase());
+      setCity(foundCity || null);
+   }, [searchParams, cities]);
 
    const { coords } = useGeolocated({
       positionOptions: {
@@ -26,6 +32,27 @@ export const MapPage = () => {
       },
       userDecisionTimeout: 5000,
    });
+
+   const getGyms = useCallback(async () => {
+      if (!coords) return;
+
+      try {
+         const res = await gyms.getGymsNear({ lat: coords.latitude, lon: coords.longitude });
+
+         if (!res.ok) {
+            throw new Error(`HTTP Error: ${res.status}`);
+         }
+
+         const data = await res.json();
+         console.log(data);
+      } catch (err) {
+         console.error('Failed to fetch gyms:', err);
+      }
+   }, [coords]);
+
+   useEffect(() => {
+      getGyms();
+   }, [coords, city]);
 
    return (
       <div className={styles.page}>
