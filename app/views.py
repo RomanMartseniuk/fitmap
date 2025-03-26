@@ -1,5 +1,6 @@
 from django.contrib.gis.geos import Point
 from django.db.models import Q
+from rest_framework import generics
 
 from rest_framework import viewsets, views, status
 from rest_framework.response import Response
@@ -21,16 +22,13 @@ class FitnessEstablishmentViewSet(viewsets.ModelViewSet):
     queryset = SportEstablishment.objects.all()
 
 
-class SportCategories(views.APIView):
-    def get(self, request):
-        """Receiving all categories from db"""
+class CategoriesListView(generics.ListAPIView):
         queryset = Category.objects.all()
-        serializer = CategorySerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer = CategorySerializer
 
-class GymsByCityView(views.APIView):
-    def get(self, request):
-        """Receiving all cities from db"""
+class GymsListView(generics.ListAPIView):
+        queryset = City.objects.filter(searchable_by_city=True)
+        serializer_class = CitySerializer
 
         queryset = City.objects.all()
         serializer = CitySerializer(queryset, many=True)
