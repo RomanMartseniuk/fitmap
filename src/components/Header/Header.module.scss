@@ -15,7 +15,6 @@
 .logo {
    display: inline-block;
    padding: 5px;
-   background-color: #f5f5f5;
 }
 
 .nav {
@@ -33,22 +32,28 @@
    line-height: 30px;
    background-color: #f5f5f5;
    border-radius: 30px;
+   border: 1px solid transparent;
    text-decoration: none;
    color: #000;
    transition: all 0.3s ease 0s;
    font-weight: 500;
-   box-shadow: 0px 4px 4px 0px #00000040;
    outline: none;
+
+   &:hover {
+      transform: translateY(3px);
+   }
 
    &:hover,
    &:focus {
-      color: #000;
-      filter: invert(1);
+      background-color: transparent;
+      border: 1px solid #fff;
+      color: #fff;
    }
 
    &_active {
-      color: #000;
-      filter: invert(1);
+      background-color: transparent;
+      border: 1px solid #fff;
+      color: #fff;
    }
 }
 
@@ -75,55 +80,99 @@
    }
 }
 
-.menu {
-      position: absolute;
-      right: 20px;
-      top: 60px;
-      width: 200px;
-      background: #f5f5f5;
-      box-shadow: 0px 4px 15.9px 0px #00000040;
-      border-radius: 28px;
+.menu_btn {
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   border: 1px solid #fff;
+   padding: 4px 8px;
+   border-radius: 24px;
+   transition: all 0.3s ease 0s;
 
-      div {
-         display: flex;
-         flex-direction: column;
-         padding: 12px 32px 9px 24px;
+   .menu_img {
+      transition: all 0.3s ease 0s;
+   }
 
-         a {
-            box-sizing: border-box;
-            color: #000;
-            font-weight: 600;
-            font-size: 14px;
-            display: inline-block;
-            line-height: 30px;
-            width: 140px;
-            text-decoration: none;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease 0s;
+   span {
+      background-color: #C4C4C4;
+      font-family: Public Sans;
+      border-radius: 100%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      color: #fff;
+   }
+   
+   .acc_img {
+      background-color: #C4C4C4;
+      border-radius: 100%;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   }
 
-            &:hover {
-               border-bottom: 2px solid #000;
-            }
-         }
-      }
-
-      &_notLogedIn {
-         a {
-            &:nth-child(2) {
-               border-bottom: 2px solid #e0dfdf;
-            }
-         }
-      }
-
-      &_logedIn {
-         a {
-            &:nth-child(1) {
-               border-bottom: 2px solid #e0dfdf;
-            }
-         }
-      }
-
-      &_hidden {
-         display: none;
+   &:hover, &:focus {
+      background-color: #fff;
+      .menu_img {
+         filter: invert(.8);
       }
    }
+}
+
+.menu {
+   position: absolute;
+   right: 20px;
+   top: 60px;
+   width: 200px;
+   background: #f5f5f5;
+   box-shadow: 0px 4px 15.9px 0px #00000040;
+   border-radius: 28px;
+
+   div {
+      display: flex;
+      flex-direction: column;
+      padding: 12px 32px 9px 24px;
+
+      a {
+         box-sizing: border-box;
+         color: #000;
+         font-weight: 600;
+         font-size: 14px;
+         display: inline-block;
+         line-height: 30px;
+         width: 140px;
+         text-decoration: none;
+         border-bottom: 2px solid transparent;
+         transition: all 0.3s ease 0s;
+
+         &:hover {
+            border-bottom: 2px solid #000;
+         }
+      }
+   }
+
+   &_notLogedIn {
+      a {
+         &:nth-child(2) {
+            border-bottom: 2px solid #e0dfdf;
+         }
+      }
+   }
+
+   &_logedIn {
+      a {
+         &:nth-child(1) {
+            border-bottom: 2px solid #e0dfdf;
+         }
+      }
+   }
+
+   &_hidden {
+      display: none;
+   }
+}
