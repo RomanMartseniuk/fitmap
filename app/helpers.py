@@ -65,14 +65,9 @@ def process_sport_places(data: dict):
             category_obj, answer = Category.objects.get_or_create(name=category_.name, here_id=category_.here_id)
             category_list.append(category_obj)
 
-        district = address_data.get("district")
-        if district is None:
-            district = address_data.get("city")
-
         city, created = City.objects.get_or_create(
             county=address_data.get("county"),
-            city=address_data.get("city"),
-            district=district,
+            city=address_data.get("city")
         )
 
         sport_place, created = SportEstablishment.objects.get_or_create(
@@ -86,11 +81,13 @@ def process_sport_places(data: dict):
             site=", ".join(sites),
             street=address_data.get("street"),
             house_number=address_data.get("houseNumber"),
+            district=address_data.get("district")
 
         )
 
         if categories:
             sport_place.categories.set(category_list)
+
 
 def write_cities_to_db():
     with open("public/api/cities.json", "r") as file:
