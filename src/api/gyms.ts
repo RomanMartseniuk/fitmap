@@ -1,3 +1,8 @@
-const GetGymsNear = (pos: [number, number], radius=15000) => fetch(`/api/gyms/?at=${pos[0]},${pos[1]}&r=${radius}`);
+import { client } from '../utils/fetchClient';
 
-export { GetGymsNear };
+export const gyms = {
+   getGymsNear: ({ lat, lon }: { lat: number; lon: number }) => {
+      return client.get(`/gyms/?at${lat},${lon}`);
+   },
+   getGymsByCity: () => {},
+};
