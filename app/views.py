@@ -10,8 +10,8 @@ from fitmap.settings import DEFAULT_RADIUS, BLACKLIST_RADIUS_SEARCH
 from app.helpers import process_sport_places
 import requests
 from app.models import SportEstablishment, City, BlackListedArea, Category
-from app.serializers import FitnessEstablishmentSerializer, GymsByCityRetrieveSerializer, GymsNearbySerializer, \
-    CitySerializer, CategorySerializer
+from app.serializers import (FitnessEstablishmentSerializer, GymsByCityRetrieveSerializer, GymsNearbySerializer,
+    CitySerializer, CategorySerializer)
 from permissions import IsAdminOrIfAuthenticatedReadOnly
 
 HERE_API_KEY = settings.HERE_API_KEY
@@ -30,22 +30,18 @@ class SearchableCityListView(generics.ListAPIView):
         queryset = City.objects.filter(searchable_by_city=True)
         serializer_class = CitySerializer
 
-        queryset = City.objects.all()
-        serializer = CitySerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request):
-        """Filter by city and category sports establishments"""
-        sport_places = SportEstablishment.objects.select_related("city")
-        city = request.query_params.get("city")
-        category = request.query_params.get("category")
-        matching_city = sport_places.filter(Q(city__city__iexact=city) | Q(city__district__iexact=city))
-        matching_sport_places = matching_city.filter(categories__name__iexact=category)
-        if not matching_city:
-            return Response({"details": "City not found"}, status=status.HTTP_404_NOT_FOUND)
+class SportPlaceByCityAndCategoryView(generics.ListAPIView):
+        serializer_class = GymsByCityRetrieveSerializer
 
-        serializer = GymsByCityRetrieveSerializer(matching_sport_places, many=True)
-        return Response(serializer.data)
+        def get_queryset(self):
+            queryset = City.objects.all().filter(searchable_by_city=True).select_related("sportestablishments")
+            city = self.request.query_params.get("city")
+            category = self.request.query_params.get("category")
+            sport_places = queryset.filter(Q(city__city__iexact=city) & Q(categories__name__iexact=category))
+            if not sport_places:
+                return Response({"details": "City not found"}, status=status.HTTP_404_NOT_FOUND)
+
 
 
 class GymsNearbyUser(views.APIView):
@@ -117,6 +113,7 @@ class GymsNearbyUser(views.APIView):
             "in": f"circle:{at};r={radius}",
             "apiKey": HERE_API_KEY,
             "limit": "100",
+            "lang": "en"
         }
         response = requests.get("https://browse.search.hereapi.com/v1/browse", params=params)
         response.raise_for_status()
