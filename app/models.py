@@ -16,7 +16,7 @@ class SportEstablishment(models.Model):
     email = models.EmailField(max_length=100, null=True, blank=True)
     street = models.CharField(max_length=100, blank=True, null=True)
     house_number = models.CharField(max_length=20, blank=True, null=True)
-
+    district = models.CharField(max_length=100, null=True, blank=True)
 
 class Category(models.Model):
     here_id = models.CharField(max_length=255)
@@ -26,9 +26,8 @@ class Category(models.Model):
 class City(models.Model):
     county = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
-    district = models.CharField(max_length=100, null=True, blank=True)
     central_point = models.PointField(geography=True, srid=4326, null=True, blank=True)
-
+    searchable_by_city = models.BooleanField(default=False)
 
 class BlackListedArea(models.Model):
     coordinates = models.PointField(geography=True, srid=4326)
