@@ -35,12 +35,19 @@ class SportPlaceByCityAndCategoryView(generics.ListAPIView):
         serializer_class = GymsByCityRetrieveSerializer
 
         def get_queryset(self):
-            queryset = City.objects.all().filter(searchable_by_city=True).select_related("sportestablishments")
-            city = self.request.query_params.get("city")
-            category = self.request.query_params.get("category")
-            sport_places = queryset.filter(Q(city__city__iexact=city) & Q(categories__name__iexact=category))
-            if not sport_places:
-                return Response({"details": "City not found"}, status=status.HTTP_404_NOT_FOUND)
+            city_name = self.request.query_params.get("city")
+            category_name = self.request.query_params.get("category")
+
+            sport_places = SportEstablishment.objects.select_related("city").filter(
+                city__searchable_by_city=True,
+                city__city__iexact=city_name,
+                categories__name__iexact=category_name
+            )
+
+            if not sport_places.exists():
+                raise Http404("No sport places found for the given city and category.")
+
+            return sport_places
 
 
 
