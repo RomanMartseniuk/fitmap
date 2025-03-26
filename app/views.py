@@ -26,7 +26,7 @@ class CategoriesListView(generics.ListAPIView):
         queryset = Category.objects.all()
         serializer = CategorySerializer
 
-class GymsListView(generics.ListAPIView):
+class SearchableCityListView(generics.ListAPIView):
         queryset = City.objects.filter(searchable_by_city=True)
         serializer_class = CitySerializer
 
