@@ -129,9 +129,16 @@ def write_cities_to_db():
                 point = data.get("position")
                 la = point.get("lat")
                 lo = point.get("lng")
-                City.objects.get_or_create(
+                city, created = City.objects.get_or_create(
                     city=city,
                     county=county,
-                    central_point=Point(lo, la)
+                    defaults={
+                        "central_point": Point(lo, la),
+                        "searchable_by_city": True
+                    }
                 )
+
+                if not created:
+                    city.searchable_by_city = True
+                    city.save()
             print("cities were added")
