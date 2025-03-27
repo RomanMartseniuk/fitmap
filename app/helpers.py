@@ -61,9 +61,15 @@ def process_sport_places(data: dict):
             category_obj, answer = Category.objects.get_or_create(name=category_.name, here_id=category_.here_id)
             category_list.append(category_obj)
 
+        city_name = address_data.get("city")
+        county_name = address_data.get("county")
+
+        if "raion" in city_name and "raion" not in county_name:
+            city_name = county_name
+
         city, created = City.objects.get_or_create(
-            county=address_data.get("county"),
-            city=address_data.get("city")
+            county=county_name,
+            city=city_name
         )
 
         sport_place, created = SportEstablishment.objects.get_or_create(
