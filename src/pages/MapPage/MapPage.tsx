@@ -28,7 +28,7 @@ export const MapPage = () => {
    });
 
    return (
-      <div className={styles.mapPage}>
+      <div className={styles.page}>
          <SearchForm className={styles.search} />
          <div className={styles.container}>
             <Outlet />

@@ -1,4 +1,11 @@
-.intro__container {
+.page {
+   padding-top: 80px;
+   display: flex;
+   min-height: 100vh;
+   flex-direction: column;
+}
+
+.container {
    padding-top: 18px;
    display: flex;
    flex-direction: column;
@@ -7,7 +14,7 @@
    gap: 40px;
 }
 
-.intro__title {
+.title {
    font-family: Public Sans;
    font-weight: 700;
    font-size: 40px;

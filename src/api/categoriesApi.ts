@@ -1,2 +1,2 @@
-const getCategories = () => fetch('/api/categories.json');
+const getCategories = () => fetch('/json/categories.json');
 export default getCategories;
