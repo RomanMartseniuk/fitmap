@@ -45,7 +45,7 @@ class SportPlaceByCityAndCategoryView(generics.ListAPIView):
             )
 
             if not sport_places.exists():
-                raise Http404("No sport places found for the given city and category.")
+                return Response({"detail":"No sport places found for the given city and category."}, status=status.HTTP_404_NOT_FOUND)
 
             return sport_places
 
