@@ -7,13 +7,15 @@ import { Outlet, useSearchParams } from 'react-router-dom';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { CitiesContext } from '../../store/CitiesContext';
 import { City } from '../../types/City';
-import { gyms } from '../../api/gyms';
+import { gyms as gymsAPI } from '../../api/gyms';
 
 export const MapPage = () => {
    const [searchParams] = useSearchParams();
    const { cities } = useContext(CitiesContext);
 
    const [city, setCity] = useState<City | null>(null);
+   const [gyms, setGyms] = useState<any[]>([]); // Replace 'any' with your actual gym type
+   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
    useEffect(() => {
       const cityName = searchParams.get('city');
@@ -37,16 +39,18 @@ export const MapPage = () => {
       if (!coords) return;
 
       try {
-         const res = await gyms.getGymsNear({ lat: coords.latitude, lon: coords.longitude });
+         const res = await gymsAPI.getGymsNear({ lat: coords.latitude, lon: coords.longitude });
 
          if (!res.ok) {
             throw new Error(`HTTP Error: ${res.status}`);
          }
 
          const data = await res.json();
+         setGyms(data);
          console.log(data);
       } catch (err) {
          console.error('Failed to fetch gyms:', err);
+         setErrorMessage('Something went wrong. Please try again later.');
       }
    }, [coords]);
 
@@ -62,6 +66,7 @@ export const MapPage = () => {
             <Map
                userPos={coords && [coords.latitude, coords.longitude]}
                pos={city ? city.pos : coords ? [coords.latitude, coords.longitude] : [0, 0]}
+               gyms={gyms}
             />
          </div>
       </div>

@@ -9,6 +9,7 @@ type Coords = [number, number];
 type Props = {
    pos?: Coords;
    userPos?: Coords;
+   gyms?: any;
 };
 
 const userIcon = L.icon({
@@ -29,7 +30,7 @@ const ChangeView = ({ center, zoom = 5 }: { center: [number, number]; zoom?: num
    return null;
 };
 
-export const Map: React.FC<Props> = ({ pos = [0, 0], userPos }) => {
+export const Map: React.FC<Props> = ({ pos = [0, 0], userPos, gyms = [] }) => {
    const defCenter: Coords = [49.014294193038175, 31.186705317899435];
 
    const [center, setCenter] = useState<[number, number]>(defCenter);
@@ -53,6 +54,7 @@ export const Map: React.FC<Props> = ({ pos = [0, 0], userPos }) => {
          <ZoomControl position="topright" />
 
          {userPos && <Marker position={userPos} icon={userIcon} />}
+         {/* {gyms.length > 0 && gyms.map((gym) => {<Marker position={gym.} icon={userIcon} />;})} */}
       </MapContainer>
    );
 };
