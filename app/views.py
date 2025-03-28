@@ -23,8 +23,9 @@ class FitnessEstablishmentViewSet(viewsets.ModelViewSet):
 
 
 class CategoriesListView(generics.ListAPIView):
-        queryset = Category.objects.all()
-        serializer = CategorySerializer
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
 
 class SearchableCityListView(generics.ListAPIView):
         queryset = City.objects.filter(searchable_by_city=True)
