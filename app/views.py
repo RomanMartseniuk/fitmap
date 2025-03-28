@@ -11,7 +11,7 @@ from app.helpers import process_sport_places
 import requests
 from app.models import SportEstablishment, City, BlackListedArea, Category
 from app.serializers import (FitnessEstablishmentSerializer, GymsByCityRetrieveSerializer, GymsNearbySerializer,
-    CitySerializer, CategorySerializer)
+                             CitySerializer, CategorySerializer)
 from permissions import IsAdminOrIfAuthenticatedReadOnly
 
 HERE_API_KEY = settings.HERE_API_KEY
@@ -28,28 +28,37 @@ class CategoriesListView(generics.ListAPIView):
 
 
 class SearchableCityListView(generics.ListAPIView):
-        queryset = City.objects.filter(searchable_by_city=True)
-        serializer_class = CitySerializer
+    queryset = City.objects.filter(searchable_by_city=True)
+    serializer_class = CitySerializer
 
 
 class SportPlaceByCityAndCategoryView(generics.ListAPIView):
-        serializer_class = GymsByCityRetrieveSerializer
+    queryset = SportEstablishment.objects.select_related("city")
+    serializer_class = GymsByCityRetrieveSerializer
 
-        def get_queryset(self):
-            city_name = self.request.query_params.get("city")
-            category_name = self.request.query_params.get("category")
+    def list(self, request, *args, **kwargs):
+        city_name = request.query_params.get("city")
+        category_name = request.query_params.get("category")
 
-            sport_places = SportEstablishment.objects.select_related("city").filter(
-                city__searchable_by_city=True,
-                city__city__iexact=city_name,
-                categories__name__iexact=category_name
+        if not city_name:
+            return Response({"detail": "You must provide city"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not category_name:
+            return Response({"detail": "You must provide category"}, status=status.HTTP_400_BAD_REQUEST)
+
+        queryset = self.get_queryset().filter(
+            city__searchable_by_city=True,
+            city__city__iexact=city_name,
+            categories__name__iexact=category_name
+        )
+
+        if not queryset.exists():
+            return Response(
+                {"detail": "No sport places found for the given city and category."},
+                status=status.HTTP_404_NOT_FOUND
             )
 
-            if not sport_places.exists():
-                return Response({"detail":"No sport places found for the given city and category."}, status=status.HTTP_404_NOT_FOUND)
-
-            return sport_places
-
+        return super().list(request, *args, **kwargs)
 
 
 class GymsNearbyUser(views.APIView):
