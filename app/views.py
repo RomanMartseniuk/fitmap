@@ -33,8 +33,20 @@ class SearchableCityListView(generics.ListAPIView):
 
 
 class SportPlaceByCityAndCategoryView(generics.ListAPIView):
-    queryset = SportEstablishment.objects.select_related("city")
     serializer_class = GymsByCityRetrieveSerializer
+
+    def get_queryset(self):
+        city_name = self.request.query_params.get("city")
+        category_name = self.request.query_params.get("category")
+
+        if not city_name or not category_name:
+            return SportEstablishment.objects.none()
+
+        return SportEstablishment.objects.filter(
+            city__searchable_by_city=True,
+            city__city__iexact=city_name,
+            categories__name__iexact=category_name
+        ).select_related("city").prefetch_related("categories")
 
     def list(self, request, *args, **kwargs):
         city_name = request.query_params.get("city")
@@ -46,11 +58,7 @@ class SportPlaceByCityAndCategoryView(generics.ListAPIView):
         if not category_name:
             return Response({"detail": "You must provide category"}, status=status.HTTP_400_BAD_REQUEST)
 
-        queryset = self.get_queryset().filter(
-            city__searchable_by_city=True,
-            city__city__iexact=city_name,
-            categories__name__iexact=category_name
-        )
+        queryset = self.get_queryset()
 
         if not queryset.exists():
             return Response(
