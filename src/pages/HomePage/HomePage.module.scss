@@ -28,5 +28,9 @@
 }
 
 .searchF {
-   margin-bottom: 280px;
+   margin-bottom: 20%;
+
+   @media (max-width: 1200.98px) {
+      margin-bottom: 10%;
+   }
 }
