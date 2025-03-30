@@ -18,6 +18,7 @@
     "react-dom": "^19.0.0-rc.1",
     "react-geolocated": "^4.3.0",
     "react-leaflet": "^5.0.0-rc.2",
+    "react-responsive": "^10.0.1",
     "react-router-dom": "^7.1.5",
     "redux": "^5.0.1",
     "sass": "^1.84.0",
