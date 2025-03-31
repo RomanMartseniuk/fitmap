@@ -1,5 +1,6 @@
+from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
-from django.db.models import Q
+from django.contrib.gis.measure import D
 from rest_framework import generics
 
 from rest_framework import viewsets, views, status
@@ -69,18 +70,14 @@ class SportPlaceByCityAndCategoryView(generics.ListAPIView):
         return super().list(request, *args, **kwargs)
 
 
-class GymsNearbyUser(views.APIView):
+class GymsNearbyUser(generics.ListAPIView):
     """Get nearby gyms with at=la,lo and r=radius searching"""
+    serializer_class = GymsNearbySerializer
+    queryset = SportEstablishment.objects.all()
 
-    def get(self, request):
-
-        serializer = GymsNearbySerializer(data=request.query_params)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        validated_data = serializer.validated_data
-        at = validated_data.get("at")
-        r = validated_data.get("r", 10000)  # Умолчание радиуса
+    def list(self, request, *args, **kwargs):
+        at = request.query_params.get("at")
+        r = request.query_params.get("r", DEFAULT_RADIUS)  # Умолчание радиуса
 
         try:
 
@@ -89,22 +86,33 @@ class GymsNearbyUser(views.APIView):
             black_area = BlackListedArea.is_area_blacklisted(
                 [longitude, latitude], BLACKLIST_RADIUS_SEARCH
             )
+            user_point = Point(longitude, latitude, srid=4326)
 
             if black_area is False:
-                gyms_data = self.get_nearby_gyms(at, r)
-                if not gyms_data:
-                    BlackListedArea.objects.get_or_create(
-                        coordinates=Point(latitude, longitude),
-                        annotation="Empty area"
-                    )
-                    return Response(
-                        {"details": "No nearby gyms"},
-                        status=status.HTTP_200_OK
-                    )
+                gyms_nearby = (self.get_queryset()
+                               .filter(coordinates__distance_lte=(user_point,D(m=r)))
+                               .annotate(distance=Distance('coordinates', user_point))
+                               .order_by('distance')
+                               .prefetch_related("categories"))
+                serializer = self.get_serializer(gyms_nearby, many=True)
+                if serializer.data:
+                    return Response(serializer.data, status=status.HTTP_200_OK)
 
-                process_sport_places(gyms_data)
+                if not serializer.data:
+                    gyms_data = self.get_nearby_gyms(at, r)
+                    if not gyms_data:
+                        BlackListedArea.objects.create(
+                            coordinates=Point(latitude, longitude),
+                            annotation="Empty area"
+                        )
+                        return Response(
+                            {"details": "No nearby gyms"},
+                            status=status.HTTP_200_OK
+                        )
 
-                return Response(gyms_data, status=status.HTTP_200_OK)
+                    process_sport_places(gyms_data)
+
+                    return Response(gyms_data, status=status.HTTP_200_OK)
 
             elif black_area is True:
                 return Response(
@@ -127,6 +135,7 @@ class GymsNearbyUser(views.APIView):
                 {"error": "An unknown error occurred", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+        return super().list( request, *args, **kwargs)
 
     def get_nearby_gyms(self, at, radius):
         """
