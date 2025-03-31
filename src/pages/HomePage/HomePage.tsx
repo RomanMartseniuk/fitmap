@@ -28,7 +28,7 @@ export const HomePage = () => {
             <div className={styles.container}>
                <h1 className={styles.title}>Your personal Sports and Wellness Map</h1>
                <SearchForm className={styles.searchF} />
-               <CatSwiper />
+               <CatSwiper className={styles.slider} />
             </div>
          </section>
          {location.pathname === '/login' && <Login />}

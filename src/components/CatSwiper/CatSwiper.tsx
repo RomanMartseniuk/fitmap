@@ -1,4 +1,4 @@
-import { useContext} from 'react';
+import { useContext } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 
@@ -14,12 +14,13 @@ type SampleArrowProps = {
    onClick?: any;
 };
 
+type CatSwiperProps = {
+   className?: string;
+};
+
 const SampleNextArrow: React.FC<SampleArrowProps> = ({ className, onClick }) => {
    return (
-      <button
-         className={classNames(styles.arrow, styles.rightArrow, className)}
-         onClick={onClick}
-      >
+      <button className={classNames(styles.arrow, styles.rightArrow, className)} onClick={onClick}>
          <img src="/images/other/icons/white-arr-left.svg" alt="" />
       </button>
    );
@@ -27,16 +28,13 @@ const SampleNextArrow: React.FC<SampleArrowProps> = ({ className, onClick }) => 
 
 const SamplePrevArrow: React.FC<SampleArrowProps> = ({ className, onClick }) => {
    return (
-      <button
-         className={classNames(styles.arrow, styles.leftArrow, className)}
-         onClick={onClick}
-      >
+      <button className={classNames(styles.arrow, styles.leftArrow, className)} onClick={onClick}>
          <img src="/images/other/icons/white-arr-left.svg" alt="" />
       </button>
    );
 };
 
-export const CatSwiper = () => {
+export const CatSwiper: React.FC<CatSwiperProps> = ({ className }) => {
    const { categories } = useContext(CategoriesContext);
 
    const settings = {
@@ -54,7 +52,7 @@ export const CatSwiper = () => {
    };
 
    return (
-      <div className={styles.catSwiper}>
+      <div className={classNames(styles.catSwiper, className)}>
          <Slider {...settings} className={styles.slider}>
             {categories.map((cat) => {
                return <CatSlide key={cat.id} cat={cat} />;
