@@ -48,6 +48,7 @@ export const CatSwiper: React.FC<CatSwiperProps> = ({ className }) => {
       responsive: [
          { breakpoint: 1224, settings: { slidesToShow: 4 } },
          { breakpoint: 912, settings: { slidesToShow: 3 } },
+         { breakpoint: 720, settings: { slidesToShow: 2 } },
       ],
    };
 
