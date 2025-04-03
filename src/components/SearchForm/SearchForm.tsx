@@ -58,7 +58,7 @@ export const SearchForm: React.FC<Props> = ({ className }) => {
                className={styles.block}
             >
                <div id="title">
-                  <h1>Waht</h1>
+                  <h1>What</h1>
                   <p>Search category</p>
                </div>
             </SearchFormBlock>

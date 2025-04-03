@@ -4,9 +4,10 @@ import classNames from 'classnames';
 import styles from './SearchFormBlock.module.scss';
 import { City } from '../../types/City';
 import { Category } from '../../types/Category';
+import { useSearchParams } from 'react-router-dom';
 
 type Props = {
-   type: 'category' | 'city',
+   type: 'category' | 'city';
    children: ReactNode;
    arr: City[] | Category[];
    updateURL: (arg1: string, arg2: string) => void;
@@ -44,7 +45,10 @@ export const SearchFormBlock: React.FC<Props> = ({ type, children, arr, updateUR
 
    // Handle 'title' element from children, clone it and add class
    const titleElement = childrenArray
-      .filter((child): child is ReactElement<{ id: string, className: string }> => child.props?.id === 'title') // Filter children by 'title' id
+      .filter(
+         (child): child is ReactElement<{ id: string; className: string }> =>
+            child.props?.id === 'title',
+      ) // Filter children by 'title' id
       .map((child) =>
          React.cloneElement(child, {
             className: `${child.props.className || ''} ${styles.title}`.trim(), // Add custom class to title element
@@ -52,18 +56,40 @@ export const SearchFormBlock: React.FC<Props> = ({ type, children, arr, updateUR
       );
 
    // Data state
+   const [searchParams] = useSearchParams();
+
    const [param, setParam] = useState('');
    const [isWriting, setIsWriting] = useState(false);
    const [val, setVal] = useState('');
 
+   useEffect(() => {
+      const param = searchParams.get(type);
+      setParam(param || '');
+   }, []);
+
    return (
       <>
-         <div className={classNames(styles.block, className )} ref={popupRef} onClick={() => setIsOpen(true)}>
+         <div
+            className={classNames(styles.block, className)}
+            ref={popupRef}
+            onClick={() => setIsOpen(true)}
+         >
             {param === '' ? (
                titleElement // Render filtered and styled title
             ) : (
                <div className={styles.title}>
-                  <h1>{param}</h1>
+                  <h1>
+                     {param}
+                     <div
+                        className={styles.close_btn}
+                        onClick={() => {
+                           updateURL(`${type}`, '');
+                           setParam('');
+                        }}
+                     >
+                        <img src="/images/other/icons/white-close-icon.svg" alt="close" />
+                     </div>
+                  </h1>
                </div>
             )}
 
