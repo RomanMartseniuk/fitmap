@@ -1,5 +1,5 @@
 .page {
-   height: 100%;
+   min-height: 100vh;
    overflow: hidden;
    display: flex;
    align-items: center;
@@ -16,7 +16,9 @@
 }
 
 .container {
+   position: relative;
    width: 100%;
+   flex-grow: 1;
    display: flex;
    justify-content: space-between;
    overflow: hidden;
@@ -32,6 +34,10 @@
       width: 37dvw;
       height: 37dvw;
       border-radius: 36px;
+
+      @media (max-width: 990.98px) {
+         height: 37dvw;
+      }
    }
 
    .leaflet-control-zoom {
