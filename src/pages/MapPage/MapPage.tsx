@@ -27,6 +27,7 @@ export const MapPage = () => {
       userDecisionTimeout: 5000,
    });
 
+
    return (
       <div className={styles.page}>
          <SearchForm className={styles.search} />

@@ -1,5 +1,23 @@
+import { Gym } from '../../types/Gym';
+import { GymItem } from '../GymItem';
 import styles from './GymList.module.scss';
 
+const item: Gym = {
+   id: 0,
+   title: 'GYM TOP',
+   adress: {
+      str: 'adress 1123123 fdbrgbfg',
+      city: 'Kyiv',
+   },
+   categories: ['Fitness'],
+   pos: [49.23395, 28.4196869],
+   contacts: {
+      web: '',
+      tel: '',
+      mail: '',
+   },
+   img_url: '/images/category_images/gym.jpg'
+};
 
 export const GymList = () => {
    return (
@@ -11,8 +29,28 @@ export const GymList = () => {
             </div>
          </nav> */}
          <ul className={styles.list}>
-            {/* <GymItem item={item} /> */}
+            <GymItem item={item} />
+            <GymItem item={item} />
+            <GymItem item={item} />
+            <GymItem item={item} />
+            <GymItem item={item} />
+            <GymItem item={item} />
+            <GymItem item={item} />
+            <GymItem item={item} />
+            <GymItem item={item} />
+            <GymItem item={item} />
+            <GymItem item={item} />
+            <GymItem item={item} />
+            <GymItem item={item} />
          </ul>
       </div>
    );
 };
+
+
+<div className="page">
+   <div className="container">
+      <div className="list"></div>
+   </div>
+   <div className="map"></div>
+</div>
