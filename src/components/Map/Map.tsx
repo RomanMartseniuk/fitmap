@@ -33,17 +33,20 @@ export const Map: React.FC<Props> = ({ pos = [0, 0], userPos }) => {
    const defCenter: Coords = [49.014294193038175, 31.186705317899435];
 
    const [center, setCenter] = useState<[number, number]>(defCenter);
+   const [isDef, setIsDef] = useState(false);
    useEffect(() => {
       if (pos[0] !== 0 || pos[1] !== 0) {
          setCenter(pos);
+         setIsDef(false);
       } else {
          setCenter(defCenter);
+         setIsDef(true);
       }
    }, [pos]);
 
    return (
       <MapContainer className={styles.map} zoomControl={false}>
-         <ChangeView center={center} zoom={center !== defCenter ? 13 : 5} />
+         <ChangeView center={center} zoom={isDef ? 5 : 13} />
 
          <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

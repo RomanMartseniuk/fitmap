@@ -4,8 +4,8 @@ import { user as userAPI } from '../api/userApi';
 type User = {
    id: number;
    email: string;
-   firstName: string;
-   lastName: string;
+   first_name: string;
+   last_name: string;
    adress: string | null;
    phone: string | null;
 };

@@ -1,3 +1,8 @@
 .map {
    z-index: 1 !important;
+
+   @media (max-width: 780.98px) {
+      height: auto;
+      max-height: 50vh;
+   }
 }
