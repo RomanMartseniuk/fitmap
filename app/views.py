@@ -40,24 +40,24 @@ class SportPlaceByCityAndCategoryView(generics.ListAPIView):
         city_name = self.request.query_params.get("city")
         category_name = self.request.query_params.get("category")
 
-        if not city_name or not category_name:
+        if not city_name:
             return SportEstablishment.objects.none()
 
-        return SportEstablishment.objects.filter(
+        queryset = SportEstablishment.objects.filter(
             city__searchable_by_city=True,
             city__city__iexact=city_name,
-            categories__name__iexact=category_name
         ).select_related("city").prefetch_related("categories")
+
+        if category_name:
+            queryset = queryset.filter(categories__name__iexact=category_name)
+
+        return queryset
 
     def list(self, request, *args, **kwargs):
         city_name = request.query_params.get("city")
-        category_name = request.query_params.get("category")
 
         if not city_name:
             return Response({"detail": "You must provide city"}, status=status.HTTP_400_BAD_REQUEST)
-
-        if not category_name:
-            return Response({"detail": "You must provide category"}, status=status.HTTP_400_BAD_REQUEST)
 
         queryset = self.get_queryset()
 
@@ -90,7 +90,7 @@ class GymsNearbyUser(generics.ListAPIView):
 
             if black_area is False:
                 gyms_nearby = (self.get_queryset()
-                               .filter(coordinates__distance_lte=(user_point,D(m=r)))
+                               .filter(coordinates__distance_lte=(user_point, D(m=r)))
                                .annotate(distance=Distance('coordinates', user_point))
                                .order_by('distance')
                                .prefetch_related("categories"))
@@ -135,7 +135,7 @@ class GymsNearbyUser(generics.ListAPIView):
                 {"error": "An unknown error occurred", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-        return super().list( request, *args, **kwargs)
+        return super().list(request, *args, **kwargs)
 
     def get_nearby_gyms(self, at, radius):
         """
