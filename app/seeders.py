@@ -8,7 +8,7 @@ from django.contrib.gis.geos import Point
 from app.models import City, Category
 
 
-def write_cities_from_json_to_db(path_file="public/api/cities.json"):
+def write_cities_from_json_to_db(path_file="public/json/cities.json"):
     with open(path_file, "r") as file:
         data = json.loads(file.read())
         titles = [i.get('title') for i in data]
