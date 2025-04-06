@@ -18,7 +18,7 @@ export const App = () => {
    return (
       <>
          <Header />
-            {isFirst && <EntryMessage setFirstTime={setIsFirst} />}
+         {isFirst && <EntryMessage setFirstTime={setIsFirst} />}
          <main className="main">
             <Outlet />
          </main>

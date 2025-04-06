@@ -1,43 +1,64 @@
-import { useContext, useRef } from 'react';
-// @ts-ignore
-import { Splide, SplideSlide } from '@splidejs/react-splide';
-// @ts-ignore
-import '@splidejs/react-splide/css/core';
+import { useContext } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+
+import classNames from 'classnames';
 
 import styles from './CatSwiper.module.scss';
 
 import { CatSlide } from '../CatSlide';
-import classNames from 'classnames';
 import { CategoriesContext } from '../../store/CategoriesContext';
 
-export const CatSwiper = () => {
-   const splideRef = useRef<Splide>(null);
+type SampleArrowProps = {
+   className?: any;
+   onClick?: any;
+};
+
+type CatSwiperProps = {
+   className?: string;
+};
+
+const SampleNextArrow: React.FC<SampleArrowProps> = ({ className, onClick }) => {
+   return (
+      <button className={classNames(styles.arrow, styles.rightArrow, className)} onClick={onClick}>
+         <img src="/images/other/icons/white-arr-left.svg" alt="" />
+      </button>
+   );
+};
+
+const SamplePrevArrow: React.FC<SampleArrowProps> = ({ className, onClick }) => {
+   return (
+      <button className={classNames(styles.arrow, styles.leftArrow, className)} onClick={onClick}>
+         <img src="/images/other/icons/white-arr-left.svg" alt="" />
+      </button>
+   );
+};
+
+export const CatSwiper: React.FC<CatSwiperProps> = ({ className }) => {
    const { categories } = useContext(CategoriesContext);
 
+   const settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 5,
+      slidesToScroll: 1,
+      nextArrow: <SampleNextArrow />,
+      prevArrow: <SamplePrevArrow />,
+      responsive: [
+         { breakpoint: 1224, settings: { slidesToShow: 4 } },
+         { breakpoint: 912, settings: { slidesToShow: 3 } },
+         { breakpoint: 720, settings: { slidesToShow: 2 } },
+      ],
+   };
+
    return (
-      <div className={styles.catSwiper}>
-         <button
-            className={classNames(styles.arrow, styles.leftArrow)}
-            onClick={() => splideRef.current?.splide?.go('<')}
-         >
-            <img src="/images/other/icons/white-arr-left.svg" alt="" />
-         </button>
-         <Splide
-            aria-label="My Favorite Images"
-            options={{ arrows: false, gap: 24, perPage: 5, pagination: false }}
-            className={styles.content}
-            ref={splideRef}
-         >
+      <div className={classNames(styles.catSwiper, className)}>
+         <Slider {...settings} className={styles.slider}>
             {categories.map((cat) => {
                return <CatSlide key={cat.id} cat={cat} />;
             })}
-         </Splide>
-         <button
-            className={classNames(styles.arrow, styles.rightArrow)}
-            onClick={() => splideRef.current?.splide?.go('>')}
-         >
-            <img src="/images/other/icons/white-arr-left.svg" alt="" />
-         </button>
+         </Slider>
       </div>
    );
 };

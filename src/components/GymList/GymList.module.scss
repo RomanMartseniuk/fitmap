@@ -1,8 +1,18 @@
 .gyms {
-   height: 37dvw
+   flex: 1; /* Займає половину сторінки */
+   display: flex;
+   flex-direction: column;
+
+   .list {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px; /* Відступи між картками */
+      overflow-y: auto; /* Додаємо скрол */
+      padding: 10px;
+   }
 }
 
 .filters {
    display: flex;
-
 }

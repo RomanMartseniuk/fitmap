@@ -1,4 +1,9 @@
 .searchForm {
+   display: flex;
+   @media (max-width: 830px) {
+      width: 95%;
+   }
+
    .content {
       display: flex;
       justify-content: space-between;
@@ -7,6 +12,11 @@
       border-radius: 100px;
       height: 70px;
       align-items: center;
+
+      @media (max-width: 830px) {
+         width: 100%;      /* При ширині екрана менше 830px, ширина блоку буде 100% */
+         flex: 1 1 auto;    /* Блок буде займати всю доступну ширину */
+      }
    }
 
    .button {

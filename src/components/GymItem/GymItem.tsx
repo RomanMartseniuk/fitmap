@@ -17,11 +17,11 @@ export const GymItem: React.FC<Props> = ({ item }) => {
             <img src={item.img_url} alt={item.title} />
          </div>
          <h1 className={styles.title}>{item.title}</h1>
-         <span className={styles.rate}>
+         {/* <span className={styles.rate}>
             <p>{item.rate}</p>
             <img src="/images/other/icons/black-rate-star-icon.svg" alt="Rate" />
-         </span>
-         <span className={styles.price}>{item.price}$</span>
+         </span> */}
+         {/* <span className={styles.price}>{item.price}$</span> */}
          <Link to='/' className={styles.button}>
             <p>See Details</p>
             <PlusIcon className={styles.btn_icon} />
