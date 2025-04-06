@@ -44,6 +44,6 @@ class GymsNearbySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SportEstablishment
-        fields = ("title", "city", "address_label", "categories", "distance",
+        fields = ("title", "city", "address_label", "categories","coordinates", "distance",
                   "weekly_schedule", "telephone_number", "site", "email",
                   "street", "house_number", "district")
