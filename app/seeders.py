@@ -5,7 +5,9 @@ import os
 import requests
 from django.contrib.gis.geos import Point
 
+from app.helpers import process_sport_places
 from app.models import City, Category
+from app.utils import get_nearby_gyms
 
 
 def write_cities_from_json_to_db(path_file="public/json/cities.json"):
@@ -66,10 +68,30 @@ def write_cities_from_json_to_db(path_file="public/json/cities.json"):
 
 def write_categories_from_csv_to_db(path_file="categories.csv"):
     with open(path_file, "r") as file:
-        reader  = csv.DictReader(file)
+        reader = csv.DictReader(file)
         for row in reader:
             here_id = row["here_id"]
             name = row["name"]
             if not Category.objects.filter(here_id=here_id).exists():
                 Category.objects.create(here_id=here_id, name=name)
                 print(f"{name} category was added")
+
+
+def write_sport_establishments_by_city_name(path_file="public/json/cities.json"):
+    with open(path_file, "r", encoding="utf-8") as file:
+        data = json.loads(file.read())
+        titles = [i.get('title') for i in data]
+
+        cities = City.objects.filter(city__in=titles)
+
+        missing_cities = set(titles).difference(set(cities.values_list("city", flat=True)))
+
+        if len(titles) != len(cities):
+            return (f"cities in db must be equal to main cities on .json"
+                    f"missing cities: {missing_cities}")
+
+        for city in cities:
+            longitude, latitude = city.central_point.coords
+            city_name = city.city
+            process_sport_places(get_nearby_gyms(at=f"{latitude},{longitude}"))
+            print(f"Was added nearby gyms in: {city_name}")
