@@ -2,11 +2,10 @@ from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 from rest_framework import generics
-
-from rest_framework import viewsets, views, status
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 
-from fitmap import settings
+from app.utils import get_nearby_gyms
 from fitmap.settings import DEFAULT_RADIUS, BLACKLIST_RADIUS_SEARCH
 from app.helpers import process_sport_places
 import requests
@@ -14,8 +13,6 @@ from app.models import SportEstablishment, City, BlackListedArea, Category
 from app.serializers import (FitnessEstablishmentSerializer, GymsByCityRetrieveSerializer, GymsNearbySerializer,
                              CitySerializer, CategorySerializer)
 from permissions import IsAdminOrIfAuthenticatedReadOnly
-
-HERE_API_KEY = settings.HERE_API_KEY
 
 
 class FitnessEstablishmentViewSet(viewsets.ModelViewSet):
@@ -99,7 +96,7 @@ class GymsNearbyUser(generics.ListAPIView):
                     return Response(serializer.data, status=status.HTTP_200_OK)
 
                 if not serializer.data:
-                    gyms_data = self.get_nearby_gyms(at, r)
+                    gyms_data = get_nearby_gyms(at, r)
                     if not gyms_data:
                         BlackListedArea.objects.create(
                             coordinates=Point(latitude, longitude),
@@ -136,21 +133,3 @@ class GymsNearbyUser(generics.ListAPIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
         return super().list(request, *args, **kwargs)
-
-    def get_nearby_gyms(self, at, radius):
-        """
-        Additional method for receiving data from external API
-        """
-        params = {
-            "at": at,
-            "categories": "800-8600",
-            "in": f"circle:{at};r={radius}",
-            "apiKey": HERE_API_KEY,
-            "limit": "100",
-            "lang": "en"
-        }
-        response = requests.get("https://browse.search.hereapi.com/v1/browse", params=params)
-        response.raise_for_status()
-
-        data = response.json()
-        return data
