@@ -18,6 +18,13 @@ const userIcon = L.icon({
    popupAnchor: [0, -32], // Точка відкриття попапа
 });
 
+const gymIcon = L.icon({
+   iconUrl: '/images/other/icons/blue-marker-icon.svg', // Шлях до зображення
+   iconSize: [32, 32], // Розмір іконки
+   iconAnchor: [16, 32], // Точка прив’язки (центр низу іконки)
+   popupAnchor: [0, -32], // Точка відкриття попапа
+});
+
 const ChangeView = ({ center, zoom = 5 }: { center: [number, number]; zoom?: number }) => {
    const map = useMap();
 

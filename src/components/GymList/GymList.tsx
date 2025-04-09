@@ -1,3 +1,4 @@
+import { useOutletContext } from 'react-router-dom';
 import { Gym } from '../../types/Gym';
 import { GymItem } from '../GymItem';
 import styles from './GymList.module.scss';
@@ -19,7 +20,23 @@ const item: Gym = {
    img_url: '/images/category_images/gym.jpg'
 };
 
+type item = {
+   title: string;
+   city: number;
+   address_label: string;
+   categories: {
+      id: number;
+      name: string;
+   }[];
+   district: string;
+   site: string;
+   email: string;
+   telephone_number: string;
+};
+
 export const GymList = () => {
+   const gyms: item[] = useOutletContext();
+
    return (
       <div className={styles.gyms}>
          {/* <nav className={styles.nav}>
@@ -29,6 +46,7 @@ export const GymList = () => {
             </div>
          </nav> */}
          <ul className={styles.list}>
+            {/* <GymItem item={item} />
             <GymItem item={item} />
             <GymItem item={item} />
             <GymItem item={item} />
@@ -40,8 +58,11 @@ export const GymList = () => {
             <GymItem item={item} />
             <GymItem item={item} />
             <GymItem item={item} />
-            <GymItem item={item} />
-            <GymItem item={item} />
+            <GymItem item={item} /> */}
+
+            {gyms.map((gym, id) => (
+               <GymItem key={id} item={gym} />
+            ))}
          </ul>
       </div>
    );
