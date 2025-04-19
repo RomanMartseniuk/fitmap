@@ -9,6 +9,7 @@ import { gyms as gymsAPI } from '../../api/gymsApi';
 
 import { City } from '../../types/City';
 
+
 import { Map } from '../../components/Map';
 import { SearchForm } from '../../components/SearchForm';
 
@@ -50,13 +51,45 @@ export const MapPage = () => {
             throw new Error('No position');
          }
 
-         console.log(res);
-
          if (!res.ok) {
             throw new Error('Error fetching gyms');
          }
 
          const data = await res.json();
+         const resData = [];
+
+//          data.map(el: Gym => {
+
+//             console.log(Object.keys(el));
+//             const match = el.coordinates.match(/POINT\s*\(\s*([-\d.]+)\s+([-\d.]+)\s*\)/);
+
+//             /*
+//             0
+// : 
+// "title"
+// "city"
+// "address_label"
+// "categories"
+// "coordinates"
+// "distance"
+// "weekly_schedule"
+// "telephone_number"
+// "site"
+// "email"
+// "street"
+// "house_number"
+// "district"
+//             */
+
+//             if (match) {
+//                const a = parseFloat(match[1]); // 28.43989
+//                const b = parseFloat(match[2]); // 49.23954
+               
+//                return {...el, coordinates: {lat: a, lon: b}};
+//             } else {
+//                console.log('No match found');
+//             }
+//          });
 
          setGyms(data);
       } catch (err) {
