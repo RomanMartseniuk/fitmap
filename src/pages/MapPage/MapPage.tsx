@@ -4,14 +4,16 @@ import { useGeolocated } from 'react-geolocated';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 
-import { CitiesContext } from '../../store/CitiesContext';
+import { CitiesContext } from '../../app/store/CitiesContext';
 import { gyms as gymsAPI } from '../../api/gymsApi';
 
-import { City } from '../../types/City';
+import { City } from '../../app/types/City';
 
 
 import { Map } from '../../components/Map';
 import { SearchForm } from '../../components/SearchForm';
+import { normalizePlacesData } from '../../app/utils/normalizeGymData';
+import { Gym } from '../../app/types/Gym';
 
 export const MapPage = () => {
    // Work with search params
@@ -34,7 +36,7 @@ export const MapPage = () => {
    });
 
    // Getting gyms
-   const [gyms, setGyms] = useState([]);
+   const [gyms, setGyms] = useState<Gym[]>([]);
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState('');
 
@@ -56,42 +58,11 @@ export const MapPage = () => {
          }
 
          const data = await res.json();
-         const resData = [];
+         
+         const resData = normalizePlacesData(data);
+         console.log(resData);
+         setGyms(resData);
 
-//          data.map(el: Gym => {
-
-//             console.log(Object.keys(el));
-//             const match = el.coordinates.match(/POINT\s*\(\s*([-\d.]+)\s+([-\d.]+)\s*\)/);
-
-//             /*
-//             0
-// : 
-// "title"
-// "city"
-// "address_label"
-// "categories"
-// "coordinates"
-// "distance"
-// "weekly_schedule"
-// "telephone_number"
-// "site"
-// "email"
-// "street"
-// "house_number"
-// "district"
-//             */
-
-//             if (match) {
-//                const a = parseFloat(match[1]); // 28.43989
-//                const b = parseFloat(match[2]); // 49.23954
-               
-//                return {...el, coordinates: {lat: a, lon: b}};
-//             } else {
-//                console.log('No match found');
-//             }
-//          });
-
-         setGyms(data);
       } catch (err) {
       } finally {
          setLoading(false);
@@ -99,6 +70,7 @@ export const MapPage = () => {
    };
 
    useEffect(() => {
+      console.log(city, coords);
       getGyms();
    }, [city, coords]);
 

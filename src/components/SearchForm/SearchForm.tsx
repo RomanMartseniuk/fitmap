@@ -4,8 +4,8 @@ import classNames from 'classnames';
 
 import styles from './SearchForm.module.scss';
 
-import { CitiesContext } from '../../store/CitiesContext';
-import { CategoriesContext } from '../../store/CategoriesContext';
+import { CitiesContext } from '../../app/store/CitiesContext';
+import { CategoriesContext } from '../../app/store/CategoriesContext';
 import { SearchFormBlock } from '../SearchFormBlock';
 
 type Props = {

@@ -6,10 +6,10 @@ import styles from './SignUp.module.scss';
 
 import { Loader } from '../Loader';
 
-import { ValidationError } from '../../types/Errors';
+import { ValidationError } from '../../app/types/Errors';
 
 import { register } from '../../api/userApi';
-import { UserContext } from '../../store/UserContext';
+import { UserContext } from '../../app/store/UserContext';
 
 export const SingUp = () => {
    const { setTokens } = useContext(UserContext);

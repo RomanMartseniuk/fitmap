@@ -1,6 +1,6 @@
 import React, { createContext, useState, ReactNode, useEffect } from 'react';
 import { City } from '../types/City';
-import getCities from '../api/citiesApi';
+import getCities from '../../api/citiesApi';
 
 interface CitiesContextProps {
    cities: City[];

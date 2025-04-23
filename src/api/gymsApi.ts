@@ -1,5 +1,5 @@
 //import { City } from '../types/City';
-import { client } from '../utils/fetchClient';
+import { client } from '../app/utils/fetchClient';
 
 export const gyms = {
    getNear: ([lat, lon]: [number, number], r = 2500) => {

@@ -1,6 +1,6 @@
 import React, { createContext, useState, ReactNode, useEffect } from 'react';
 import { Category } from '../types/Category';
-import getCategories from '../api/categoriesApi';
+import getCategories from '../../api/categoriesApi';
 
 interface CategoriesContextProps {
    categories: Category[];
