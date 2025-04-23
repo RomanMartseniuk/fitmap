@@ -10,7 +10,7 @@ from app.models import City, Category
 from app.utils import get_nearby_gyms
 
 
-def write_cities_from_json_to_db(path_file="public/json/cities.json"):
+def write_cities_from_json_to_db(path_file="seeder_data/cities.json"):
     with open(path_file, "r") as file:
         data = json.loads(file.read())
         titles = [i.get('title') for i in data]
@@ -50,7 +50,7 @@ def write_cities_from_json_to_db(path_file="public/json/cities.json"):
                 point = data.get("position")
                 la = point.get("lat")
                 lo = point.get("lng")
-                city, created = City.objects.get_or_create(
+                city_obj, created = City.objects.get_or_create(
                     city=city,
                     county=county,
                     defaults={
@@ -60,13 +60,13 @@ def write_cities_from_json_to_db(path_file="public/json/cities.json"):
                 )
 
                 if not created:
-                    city.searchable_by_city = True
-                    city.save()
+                    city_obj.searchable_by_city = True
+                    city_obj.save()
                 print(f"{city} was added")
         print("cities were added")
 
 
-def write_categories_from_csv_to_db(path_file="categories.csv"):
+def write_categories_from_csv_to_db(path_file="seeder_data/categories.csv"):
     with open(path_file, "r") as file:
         reader = csv.DictReader(file)
         for row in reader:
@@ -77,7 +77,7 @@ def write_categories_from_csv_to_db(path_file="categories.csv"):
                 print(f"{name} category was added")
 
 
-def write_sport_establishments_by_city_name(path_file="public/json/cities.json"):
+def write_sport_establishments_by_city_name(path_file="seeder_data/cities.json"):
     with open(path_file, "r", encoding="utf-8") as file:
         data = json.loads(file.read())
         titles = [i.get('title') for i in data]
