@@ -16,7 +16,10 @@ export const CategoriesProvider: React.FC<{ children: ReactNode }> = ({ children
    useEffect(() => {
       getCategories()
          .then((res) => res.json())
-         .then((data) => setCategories(data as Category[]))
+         .then((data) => {
+            console.log(data);
+            setCategories(data.map((item: any) => ({ id: item.id, title: item.name } as Category)));
+         })
          .catch()
          .finally();
    }, []);

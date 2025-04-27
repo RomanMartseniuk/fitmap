@@ -1,7 +1,7 @@
-import { Gym } from "../types/Gym";
+import { Gym } from '../types/Gym';
 
-export function normalizePlacesData(data: any[]): Gym[] {
-   return data.map((item: any): Gym => {
+export function normalizePlacesData(data: any[]): (Gym & { id: string })[] {
+   return data.map((item: any) => {
       let lat: number | null = null;
       let lng: number | null = null;
 
@@ -40,8 +40,16 @@ export function normalizePlacesData(data: any[]): Gym[] {
             .filter(Boolean)
             .join(', ');
 
+      const title = item.title || 'Без назви';
+
+      // Створення id
+      const id = title
+         .toLowerCase()
+         .replace(/\s+/g, '_') // пробіли → підкреслення
+         .replace(/[^a-z0-9_]/g, ''); // видалити все, що не букви/цифри/підкреслення
+
       return {
-         title: item.title || 'Без назви',
+         title,
          city: (item.district ?? item.address?.district ?? null)?.toString() ?? null,
          categories,
          coordinates: lat !== null && lng !== null ? [lat, lng] : null,
@@ -55,6 +63,7 @@ export function normalizePlacesData(data: any[]): Gym[] {
             web: item.site || null,
          },
          address,
+         id, // 🆕 додаємо id
       };
    });
 }

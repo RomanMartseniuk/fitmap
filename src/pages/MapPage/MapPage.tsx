@@ -9,11 +9,11 @@ import { gyms as gymsAPI } from '../../api/gymsApi';
 
 import { City } from '../../app/types/City';
 
-
 import { Map } from '../../components/Map';
 import { SearchForm } from '../../components/SearchForm';
 import { normalizePlacesData } from '../../app/utils/normalizeGymData';
 import { Gym } from '../../app/types/Gym';
+import { Loader } from '../../components/Loader';
 
 export const MapPage = () => {
    // Work with search params
@@ -41,8 +41,9 @@ export const MapPage = () => {
    const [error, setError] = useState('');
 
    const getGyms = async () => {
-      try {
+      if (!city && !coords) return;
 
+      try {
          let res;
          setLoading(true);
          if (city) {
@@ -58,11 +59,12 @@ export const MapPage = () => {
          }
 
          const data = await res.json();
-         
-         const resData = normalizePlacesData(data);
-         console.log(resData);
-         setGyms(resData);
 
+         const resData = normalizePlacesData(data);
+
+         console.log(resData);
+
+         setGyms(resData);
       } catch (err) {
       } finally {
          setLoading(false);
@@ -70,9 +72,22 @@ export const MapPage = () => {
    };
 
    useEffect(() => {
-      console.log(city, coords);
-      getGyms();
+      if (city || coords) {
+         getGyms();
+      }
    }, [city, coords]);
+
+   useEffect(() => {
+      if (loading) {
+         document.body.style.overflow = 'hidden'; // Заборона скролу
+      } else {
+         document.body.style.overflow = ''; // Повернення до нормального стану
+      }
+
+      return () => {
+         document.body.style.overflow = ''; // При розмонтуванні компонента
+      };
+   }, [loading]);
 
    return (
       <div className={styles.page}>
@@ -82,41 +97,10 @@ export const MapPage = () => {
             <Map
                userPos={coords && [coords.latitude, coords.longitude]}
                pos={city ? city.pos : coords ? [coords.latitude, coords.longitude] : [0, 0]}
+               gyms={gyms}
             />
          </div>
+         {loading && <Loader className={styles.loader} />}
       </div>
    );
 };
-/*   
-
- {
-        "title": "Stadion",
-        "city": 1,
-        "address_label": "Stadion, Vinnytsia, Ukraine",
-        "categories": [
-            {
-                "id": 10,
-                "name": "Running Track"
-            },
-            {
-                "id": 3,
-                "name": "Sports Facility/Venue"
-            },
-            {
-                "id": 4,
-                "name": "Sports Complex/Stadium"
-            }
-        ],
-        "distance": 670,
-        "weekly_schedule": "[]",
-        "telephone_number": "",
-        "site": "",
-        "email": null,
-        "street": null,
-        "house_number": null,
-        "district": "Vinnytsia"
-    },
-
-*/
-
-

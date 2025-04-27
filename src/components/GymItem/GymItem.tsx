@@ -1,30 +1,23 @@
 import React from 'react';
 import styles from './GymItem.module.scss';
 
-import { Gym } from '../../types/Gym';
+import { Gym } from '../../app/types/Gym';
 
 import PlusIcon from '../PlusIcon/PlusIcon';
-import { Link } from 'react-router-dom';
-
-type item = {
-   title: string;
-   city: number;
-   address_label: string;
-   categories: {
-      id: number;
-      name: string;
-   }[];
-   district: string;
-   site: string;
-   email: string;
-   telephone_number: string;
-};
+import { Link, useLocation } from 'react-router-dom';
 
 type Props = {
-   item: item;
+   item: Gym;
 };
 
 export const GymItem: React.FC<Props> = ({ item }) => {
+   const location = useLocation();
+   const searchParams = new URLSearchParams(location.search);
+   const city = searchParams.get('city'); // Отримуємо параметр city
+
+   // Формуємо шлях із додаванням city, якщо воно є
+   const gymLink = `/map/${item.id}${city ? `?city=${city}` : ''}`;
+
    return (
       <div className={styles.item}>
          <div className={styles.img}>
@@ -36,7 +29,7 @@ export const GymItem: React.FC<Props> = ({ item }) => {
             <img src="/images/other/icons/black-rate-star-icon.svg" alt="Rate" />
          </span> */}
          {/* <span className={styles.price}>{item.price}$</span> */}
-         <Link to="/" className={styles.button}>
+         <Link to={gymLink} className={styles.button}>
             <p>See Details</p>
             <PlusIcon className={styles.btn_icon} />
          </Link>

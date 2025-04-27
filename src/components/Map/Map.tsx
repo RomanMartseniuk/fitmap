@@ -2,13 +2,17 @@ import 'leaflet/dist/leaflet.css';
 import styles from './Map.module.scss';
 import L from 'leaflet';
 import React, { useEffect, useState } from 'react';
-import { MapContainer, Marker, TileLayer, useMap, ZoomControl } from 'react-leaflet';
+import { MapContainer, Marker, TileLayer, Tooltip, useMap, ZoomControl } from 'react-leaflet';
+import { Gym } from '../../app/types/Gym';
+import MarkerClusterGroup from 'react-leaflet-cluster';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type Coords = [number, number];
 
 type Props = {
    pos?: Coords;
    userPos?: Coords;
+   gyms?: Gym[];
 };
 
 const userIcon = L.icon({
@@ -36,7 +40,17 @@ const ChangeView = ({ center, zoom = 5 }: { center: [number, number]; zoom?: num
    return null;
 };
 
-export const Map: React.FC<Props> = ({ pos = [0, 0], userPos }) => {
+export const Map: React.FC<Props> = ({ pos = [0, 0], userPos, gyms = [] }) => {
+   const navigate = useNavigate();
+   const location = useLocation();
+   const searchParams = new URLSearchParams(location.search);
+   const city = searchParams.get('city'); // Отримуємо параметр city з URL
+
+   // Формуємо шлях до переходу з параметром city, якщо він є
+   const getGymLink = (gymId: string) => {
+      return city ? `/map/${gymId}?city=${city}` : `/map/${gymId}`;
+   };
+
    const defCenter: Coords = [49.014294193038175, 31.186705317899435];
 
    const [center, setCenter] = useState<[number, number]>(defCenter);
@@ -63,6 +77,26 @@ export const Map: React.FC<Props> = ({ pos = [0, 0], userPos }) => {
          <ZoomControl position="topright" />
 
          {userPos && <Marker position={userPos} icon={userIcon} />}
+         {gyms && (
+            <MarkerClusterGroup chunkedLoading showCoverageOnHover={false}>
+               {gyms.map((gym, index) => (
+                  <Marker
+                     key={index}
+                     position={gym.coordinates as [number, number]}
+                     icon={gymIcon}
+                     eventHandlers={{
+                        click: () => {
+                           navigate(getGymLink(gym.id));
+                        },
+                     }}
+                  >
+                     <Tooltip direction="top" offset={[0, -20]} opacity={1} permanent={false}>
+                        {gym.title}
+                     </Tooltip>
+                  </Marker>
+               ))}
+            </MarkerClusterGroup>
+         )}
       </MapContainer>
    );
 };
