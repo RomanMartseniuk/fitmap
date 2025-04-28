@@ -1,6 +1,6 @@
-from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
-from django.contrib.gis.measure import D
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework import generics
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -72,50 +72,41 @@ class GymsNearbyUser(generics.ListAPIView):
     serializer_class = GymsNearbySerializer
     queryset = SportEstablishment.objects.all()
 
+    @method_decorator(cache_page(60 * 20))
     def list(self, request, *args, **kwargs):
         at = request.query_params.get("at")
-        r = request.query_params.get("r", DEFAULT_RADIUS)  # Умолчание радиуса
+        r = request.query_params.get("r", DEFAULT_RADIUS)
+
+        if not at:
+            return Response(
+                {"error": "Missing 'at' parameter. Expected format: 'latitude,longitude'."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         try:
-
             latitude, longitude = map(float, at.split(','))
-
-            black_area = BlackListedArea.is_area_blacklisted(
-                [longitude, latitude], BLACKLIST_RADIUS_SEARCH
-            )
             user_point = Point(longitude, latitude, srid=4326)
 
-            if black_area is False:
-                gyms_nearby = (self.get_queryset()
-                               .filter(coordinates__distance_lte=(user_point, D(m=r)))
-                               .annotate(distance=Distance('coordinates', user_point))
-                               .order_by('distance')
-                               .prefetch_related("categories"))
-                serializer = self.get_serializer(gyms_nearby, many=True)
-                if serializer.data:
-                    return Response(serializer.data, status=status.HTTP_200_OK)
-
-                if not serializer.data:
-                    gyms_data = get_nearby_gyms(at, r)
-                    if not gyms_data:
-                        BlackListedArea.objects.create(
-                            coordinates=Point(latitude, longitude),
-                            annotation="Empty area"
-                        )
-                        return Response(
-                            {"details": "No nearby gyms"},
-                            status=status.HTTP_200_OK
-                        )
-
-                    process_sport_places(gyms_data)
-
-                    return Response(gyms_data, status=status.HTTP_200_OK)
-
-            elif black_area is True:
+            if BlackListedArea.is_area_blacklisted([longitude, latitude], BLACKLIST_RADIUS_SEARCH):
                 return Response(
                     {"details": "No nearby gyms"},
-                    status=status.HTTP_200_OK
+                    status=status.HTTP_404_NOT_FOUND
                 )
+
+            gyms_data = get_nearby_gyms(at, r)
+
+            if not gyms_data:
+                BlackListedArea.objects.create(
+                    coordinates=Point(longitude, latitude),
+                    annotation="Empty area"
+                )
+                return Response(
+                    {"details": "No nearby gyms"},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            process_sport_places(gyms_data)
+            return Response(gyms_data, status=status.HTTP_200_OK)
 
         except ValueError:
             return Response(
@@ -125,11 +116,10 @@ class GymsNearbyUser(generics.ListAPIView):
         except requests.RequestException as e:
             return Response(
                 {"error": "Failed to fetch data from external API", "details": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                status=status.HTTP_503_SERVICE_UNAVAILABLE
             )
         except Exception as e:
             return Response(
                 {"error": "An unknown error occurred", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-        return super().list(request, *args, **kwargs)
