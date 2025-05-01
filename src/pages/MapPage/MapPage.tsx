@@ -38,7 +38,6 @@ export const MapPage = () => {
    // Getting gyms
    const [gyms, setGyms] = useState<Gym[]>([]);
    const [loading, setLoading] = useState(false);
-   const [error, setError] = useState('');
 
    const getGyms = async () => {
       if (!city && !coords) return;
@@ -72,10 +71,10 @@ export const MapPage = () => {
    };
 
    useEffect(() => {
-      if (city || coords) {
+      if (city || (coords && coords.latitude && coords.longitude)) {
          getGyms();
       }
-   }, [city, coords]);
+   }, [city?.pos?.[0], city?.pos?.[1], coords?.latitude, coords?.longitude]);
 
    useEffect(() => {
       if (loading) {
@@ -94,11 +93,13 @@ export const MapPage = () => {
          <SearchForm className={styles.search} />
          <div className={styles.container}>
             <Outlet context={gyms} />
-            <Map
-               userPos={coords && [coords.latitude, coords.longitude]}
-               pos={city ? city.pos : coords ? [coords.latitude, coords.longitude] : [0, 0]}
-               gyms={gyms}
-            />
+            {(city || coords) && (
+               <Map
+                  userPos={coords && [coords.latitude, coords.longitude]}
+                  pos={city ? city.pos : coords ? [coords.latitude, coords.longitude] : [0, 0]}
+                  gyms={gyms}
+               />
+            )}
          </div>
          {loading && <Loader className={styles.loader} />}
       </div>
