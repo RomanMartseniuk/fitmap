@@ -10,9 +10,10 @@ import { SearchFormBlock } from '../SearchFormBlock';
 
 type Props = {
    className?: string;
+   onSearch?: () => void;
 };
 
-export const SearchForm: React.FC<Props> = ({ className }) => {
+export const SearchForm: React.FC<Props> = ({ className, onSearch = () => {} }) => {
    const [searchParams, setSearchParams] = useSearchParams();
 
    const { cities } = useContext(CitiesContext);
@@ -65,6 +66,7 @@ export const SearchForm: React.FC<Props> = ({ className }) => {
             <Link
                to={{ pathname: '../map/', search: searchParams.toString() }}
                className={styles.button}
+               onClick={onSearch}
             >
                <img src="/images/other/icons/black-search-icon.svg" alt="Search" />
             </Link>
