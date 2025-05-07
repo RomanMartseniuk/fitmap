@@ -14,7 +14,6 @@ import { Map } from '../../components/Map';
 import { SearchForm } from '../../components/SearchForm';
 import { normalizePlacesData } from '../../app/utils/normalizeGymData';
 import { Loader } from '../../components/Loader';
-import { Category } from '../../app/types/Category';
 import { CategoriesContext } from '../../app/store/CategoriesContext';
 
 export const MapPage = () => {
