@@ -7,7 +7,6 @@ type Props = {
 };
 
 const PlusIcon: React.FC<Props> = ({ className }) => {
-  console.log(className);
    return (
       <div className={classNames(styles.icon, className)}>
          <span className={styles.hor}></span>

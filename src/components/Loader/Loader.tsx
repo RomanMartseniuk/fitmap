@@ -8,5 +8,9 @@ type Props = {
 };
 
 export const Loader: React.FC<Props> = ({ className = '' }) => {
-   return <span className={classNames(styles.loader, className)}></span>;
+   return (
+      <div className={styles.loaderContainer}>
+         <span className={classNames(styles.loader, className)}></span>
+      </div>
+   );
 };

@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+// 
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 
@@ -7,7 +8,7 @@ import classNames from 'classnames';
 import styles from './CatSwiper.module.scss';
 
 import { CatSlide } from '../CatSlide';
-import { CategoriesContext } from '../../store/CategoriesContext';
+import { CategoriesContext } from '../../app/store/CategoriesContext';
 
 type SampleArrowProps = {
    className?: any;

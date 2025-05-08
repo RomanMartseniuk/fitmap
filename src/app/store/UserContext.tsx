@@ -1,5 +1,5 @@
 import React, { createContext, useState, ReactNode, useEffect } from 'react';
-import { user as userAPI } from '../api/userApi';
+import { user as userAPI } from '../../api/userApi';
 
 type User = {
    id: number;

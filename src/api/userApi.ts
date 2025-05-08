@@ -1,4 +1,4 @@
-import { client } from '../utils/fetchClient';
+import { client } from '../app/utils/fetchClient';
 
 export const user = {
    // returns accesToken and refreshToken

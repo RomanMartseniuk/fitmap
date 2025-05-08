@@ -7,10 +7,10 @@ import { MapPage } from './pages/MapPage';
 import { GymList } from './components/GymList';
 import { GymDescr } from './components/GymDescr';
 
-import { CategoriesProvider } from './store/CategoriesContext';
-import { CitiesProvider } from './store/CitiesContext';
+import { CategoriesProvider } from './app/store/CategoriesContext';
+import { CitiesProvider } from './app/store/CitiesContext';
 import { AccPage } from './pages/AccPage/AccPage';
-import { UserProvider } from './store/UserContext';
+import { UserProvider } from './app/store/UserContext';
 
 export const Root = () => {
    return (

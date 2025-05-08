@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import styles from './Header.module.scss';
 import classNames from 'classnames';
 import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../../store/UserContext';
+import { UserContext } from '../../app/store/UserContext';
 
 export const Header = () => {
    const [showMenu, setShowMenu] = useState(false);
