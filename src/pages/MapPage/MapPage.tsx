@@ -46,7 +46,7 @@ export const MapPage = () => {
 
          let res;
          if (city) {
-            res = await gymsAPI.getNear(city.pos, 10000);
+            res = await gymsAPI.getNear(city.pos, 30000);
          } else if (coords?.latitude && coords?.longitude) {
             res = await gymsAPI.getNear([coords.latitude, coords.longitude], 2500);
          } else {
