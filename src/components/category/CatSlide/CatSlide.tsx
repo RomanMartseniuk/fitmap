@@ -1,4 +1,4 @@
-import { Category } from '../../app/types/Category';
+import { Category } from '../../../app/types/Category';
 import { Link } from 'react-router-dom';
 
 import styles from './CatSlide.module.scss';

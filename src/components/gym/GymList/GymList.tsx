@@ -1,5 +1,5 @@
 import { useOutletContext } from 'react-router-dom';
-import { Gym } from '../../app/types/Gym';
+import { Gym } from '../../../app/types/Gym';
 import { GymItem } from '../GymItem';
 import styles from './GymList.module.scss';
 

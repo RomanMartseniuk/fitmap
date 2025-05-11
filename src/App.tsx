@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from './components/Header';
-import { Footer } from './components/Footer';
+import { Footer } from './components/layout/Footer';
 import './App.scss';
-import { EntryMessage } from './components/EntryMessage';
+import { EntryMessage } from './components/common/EntryMessage';
 import { useEffect, useState } from 'react';
 
 export const App = () => {

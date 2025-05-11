@@ -4,12 +4,12 @@ import classNames from 'classnames';
 
 import styles from './SignUp.module.scss';
 
-import { Loader } from '../Loader';
+import { Loader } from '../../common/Loader';
 
-import { ValidationError } from '../../app/types/Errors';
+import { ValidationError } from '../../../app/types/Errors';
 
-import { register } from '../../api/userApi';
-import { UserContext } from '../../app/store/UserContext';
+import { register } from '../../../api/userApi';
+import { UserContext } from '../../../app/store/UserContext';
 
 export const SingUp = () => {
    const { setTokens } = useContext(UserContext);

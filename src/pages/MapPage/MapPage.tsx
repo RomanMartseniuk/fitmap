@@ -11,9 +11,9 @@ import { City } from '../../app/types/City';
 import { Gym } from '../../app/types/Gym';
 
 import { Map } from '../../components/Map';
-import { SearchForm } from '../../components/SearchForm';
+import { SearchForm } from '../../components/search/SearchForm';
 import { normalizePlacesData } from '../../app/utils/normalizeGymData';
-import { Loader } from '../../components/Loader';
+import { Loader } from '../../components/common/Loader';
 import { CategoriesContext } from '../../app/store/CategoriesContext';
 
 export const MapPage = () => {

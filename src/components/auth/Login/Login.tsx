@@ -4,11 +4,11 @@ import classNames from 'classnames';
 
 import styles from './Login.module.scss';
 
-import { Loader } from '../Loader';
-import { LoginError, ValidationError } from '../../app/types/Errors';
+import { Loader } from '../../common/Loader';
+import { LoginError, ValidationError } from '../../../app/types/Errors';
 
-import { login } from '../../api/userApi';
-import { UserContext } from '../../app/store/UserContext';
+import { login } from '../../../api/userApi';
+import { UserContext } from '../../../app/store/UserContext';
 
 // const data = {
 //    email: 'mmm@gmail.com',

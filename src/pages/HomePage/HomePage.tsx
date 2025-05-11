@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router-dom';
-import { CatSwiper } from '../../components/CatSwiper';
-import { SearchForm } from '../../components/SearchForm';
+import { CatSwiper } from '../../components/category/CatSwiper';
+import { SearchForm } from '../../components/search/SearchForm';
 
 import styles from './HomePage.module.scss';
-import { Login } from '../../components/Login';
-import { SingUp } from '../../components/SignUp/SingUp';
+import { Login } from '../../components/auth/Login';
+import { SingUp } from '../../components/auth/SignUp/SingUp';
 import { useEffect } from 'react';
 
 export const HomePage = () => {

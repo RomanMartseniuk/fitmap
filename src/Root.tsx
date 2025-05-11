@@ -4,8 +4,8 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { HomePage } from './pages/HomePage/HomePage';
 import { MapPage } from './pages/MapPage';
 
-import { GymList } from './components/GymList';
-import { GymDescr } from './components/GymDescr';
+import { GymList } from './components/gym/GymList';
+import { GymDescr } from './components/gym/GymDescr';
 
 import { CategoriesProvider } from './app/store/CategoriesContext';
 import { CitiesProvider } from './app/store/CitiesContext';
