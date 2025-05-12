@@ -6,7 +6,7 @@ type Props = {
    className?: string;
 };
 
-const PlusIcon: React.FC<Props> = ({ className }) => {
+export const PlusIcon: React.FC<Props> = ({ className }) => {
    return (
       <div className={classNames(styles.icon, className)}>
          <span className={styles.hor}></span>
@@ -14,5 +14,3 @@ const PlusIcon: React.FC<Props> = ({ className }) => {
       </div>
    );
 };
-
-export default PlusIcon;

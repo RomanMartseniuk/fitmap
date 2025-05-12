@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './GymItem.module.scss';
 
-import { Gym } from '../../app/types/Gym';
+import { Gym } from '../../../app/types/Gym';
 
-import PlusIcon from '../PlusIcon/PlusIcon';
+import {PlusIcon} from '../../common/PlusIcon';
 import { Link, useLocation } from 'react-router-dom';
 
 type Props = {
