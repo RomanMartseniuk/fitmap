@@ -29,6 +29,14 @@ export const user = {
 
       return client.get('/user/me/', headers);
    },
+
+   update: (token: string, data: any) => {
+      const headers = {
+         Authorization: `Bearer ${token}`,
+      };
+
+      return client.patch('/user/me/', data, headers);
+   }
 };
 
 export const login = async (

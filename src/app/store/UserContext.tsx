@@ -15,6 +15,7 @@ type UserContextType = {
    setUser: React.Dispatch<React.SetStateAction<User | null>>;
    setTokens: (access: string, refresh: string) => void;
    logout: () => void;
+   updateUser: (updates: Partial<User>) => Promise<void>;
 };
 
 export const UserContext = createContext<UserContextType>({
@@ -22,6 +23,7 @@ export const UserContext = createContext<UserContextType>({
    setUser: () => {},
    setTokens: () => {},
    logout: () => {},
+   updateUser: async () => {},
 });
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -81,6 +83,31 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
    };
 
+   const updateUser = async (updates: Partial<User>) => {
+      const token = accessToken;
+      if (!token) return;
+
+      try {
+         const res = await userAPI.update(token, updates);
+         if (!res.ok) {
+            if (res.status === 401) {
+               await updateAccessToken();
+               return;
+            }
+            throw new Error('Update failed');
+         }
+
+         const updatedData = await res.json();
+         setUser((prevUser) => ({
+            ...prevUser!,
+            ...updatedData,
+         }));
+      } catch (error) {
+         console.error('Update user failed:', error);
+         logout();
+      }
+   };
+
    // 🛠 Слухаємо зміну токенів та отримуємо юзера
    useEffect(() => {
       if (accessToken) {
@@ -89,7 +116,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
    }, [accessToken]);
 
    return (
-      <UserContext.Provider value={{ user, setUser, setTokens, logout }}>
+      <UserContext.Provider value={{ user, setUser, setTokens, logout, updateUser }}>
          {children}
       </UserContext.Provider>
    );

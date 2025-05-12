@@ -24,6 +24,6 @@ function request(
 export const client = {
    get: (url: string, headers?: any) => request(url, 'GET', null, headers),
    post: (url: string, data: any) => request(url, 'POST', data),
-   patch: (url: string, data: any) => request(url, 'PATCH', data),
+   patch: (url: string, data: any, headers?: any) => request(url, 'PATCH', data, headers),
    delete: (url: string) => request(url, 'DELETE'),
 };
