@@ -1,20 +1,22 @@
 .page {
    background-color: #55865f;
-   height: 100%;
-
+   min-height: 100vh; // вже добре
+   display: flex; // додай
+   flex-direction: column; // для нормального росту дитини
    padding-top: 100px;
 }
 
-.container {
-   background-color: #fff;
-   height: 100%;
-   padding: auto;
 
+.container {
+   padding-top: 85px;
+   background-color: #fff;
+   flex-grow: 1; // це дозволить контейнеру зайняти максимум доступного простору
    display: flex;
    flex-direction: column;
-   justify-content: center;
    align-items: center;
+   width: 100%; // опційно
 }
+
 
 .content {
 }
