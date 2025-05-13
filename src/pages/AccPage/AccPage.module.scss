@@ -12,13 +12,10 @@
    background-color: #fff;
    flex-grow: 1; // це дозволить контейнеру зайняти максимум доступного простору
    display: flex;
+   padding-bottom: 85px;
    flex-direction: column;
    align-items: center;
    width: 100%; // опційно
-}
-
-
-.content {
 }
 
 .title {
@@ -34,6 +31,10 @@
    display: flex;
    gap: 16px;
    margin-bottom: 24px;
+   @media (max-width: 767.98px) {
+      flex-direction: column;
+      align-items: center;
+   }
 }
 
 .f_name {
