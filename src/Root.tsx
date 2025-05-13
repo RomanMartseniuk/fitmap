@@ -11,32 +11,35 @@ import { CategoriesProvider } from './app/store/CategoriesContext';
 import { CitiesProvider } from './app/store/CitiesContext';
 import { AccPage } from './pages/AccPage/AccPage';
 import { UserProvider } from './app/store/UserContext';
+import { MessagesProvider } from './app/store/MessageContext';
 
 export const Root = () => {
    return (
-      <UserProvider>
-         <CitiesProvider>
-            <CategoriesProvider>
-               <Router>
-                  <Routes>
-                     <Route path="/" element={<App />}>
-                        <Route index element={<HomePage />} />
-                        <Route path="map/" element={<MapPage />}>
-                           <Route index element={<GymList />} />
-                           <Route path=":gymId/" element={<GymDescr />} />
+      <MessagesProvider>
+         <UserProvider>
+            <CitiesProvider>
+               <CategoriesProvider>
+                  <Router>
+                     <Routes>
+                        <Route path="/" element={<App />}>
+                           <Route index element={<HomePage />} />
+                           <Route path="map/" element={<MapPage />}>
+                              <Route index element={<GymList />} />
+                              <Route path=":gymId/" element={<GymDescr />} />
+                           </Route>
+                           <Route path="sign-up/" element={<HomePage />} />
+                           <Route path="login/" element={<HomePage />} />
+                           <Route path="notif/" />
+                           <Route path="help/" />
+                           <Route path="acc/" element={<AccPage />} />
+                           <Route path="saved/" />
                         </Route>
-                        <Route path="sign-up/" element={<HomePage />} />
-                        <Route path="login/" element={<HomePage />} />
-                        <Route path="notif/" />
-                        <Route path="help/" />
-                        <Route path="acc/" element={<AccPage />} />
-                        <Route path="saved/" />
-                     </Route>
-                     {/* <Route path="*" element={<h1>404 - Page Not Found</h1>} /> */}
-                  </Routes>
-               </Router>
-            </CategoriesProvider>
-         </CitiesProvider>
-      </UserProvider>
+                        {/* <Route path="*" element={<h1>404 - Page Not Found</h1>} /> */}
+                     </Routes>
+                  </Router>
+               </CategoriesProvider>
+            </CitiesProvider>
+         </UserProvider>
+      </MessagesProvider>
    );
 };

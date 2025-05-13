@@ -15,7 +15,7 @@ type UserContextType = {
    setUser: React.Dispatch<React.SetStateAction<User | null>>;
    setTokens: (access: string, refresh: string) => void;
    logout: () => void;
-   updateUser: (updates: Partial<User>) => Promise<void>;
+   updateUser: (updates: Partial<User>) => Promise<string | void>;
 };
 
 export const UserContext = createContext<UserContextType>({
@@ -102,9 +102,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             ...prevUser!,
             ...updatedData,
          }));
+         return '200'
       } catch (error) {
-         console.error('Update user failed:', error);
-         logout();
       }
    };
 
