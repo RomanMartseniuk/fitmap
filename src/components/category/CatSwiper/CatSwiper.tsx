@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import styles from './CatSwiper.module.scss';
 
 import { CatSlide } from '../CatSlide';
-import { CategoriesContext } from '../../../app/store/CategoriesContext';
+import { StaticDataContext } from '../../../app/store/StaticDataContext';
 
 type SampleArrowProps = {
    className?: any;
@@ -36,7 +36,7 @@ const SamplePrevArrow: React.FC<SampleArrowProps> = ({ className, onClick }) => 
 };
 
 export const CatSwiper: React.FC<CatSwiperProps> = ({ className }) => {
-   const { categories } = useContext(CategoriesContext);
+   const { categories } = useContext(StaticDataContext);
 
    const settings = {
       dots: false,
