@@ -1,4 +1,4 @@
-import { client } from '../utils/fetchClient';
+import { client } from '../app/utils/fetchClient';
 
 export const user = {
    // returns accesToken and refreshToken
@@ -29,6 +29,14 @@ export const user = {
 
       return client.get('/user/me/', headers);
    },
+
+   update: (token: string, data: any) => {
+      const headers = {
+         Authorization: `Bearer ${token}`,
+      };
+
+      return client.patch('/user/me/', data, headers);
+   }
 };
 
 export const login = async (

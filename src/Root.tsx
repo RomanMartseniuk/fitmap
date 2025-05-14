@@ -1,22 +1,22 @@
 import { App } from './App';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
-import { HomePage } from './pages/HomePage/HomePage';
+import { HomePage } from './pages/HomePage';
 import { MapPage } from './pages/MapPage';
 
-import { GymList } from './components/GymList';
-import { GymDescr } from './components/GymDescr';
+import { GymList } from './components/gym/GymList';
+import { GymDescr } from './components/gym/GymDescr';
 
-import { CategoriesProvider } from './store/CategoriesContext';
-import { CitiesProvider } from './store/CitiesContext';
 import { AccPage } from './pages/AccPage/AccPage';
-import { UserProvider } from './store/UserContext';
+import { UserProvider } from './app/store/UserContext';
+import { MessagesProvider } from './app/store/MessageContext';
+import { StaticDataProvider } from './app/store/StaticDataContext';
 
 export const Root = () => {
    return (
-      <UserProvider>
-         <CitiesProvider>
-            <CategoriesProvider>
+      <MessagesProvider>
+         <UserProvider>
+            <StaticDataProvider>
                <Router>
                   <Routes>
                      <Route path="/" element={<App />}>
@@ -35,8 +35,8 @@ export const Root = () => {
                      {/* <Route path="*" element={<h1>404 - Page Not Found</h1>} /> */}
                   </Routes>
                </Router>
-            </CategoriesProvider>
-         </CitiesProvider>
-      </UserProvider>
+            </StaticDataProvider>
+         </UserProvider>
+      </MessagesProvider>
    );
 };
