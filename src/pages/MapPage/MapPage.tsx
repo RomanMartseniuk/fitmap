@@ -4,7 +4,6 @@ import { useGeolocated } from 'react-geolocated';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { useContext, useEffect, useState, useCallback } from 'react';
 
-import { CitiesContext } from '../../app/store/CitiesContext';
 import { gyms as gymsAPI } from '../../api/gymsApi';
 
 import { City } from '../../app/types/City';
@@ -14,7 +13,7 @@ import { Map } from '../../components/Map';
 import { SearchForm } from '../../components/search/SearchForm';
 import { normalizePlacesData } from '../../app/utils/normalizeGymData';
 import { Loader } from '../../components/common/Loader';
-import { CategoriesContext } from '../../app/store/CategoriesContext';
+import { StaticDataContext } from '../../app/store/StaticDataContext';
 
 export const MapPage = () => {
    const [searchParams] = useSearchParams();
@@ -22,8 +21,8 @@ export const MapPage = () => {
    const categoryParam = searchParams.get('category') || '';
    const [selectedCity, setSelectedCity] = useState<City | null>(null);
 
-   const { cities } = useContext(CitiesContext);
-   const { categories } = useContext(CategoriesContext);
+   const { cities } = useContext(StaticDataContext);
+   const { categories } = useContext(StaticDataContext);
 
    const { coords } = useGeolocated({
       positionOptions: { enableHighAccuracy: true },

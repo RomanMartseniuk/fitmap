@@ -4,9 +4,8 @@ import classNames from 'classnames';
 
 import styles from './SearchForm.module.scss';
 
-import { CitiesContext } from '../../../app/store/CitiesContext';
-import { CategoriesContext } from '../../../app/store/CategoriesContext';
 import { SearchFormBlock } from '../SearchFormBlock';
+import { StaticDataContext } from '../../../app/store/StaticDataContext';
 
 type Props = {
    className?: string;
@@ -16,8 +15,8 @@ type Props = {
 export const SearchForm: React.FC<Props> = ({ className, onSearch = () => {} }) => {
    const [searchParams, setSearchParams] = useSearchParams();
 
-   const { cities } = useContext(CitiesContext);
-   const { categories } = useContext(CategoriesContext);
+   const { cities } = useContext(StaticDataContext);
+   const { categories } = useContext(StaticDataContext);
 
    // Updates URL Search Params
    const updateURL = useCallback(

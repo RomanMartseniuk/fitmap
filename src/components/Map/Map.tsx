@@ -6,7 +6,7 @@ import { MapContainer, Marker, TileLayer, Tooltip, useMap, ZoomControl } from 'r
 import { Gym } from '../../app/types/Gym';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { CitiesContext } from '../../app/store/CitiesContext';
+import { StaticDataContext } from '../../app/store/StaticDataContext';
 
 type Coords = [number, number];
 
@@ -110,7 +110,7 @@ const ChangeView = ({ center, zoom = 13 }: { center: [number, number]; zoom?: nu
 // };
 
 export const Map: React.FC<Props> = ({ pos = [0, 0], userPos, gyms = [] }) => {
-   const { cities } = useContext(CitiesContext);
+   const { cities } = useContext(StaticDataContext);
 
    const navigate = useNavigate();
    const [searchParams] = useSearchParams();
