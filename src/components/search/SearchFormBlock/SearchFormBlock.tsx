@@ -2,8 +2,8 @@ import React, { ReactElement, ReactNode, useCallback, useEffect, useRef, useStat
 import classNames from 'classnames';
 
 import styles from './SearchFormBlock.module.scss';
-import { City } from '../../app/types/City';
-import { Category } from '../../app/types/Category';
+import { City } from '../../../app/types/City';
+import { Category } from '../../../app/types/Category';
 import { useSearchParams } from 'react-router-dom';
 
 type Props = {

@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import styles from './GymDescr.module.scss';
-import { Gym } from '../../app/types/Gym';
+import { Gym } from '../../../app/types/Gym';
 import { useEffect, useState } from 'react';
 
 export const GymDescr = () => {
@@ -92,7 +92,7 @@ export const GymDescr = () => {
             </div> */}
             <div className={styles.offers}>
                <h2 className={styles.h2}>Offers</h2>
-               <ul>{gym?.categories.map((category) => <li key={category}>{category}</li>)}</ul>
+               <ul>{gym?.categories.map((category: string) => <li key={category}>{category}</li>)}</ul>
             </div>
             <div id="contacts" className={styles.contacts}>
                <h2 className={styles.h2}>Contact</h2>
