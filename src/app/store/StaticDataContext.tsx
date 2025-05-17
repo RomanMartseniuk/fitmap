@@ -38,7 +38,8 @@ export const StaticDataProvider: React.FC<{ children: ReactNode }> = ({ children
             if (data.length === 0) {
                throw new Error('No categories found');
             }
-            setCategories(data.map((item: any) => ({ id: item.id, title: item.name }) as Category));
+            
+            setCategories(data);
          })
          .catch(() => {
             addMessage({

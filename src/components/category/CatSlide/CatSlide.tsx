@@ -9,6 +9,7 @@ type Props = {
 };
 
 export const CatSlide: React.FC<Props> = ({ cat, otherProps }) => {
+   console.log(cat.img_url);
    return (
       <div className={styles.slide} {...otherProps}>
          <h1 className={styles.title}>{cat.title}</h1>

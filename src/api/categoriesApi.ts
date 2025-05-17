@@ -1,9 +1,11 @@
-//const getCategories = () => fetch('/json/categories.json');
-
-import { client } from '../app/utils/fetchClient';
+//import { client } from '../app/utils/fetchClient';
+//
+// const getCategories = () => {
+//    return client.get('/categories/');
+// };
 
 const getCategories = () => {
-   return client.get('/categories/');
+   return fetch('/json/categories.json');
 };
 
 export default getCategories;
