@@ -16,14 +16,24 @@ export const StaticDataContext = createContext<StaticDataContextProps>({
 });
 
 export const StaticDataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-   const { addMessage} = useContext(MessagesContext);
+   const { addMessage } = useContext(MessagesContext);
 
    const [categories, setCategories] = useState<Category[]>([]);
    const [cities, setCities] = useState<City[]>([]);
 
    useEffect(() => {
       getCategories()
-         .then((res) => res.json())
+         .then((res) => {
+            if (res.status === 404) {
+               addMessage({
+                  type: 'error',
+                  text: 'Cannot connect to the server. Please try again later.',
+               });
+               return;
+            }
+
+            return res.json();
+         })
          .then((data) => {
             if (data.length === 0) {
                throw new Error('No categories found');
@@ -39,8 +49,17 @@ export const StaticDataProvider: React.FC<{ children: ReactNode }> = ({ children
          .finally();
 
       getCities()
-         .then((res) => res.json())
-         .then((data)=> {
+         .then((res) => {
+            if (res.status === 404) {
+               addMessage({
+                  type: 'error',
+                  text: 'Cannot connect to the server. Please try again later.',
+               });
+            }
+
+            return res.json();
+         })
+         .then((data) => {
             if (data.length === 0) {
                throw new Error('No categories found');
             }

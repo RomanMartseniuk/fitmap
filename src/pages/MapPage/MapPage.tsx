@@ -14,12 +14,15 @@ import { SearchForm } from '../../components/search/SearchForm';
 import { normalizePlacesData } from '../../app/utils/normalizeGymData';
 import { Loader } from '../../components/common/Loader';
 import { StaticDataContext } from '../../app/store/StaticDataContext';
+import { MessagesContext } from '../../app/store/MessageContext';
 
 export const MapPage = () => {
    const [searchParams] = useSearchParams();
    const cityParam = searchParams.get('city') || '';
    const categoryParam = searchParams.get('category') || '';
    const [selectedCity, setSelectedCity] = useState<City | null>(null);
+
+   const { addMessage } = useContext(MessagesContext);
 
    const { cities } = useContext(StaticDataContext);
    const { categories } = useContext(StaticDataContext);
@@ -41,7 +44,8 @@ export const MapPage = () => {
          const city = cities.find((c) => c.title.toLowerCase() === cityParam.toLowerCase()) || null;
          setSelectedCity(city);
 
-         const category = categories.find((c) => c.title.toLowerCase() === categoryParam.toLowerCase()) || null;
+         const category =
+            categories.find((c) => c.title.toLowerCase() === categoryParam.toLowerCase()) || null;
 
          let res;
          if (city) {
@@ -52,22 +56,50 @@ export const MapPage = () => {
             throw new Error('No city or coordinates available');
          }
 
-         if (!res.ok) throw new Error('Error fetching gyms');
+         if (!res.ok) {
+            if (res.status === 404) {
+               addMessage({
+                  type: 'error',
+                  text: 'Cannot connect to the server. Please try again later.',
+               });
+               return;
+            }
+         }
 
          const data = await res.json();
+
+         
 
          const resData = normalizePlacesData(data.items);
 
          const filteredGyms = resData.filter((gym) => {
             if (category) {
-               return gym.categories.some((cat) => cat.toLowerCase() === category.title.toLowerCase());
+               return gym.categories.some(
+                  (cat) => cat.toLowerCase() === category.title.toLowerCase(),
+               );
             }
             return true;
          });
 
+         if (filteredGyms.length === 0) {
+            addMessage({
+               type: 'error',
+               text: 'No gyms found in this area',
+            });
+            return;
+         } else {
+            addMessage({
+               type: 'success',
+               text: 'Gyms loaded successfully',
+            });
+         }
+
          setGyms(filteredGyms);
-      } catch (err) {
-         // Optional: log or show error
+      } catch (error) {
+         addMessage({
+            type: 'error',
+            text: 'Failed to load gyms',
+         });
       } finally {
          setLoading(false);
       }

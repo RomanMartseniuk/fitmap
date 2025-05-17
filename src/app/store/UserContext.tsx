@@ -1,5 +1,6 @@
-import React, { createContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useState, ReactNode, useEffect, useContext } from 'react';
 import { user as userAPI } from '../../api/userApi';
+import { MessagesContext } from './MessageContext';
 
 type User = {
    id: number;
@@ -27,6 +28,8 @@ export const UserContext = createContext<UserContextType>({
 });
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+   const { addMessage } = useContext(MessagesContext);
+
    const [accessToken, setAccessToken] = useState<string | null>(
       localStorage.getItem('accessToken'),
    );
@@ -94,6 +97,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                await updateAccessToken();
                return;
             }
+
+            if (res.status === 404) {
+               addMessage({
+                  type: 'error',
+                  text: 'Cannot connect to the server. Please try again later.',
+               });
+            }
+
             throw new Error('Update failed');
          }
 
@@ -102,9 +113,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             ...prevUser!,
             ...updatedData,
          }));
-         return '200'
-      } catch (error) {
-      }
+         return '200';
+      } catch (error) {}
    };
 
    // 🛠 Слухаємо зміну токенів та отримуємо юзера
